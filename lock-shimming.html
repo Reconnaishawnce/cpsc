@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPSC-003: Spring Latch Shimming | Pine Risk Management</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .vuln-hero { padding: 40px 0 44px; border-bottom: 1px solid var(--border); }
+    .breadcrumb { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
+    .breadcrumb a { color: var(--text-secondary); transition: color 0.15s; }
+    .breadcrumb a:hover { color: var(--text-primary); }
+    .vuln-meta-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .vuln-hero h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 700; letter-spacing: 0.01em; line-height: 1.1; margin-bottom: 16px; max-width: 680px; }
+    .vuln-hero .lead { font-size: 16px; color: var(--text-secondary); max-width: 580px; line-height: 1.7; }
+
+    .fast-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .fact { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; }
+    .fact-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 5px; }
+    .fact-value { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+
+    .explainer { padding: 44px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .explainer-prose h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin-bottom: 16px; }
+    .explainer-prose p { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
+    .explainer-prose strong { color: var(--text-primary); font-weight: 500; }
+
+    .attack-steps { margin-top: 24px; display: flex; flex-direction: column; gap: 0; }
+    .attack-step { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
+    .step-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); width: 20px; flex-shrink: 0; padding-top: 2px; }
+    .step-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .step-text strong { color: var(--text-primary); font-weight: 500; }
+
+    .attack-visual { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: sticky; top: 74px; }
+    .av-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .av-title { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; }
+    .av-state-label { font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: var(--r-sm); transition: all 0.3s; }
+    .av-stage { padding: 24px; min-height: 280px; }
+    .diagram-svg { width: 100%; height: auto; display: block; }
+    .av-caption { padding: 14px 18px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.5; min-height: 60px; }
+    .av-controls { padding: 12px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .av-btn { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-secondary); padding: 5px 14px; border-radius: var(--r-sm); font-family: var(--font-mono); font-size: 11px; transition: all 0.15s; }
+    .av-btn:hover:not(:disabled) { border-color: var(--border-hover); color: var(--text-primary); }
+    .av-btn:disabled { opacity: 0.3; cursor: default; }
+    .av-dots { display: flex; gap: 6px; align-items: center; }
+    .av-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-hover); transition: background 0.2s; cursor: pointer; border: none; }
+    .av-dot.active { background: var(--accent); }
+
+    .mit-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.2s; }
+    .mit-card:hover { border-color: var(--border-hover); }
+    .mit-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .mit-card-title { font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.2; }
+    .mit-card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .mit-points { display: flex; flex-direction: column; gap: 6px; padding-top: 4px; border-top: 1px solid var(--border); }
+    .mit-point { font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; align-items: flex-start; }
+    .mit-point::before { content: '—'; color: var(--text-muted); flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; margin-top: 2px; }
+
+    .prod-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
+    .prod-card:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+    .prod-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+    .prod-maker { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .prod-note { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+    .prod-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .prod-cta { font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-top: auto; }
+
+    .warning-box { background: var(--accent-dim); border: 1px solid var(--accent-border); border-radius: var(--r-md); padding: 14px 18px; margin-top: 32px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .warning-box strong { color: var(--accent); font-weight: 500; }
+
+    @media (max-width: 900px) { .explainer { grid-template-columns: 1fr; } .attack-visual { position: static; } }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="../" class="site-logo">
+      <div class="logo-mark">PR</div>
+      Pine Risk <span class="logo-sep">/</span> CPSC
+    </a>
+    <nav class="header-nav">
+      <a href="https://pinerisk.com">pinerisk.com</a>
+      <a href="https://pinerisk.com/contact" class="btn-cta">Work with us</a>
+    </nav>
+  </header>
+
+  <main class="page-wrap">
+
+    <section class="vuln-hero">
+      <div class="breadcrumb">
+        <a href="../">CPSC Library</a>
+        <span>/</span>
+        <span>CPSC-003</span>
+      </div>
+      <div class="vuln-meta-row">
+        <span class="card-number">CPSC-003</span>
+        <span class="severity-badge sev-high">High</span>
+        <span class="cat-badge cat-phys">Physical hardening</span>
+        <span class="cat-badge cat-tech">Hardware upgrade</span>
+      </div>
+      <h1>Spring latch shimming</h1>
+      <p class="lead">
+        The beveled spring latch — standard on most commercial and residential locks — can be
+        retracted using nothing more than a credit card, hotel key card, or thin piece of plastic.
+        No key, no tool kit, no expertise. It's one of the oldest bypass techniques in existence
+        and remains devastatingly effective.
+      </p>
+    </section>
+
+    <div class="fast-facts">
+      <div class="fact"><div class="fact-label">Attack tool</div><div class="fact-value">Credit card / plastic strip ($0)</div></div>
+      <div class="fact"><div class="fact-label">Time to execute</div><div class="fact-value">5–30 seconds</div></div>
+      <div class="fact"><div class="fact-label">Skill required</div><div class="fact-value">Minimal to moderate</div></div>
+      <div class="fact"><div class="fact-label">Detection risk</div><div class="fact-value">Very low (quiet, no damage)</div></div>
+      <div class="fact"><div class="fact-label">Alert generated</div><div class="fact-value">None if door contact not armed</div></div>
+    </div>
+
+    <div class="explainer">
+      <div class="explainer-prose">
+        <h2>How the attack works</h2>
+        <p>
+          The standard <strong>spring latch bolt</strong> — found in virtually every lockset
+          from $20 residential hardware to commercial cylindrical locks — has an angled face
+          (the bevel) so that the door can close and latch without requiring the user to turn
+          the knob. When the door closes, the angled face slides against the strike plate and
+          retracts automatically.
+        </p>
+        <p>
+          That bevel is the vulnerability. <strong>Any thin, flexible object inserted between
+          the door edge and the door frame</strong> at the latch point can replicate what the
+          strike plate does: push the angled face inward, retracting the bolt, and allowing
+          the door to swing open. Credit cards, hotel key cards, loyalty cards, thin plastic
+          rulers, and a dozen other everyday objects work reliably.
+        </p>
+        <p>
+          On doors where the latch is <strong>accessible from the outside</strong> — meaning the
+          frame doesn't have a lip concealing the latch face — a skilled attacker can open the
+          door in under five seconds. On doors with better strike geometry, it may take 30 seconds
+          and some wiggling, but the technique still works.
+        </p>
+        <div class="attack-steps">
+          <div class="attack-step"><span class="step-num">01</span><span class="step-text">Attacker identifies a door secured only by a spring latch (no deadbolt engaged, no auxiliary latch pin). The latch face may be visible in the gap between door and frame.</span></div>
+          <div class="attack-step"><span class="step-num">02</span><span class="step-text"><strong>Shim is inserted</strong> into the gap at the latch location and angled toward the latch bevel. Card is worked in a rocking/pulling motion to engage the angled face of the bolt.</span></div>
+          <div class="attack-step"><span class="step-num">03</span><span class="step-text">Shim pushes the latch bevel inward, <strong>retracting the bolt</strong> out of the strike plate. Latch is now fully retracted — door no longer held.</span></div>
+          <div class="attack-step"><span class="step-num">04</span><span class="step-text"><strong>Door opens</strong>. No alarm fires unless a door contact is monitored. The access control system records nothing — no credential was ever read. Entry appears as a normal door-open event if logged at all.</span></div>
+        </div>
+        <div class="warning-box">
+          <strong>Red team note:</strong> Any door with a spring latch, a visible latch gap, and no deadbolt is shimable. Hotels are the canonical environment — but corporate interior doors, server room perimeters, and stairwell entries regularly exhibit this vulnerability. The auxiliary deadlocking plunger (found on better locksets) prevents shimming when the door is closed properly.
+        </div>
+      </div>
+
+      <div class="attack-visual">
+        <div class="av-header">
+          <span class="av-title">Attack sequence</span>
+          <span class="av-state-label" id="state-label" style="background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)">Latch secured</span>
+        </div>
+        <div class="av-stage">
+          <svg id="diagram" viewBox="0 0 360 280" class="diagram-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1c2236" stroke-width="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="360" height="280" fill="url(#grid3)"/>
+
+            <!-- Front-view diagram of door/frame/latch area -->
+            <!-- Door panel left side -->
+            <rect x="20" y="40" width="140" height="200" rx="2" fill="#0f1320" stroke="#2e3659" stroke-width="1.5"/>
+
+            <!-- Door frame right side (strike plate side) -->
+            <rect x="200" y="40" width="30" height="200" rx="2" fill="#161b2c" stroke="#1c2236" stroke-width="1"/>
+
+            <!-- Gap between door and frame -->
+            <rect x="160" y="40" width="40" height="200" fill="rgba(200,55,42,0.04)" stroke="none"/>
+
+            <!-- Strike plate -->
+            <rect id="strike-plate" x="200" y="115" width="20" height="50" rx="1" fill="#1c2236" stroke="#2e3659" stroke-width="1.5"/>
+            <!-- Strike hole -->
+            <rect x="202" y="128" width="16" height="24" rx="1" fill="#0a0d14"/>
+            <text x="210" y="160" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle">strike</text>
+
+            <!-- Latch bolt - normal position (extended) -->
+            <g id="latch-extended">
+              <!-- Latch body -->
+              <rect x="148" y="125" width="30" height="20" rx="1" fill="#2e3659" stroke="#3e4d6a" stroke-width="1"/>
+              <!-- Bevel face (angled) -->
+              <polygon points="178,125 196,134 178,145" fill="#3e4d6a" stroke="#4a5a7a" stroke-width="0.5"/>
+              <text x="162" y="138" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#7888aa" text-anchor="middle">latch</text>
+              <!-- Bevel label -->
+              <text x="192" y="128" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle">bevel</text>
+            </g>
+
+            <!-- Latch bolt - retracted (hidden initially) -->
+            <g id="latch-retracted" opacity="0">
+              <rect x="128" y="125" width="30" height="20" rx="1" fill="#c8372a" stroke="#e8472a" stroke-width="1" opacity="0.7"/>
+              <text x="143" y="138" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#f07068" text-anchor="middle">retracted</text>
+            </g>
+
+            <!-- Gap label -->
+            <text x="180" y="34" font-family="IBM Plex Mono, monospace" font-size="7" fill="#c8372a" text-anchor="middle">door/frame gap</text>
+            <line x1="160" y1="38" x2="200" y2="38" stroke="rgba(200,55,42,0.4)" stroke-width="1"/>
+
+            <!-- Door edge detail -->
+            <line x1="160" y1="40" x2="160" y2="240" stroke="#2e3659" stroke-width="1.5"/>
+            <!-- Frame edge -->
+            <line x1="200" y1="40" x2="200" y2="240" stroke="#2e3659" stroke-width="1"/>
+
+            <!-- DOOR label -->
+            <text x="90" y="250" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3e4d6a" text-anchor="middle">DOOR PANEL</text>
+            <!-- FRAME label -->
+            <text x="215" y="250" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3e4d6a" text-anchor="middle">FRAME</text>
+
+            <!-- Shim (credit card) - hidden initially -->
+            <g id="shim-group" opacity="0">
+              <!-- Card body -->
+              <rect x="165" y="80" width="5" height="100" rx="1" fill="rgba(240,168,80,0.7)" stroke="#f0a850" stroke-width="1"/>
+              <text x="172" y="120" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f0a850">credit</text>
+              <text x="172" y="130" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f0a850">card</text>
+              <!-- Arrow showing direction of force -->
+              <line x1="162" y1="135" x2="140" y2="135" stroke="#f0a850" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+              <defs>
+                <marker id="arrow-amber" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#f0a850"/>
+                </marker>
+              </defs>
+            </g>
+
+            <!-- Success overlay -->
+            <g id="success-group" opacity="0">
+              <rect x="40" y="100" width="110" height="40" rx="4" fill="rgba(220,50,47,0.15)" stroke="rgba(220,50,47,0.4)" stroke-width="1"/>
+              <text x="95" y="120" font-family="IBM Plex Mono, monospace" font-size="9" fill="#f07068" text-anchor="middle" font-weight="500">DOOR OPEN</text>
+              <text x="95" y="132" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f07068" text-anchor="middle" opacity="0.7">latch retracted · no alarm</text>
+            </g>
+
+          </svg>
+        </div>
+        <div class="av-caption" id="av-caption">The spring latch is extended into the strike plate, holding the door closed. The angled bevel face is visible at the gap between door edge and frame — the attack surface.</div>
+        <div class="av-controls">
+          <button class="av-btn" id="btn-prev" disabled onclick="changeState(-1)">← Prev</button>
+          <div class="av-dots">
+            <button class="av-dot active" onclick="goState(0)"></button>
+            <button class="av-dot" onclick="goState(1)"></button>
+            <button class="av-dot" onclick="goState(2)"></button>
+          </div>
+          <button class="av-btn" id="btn-next" onclick="changeState(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-top: 52px;">
+
+    <div class="section-header">
+      <div class="section-label">Mitigation framework</div>
+      <div class="section-title">How to defend against this</div>
+      <p class="section-desc">Deadbolts are the most reliable fix. Anti-shim latches and frame armor close the gap for doors where a deadbolt isn't practical.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Category:</span>
+      <button class="filter-btn active" data-mit-filter="all">All</button>
+      <button class="filter-btn" data-mit-filter="phys">Physical</button>
+      <button class="filter-btn" data-mit-filter="tech">Hardware upgrade</button>
+      <button class="filter-btn" data-mit-filter="policy">Policy</button>
+    </div>
+
+    <div class="card-grid" id="mit-grid">
+
+      <div class="mit-card" data-mit-cat="tech">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Deadbolt enforcement</div>
+          <span class="cat-badge cat-tech">Hardware upgrade</span>
+        </div>
+        <p class="mit-card-desc">A deadbolt eliminates the bevel entirely — its bolt is square-faced and cannot be retracted by a shim. The single most effective control against latch shimming.</p>
+        <div class="mit-points">
+          <div class="mit-point">ANSI Grade 1 single-cylinder deadbolt for all high-security interior doors</div>
+          <div class="mit-point">Double-cylinder deadbolt (keyed both sides) where exterior-accessible glass panels exist near the lock — prevents reachover attacks</div>
+          <div class="mit-point">High-security cylinders (Medeco, Mul-T-Lock, ASSA) resist picking and bumping in addition to shimming</div>
+          <div class="mit-point">Electrified deadbolts for access-controlled doors — credential on exterior, deadbolt engagement on interior</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="tech">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Anti-shim latch hardware</div>
+          <span class="cat-badge cat-tech">Hardware upgrade</span>
+        </div>
+        <p class="mit-card-desc">Modern commercial locksets include an auxiliary deadlocking plunger that automatically deadlocks the latch when the door is closed — preventing shimming without requiring a separate deadbolt.</p>
+        <div class="mit-points">
+          <div class="mit-point">ANSI Grade 1 cylindrical and mortise locks include a deadlocking plunger by specification — verify it's engaged when the door closes properly</div>
+          <div class="mit-point">Anti-shim latch guards (surface applied to the door edge) block card insertion at the latch point</div>
+          <div class="mit-point">Security strike plates with a wrap-around lip cover the latch face from the frame side — shim cannot reach the bevel</div>
+          <div class="mit-point">Mortise locks provide a more robust latch mechanism and typically include a deadlocking feature</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="phys">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Door frame hardening</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">Reduce or eliminate the gap between door edge and frame where the shim is inserted. Close tolerances make shimming difficult or impossible.</p>
+        <div class="mit-points">
+          <div class="mit-point">Rebated (rabbeted) door frames wrap around the door edge — there is no accessible gap at the latch location</div>
+          <div class="mit-point">Door frame armor (Don-Jo, Armor Concepts) plates the gap between door and frame with steel, blocking shim insertion</div>
+          <div class="mit-point">Wrap-around strike plates extend across the frame face and into the gap, eliminating shim access to the latch bevel</div>
+          <div class="mit-point">Latch shields and door edge guards can be added to existing frames without replacing hardware</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="policy">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Operational policy</div>
+          <span class="cat-badge cat-policy">Policy</span>
+        </div>
+        <p class="mit-card-desc">Where hardware cannot be immediately changed, operational controls reduce risk and increase detection probability.</p>
+        <div class="mit-points">
+          <div class="mit-point">Enforce deadbolt engagement policy — require employees to fully engage deadbolts when leaving secure areas</div>
+          <div class="mit-point">Audit doors without deadbolts and prioritize for hardware upgrade; intermediate risk-acceptance documentation</div>
+          <div class="mit-point">Include spring latch awareness in security training — staff report doors that don't close and latch properly</div>
+          <div class="mit-point">Regular physical security walk-throughs to identify doors with visible latch gaps or misaligned strikes</div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" style="margin-top: 44px;">
+
+    <div class="section-header">
+      <div class="section-label">Product and program reference</div>
+      <div class="section-title">What to specify</div>
+      <p class="section-desc">Hardware and standards that address spring latch shimming. Click any card for more detail.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Type:</span>
+      <button class="filter-btn active" data-prod-filter="all">All</button>
+      <button class="filter-btn" data-prod-filter="lock">Lock hardware</button>
+      <button class="filter-btn" data-prod-filter="frame">Frame protection</button>
+      <button class="filter-btn" data-prod-filter="standard">Standards</button>
+    </div>
+
+    <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
+
+      <div class="prod-card" data-prod-cat="lock" onclick="askAbout('Schlage B-series Grade 1 deadbolt for commercial applications')">
+        <div class="prod-maker">Schlage / Allegion</div>
+        <div class="prod-name">B-Series Deadbolt</div>
+        <p class="prod-note">ANSI Grade 1 deadbolt series, the most widely specified commercial deadbolt in the US market. Square bolt face cannot be shimmed. Available in single-cylinder, double-cylinder, and electrified variants.</p>
+        <div class="prod-tags"><span class="tag">Grade 1</span><span class="tag">Deadbolt</span><span class="tag">Shim-proof</span></div>
+        <div class="prod-cta">Click for more detail →</div>
+      </div>
+
+      <div class="prod-card" data-prod-cat="lock" onclick="askAbout('Medeco high security cylinder deadbolt pick and shim resistant')">
+        <div class="prod-maker">Medeco / Assa Abloy</div>
+        <div class="prod-name">Medeco High-Security Cylinders</div>
+        <p class="prod-note">High-security cylinder technology with rotating/elevating pins that resist picking, bumping, and unauthorized key duplication. Pairs with Grade 1 deadbolts for maximum protection at high-value access points.</p>
+        <div class="prod-tags"><span class="tag">High security</span><span class="tag">Anti-pick</span><span class="tag">Key control</span></div>
+        <div class="prod-cta">Click for more detail →</div>
+      </div>
+
+      <div class="prod-card" data-prod-cat="lock" onclick="askAbout('Hager anti-shim latch commercial Grade 1')">
+        <div class="prod-maker">Hager Companies</div>
+        <div class="prod-name">Anti-Shim Grade 1 Latch</div>
+        <p class="prod-note">Cylindrical latch with an integrated deadlocking plunger — when the door is fully closed, the plunger compresses against the strike plate and locks the latch against retraction. Retrofit-compatible with most cylindrical preparations.</p>
+        <div class="prod-tags"><span class="tag">Anti-shim</span><span class="tag">Deadlocking</span><span class="tag">Retrofit</span></div>
+        <div class="prod-cta">Click for more detail →</div>
+      </div>
+
+      <div class="prod-card" data-prod-cat="frame" onclick="askAbout('Don-Jo door frame armor FA-90 latch guard protection')">
+        <div class="prod-maker">Don-Jo Manufacturing</div>
+        <div class="prod-name">FA-90 Frame Armor</div>
+        <p class="prod-note">Surface-applied steel frame armor covers the door/frame gap at the latch location. Eliminates card insertion angle entirely. Installs over existing frame with screws — no frame replacement required.</p>
+        <div class="prod-tags"><span class="tag">Frame armor</span><span class="tag">Gap cover</span><span class="tag">Surface mount</span></div>
+        <div class="prod-cta">Click for more detail →</div>
+      </div>
+
+      <div class="prod-card" data-prod-cat="frame" onclick="askAbout('Armor Concepts door armor door jamb reinforcement kit')">
+        <div class="prod-maker">Armor Concepts</div>
+        <div class="prod-name">Door Armor MAX Kit</div>
+        <p class="prod-note">Comprehensive door frame reinforcement system — steel plates covering jamb, hinge, and strike locations. Adds frame rigidity in addition to shim protection. Commonly specified for apartment and hotel retrofit programs.</p>
+        <div class="prod-tags"><span class="tag">Frame kit</span><span class="tag">Strike wrap</span><span class="tag">Retrofit</span></div>
+        <div class="prod-cta">Click for more detail →</div>
+      </div>
+
+      <div class="prod-card" data-prod-cat="standard" onclick="askAbout('ANSI BHMA A156.30 high security locks standard')">
+        <div class="prod-maker">ANSI / BHMA</div>
+        <div class="prod-name">A156.30 — High-Security Locks</div>
+        <p class="prod-note">ANSI/BHMA standard for high-security lock performance, including resistance to shimming, picking, drilling, and forced entry. Grade classifications useful for specifying minimum protection levels in security assessments.</p>
+        <div class="prod-tags"><span class="tag">Standard</span><span class="tag">High security</span><span class="tag">Grade classification</span></div>
+        <div class="prod-cta">Click for more detail →</div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="page-wrap">
+    <div class="site-footer">
+      <span class="footer-brand">Pine Risk Management</span>
+      <span>CPSC-003 — Spring latch shimming</span>
+      <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
+    </div>
+  </footer>
+
+  <script>
+    const states = [
+      {
+        label: 'Latch secured', labelStyle: 'background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)',
+        caption: 'The spring latch is extended into the strike plate. The angled bevel face is visible at the gap between door edge and frame — this is the attack surface.',
+        setup(svg) {
+          svg.getElementById('latch-extended').style.opacity = '1';
+          svg.getElementById('latch-retracted').style.opacity = '0';
+          svg.getElementById('shim-group').style.opacity = '0';
+          svg.getElementById('success-group').style.opacity = '0';
+        }
+      },
+      {
+        label: 'Shim inserted', labelStyle: 'background:var(--high-bg);color:var(--high-text);border:1px solid var(--high-border)',
+        caption: 'A credit card or thin plastic is inserted into the door/frame gap at the latch location. Working the card against the angled bevel face begins to push the latch backward.',
+        setup(svg) {
+          svg.getElementById('latch-extended').style.opacity = '0.6';
+          svg.getElementById('latch-retracted').style.opacity = '0';
+          svg.getElementById('shim-group').style.opacity = '1';
+          svg.getElementById('success-group').style.opacity = '0';
+        }
+      },
+      {
+        label: 'Latch retracted', labelStyle: 'background:var(--critical-bg);color:var(--critical-text);border:1px solid var(--critical-border)',
+        caption: 'The shim has fully retracted the latch bolt. The door is no longer held by the frame. It swings open. No alarm has fired. The access control system has logged nothing.',
+        setup(svg) {
+          svg.getElementById('latch-extended').style.opacity = '0';
+          svg.getElementById('latch-retracted').style.opacity = '1';
+          svg.getElementById('shim-group').style.opacity = '0.3';
+          svg.getElementById('success-group').style.opacity = '1';
+        }
+      }
+    ];
+
+    let currentState = 0;
+    const svg = document.getElementById('diagram');
+    function renderState(i) {
+      states[i].setup(svg);
+      document.getElementById('av-caption').textContent = states[i].caption;
+      document.getElementById('state-label').textContent = states[i].label;
+      document.getElementById('state-label').style.cssText = states[i].labelStyle;
+      document.getElementById('btn-prev').disabled = i === 0;
+      document.getElementById('btn-next').disabled = i === states.length - 1;
+      document.querySelectorAll('.av-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+    }
+    function changeState(dir) { currentState = Math.max(0, Math.min(states.length - 1, currentState + dir)); renderState(currentState); }
+    function goState(i) { currentState = i; renderState(i); }
+
+    document.querySelectorAll('[data-mit-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-mit-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.mitFilter;
+        document.querySelectorAll('#mit-grid .mit-card').forEach(c => { c.style.display = f === 'all' || c.dataset.mitCat === f ? '' : 'none'; });
+      });
+    });
+    document.querySelectorAll('[data-prod-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-prod-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.prodFilter;
+        document.querySelectorAll('#prod-grid .prod-card').forEach(c => { c.style.display = f === 'all' || c.dataset.prodCat === f ? '' : 'none'; });
+      });
+    });
+    function askAbout(topic) {
+      if (typeof window.sendPrompt === 'function') { window.sendPrompt('Tell me more about: ' + topic); }
+      else { alert('Detail on: ' + topic); }
+    }
+  </script>
+
+</body>
+</html>
