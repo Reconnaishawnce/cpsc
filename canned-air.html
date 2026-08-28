@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPSC-001: REX Sensor Spoofing | Pine Risk Management</title>
+  <title>CPSC-001: REX Sensor Spoofing | CPSC</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,8 +14,8 @@
       <span class="logo-word">Common Physical Security Controls</span>
     </a>
     <nav class="header-nav">
-      <a href="https://pinerisk.com">pinerisk.com</a>
-      <a href="https://pinerisk.com/contact" class="btn-cta">Work with us</a>
+      <a href="about.html">About</a>
+      <a href="about.html#contribute" class="btn-cta">Contribute</a>
     </nav>
   </header>
 
@@ -315,7 +315,7 @@
       </div>
       <div>
         <div class="dd-eyebrow">Deep dive</div>
-        <div class="dd-title">Choosing a request-to-exit sensor that can&rsquo;t be fooled</div>
+        <div class="dd-title">Choosing a request-to-exit sensor that resists attack</div>
         <div class="dd-desc">How each detection technology works, which ones the gas trick defeats, what the life-safety codes require, and how to spec the right one.</div>
       </div>
       <span class="dd-arrow" aria-hidden="true">&rarr;</span>
@@ -323,17 +323,17 @@
 
     <!-- Product reference -->
     <div class="section-header">
-      <div class="section-label">Vetted hardware &amp; standards</div>
+      <div class="section-label">Vetted hardware</div>
       <div class="section-title">Reference Technology</div>
-      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
+      <p class="section-desc">Real, current products that defeat or catch this attack, strongest first. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
     </div>
 
     <div class="filter-bar">
       <span class="filter-label">Type:</span>
       <button class="filter-btn active" data-prod-filter="all">All</button>
+      <button class="filter-btn" data-prod-filter="mechanical">Mechanical</button>
       <button class="filter-btn" data-prod-filter="sensor">Sensors</button>
       <button class="filter-btn" data-prod-filter="platform">Platforms</button>
-      <button class="filter-btn" data-prod-filter="standard">Standards</button>
     </div>
 
     <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
@@ -343,7 +343,7 @@
 
   <footer class="page-wrap">
     <div class="site-footer">
-      <span class="footer-brand">Pine Risk Management</span>
+      <span class="footer-brand">Common Physical Security Controls</span>
       <span>CPSC-001 · REX sensor spoofing</span>
       <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
     </div>
@@ -435,136 +435,65 @@
     // To fill one out: add `image` (path/URL), `datasheet`, `productUrl`,
     // optional `specs` rows [label, value], and `comments` field notes.
     const PRODUCTS = [
+      { cat: 'mechanical', maker: 'Von Duprin / Allegion', name: '98/99 Series with RX switch',
+        type: 'Panic exit device with request-to-exit switch',
+        image: 'https://www.vonduprin.com/content/dam/von-duprin/product-images/options-&-accessories/VON_99_EO_AX_626_1000x10000_SL.png',
+        datasheet: 'https://www.vonduprin.com/content/dam/allegion-us-2/web-files/von-duprin-/information-documents/Von_Duprin_98.99_Series_Catalog_106590.pdf',
+        productUrl: 'https://www.vonduprin.com/en/products/exit-devices/98-99-series.html',
+        blurb: 'The strongest answer to this attack: a Grade 1 panic exit device with the RX option, an internal switch that closes only when someone physically pushes the bar. Wire it to shunt the door-forced alarm and log the exit, and the latch stays the real, mechanical way out.',
+        defeats: 'The request-to-exit signal comes only from a mechanical push of the bar. There is no infrared, radar, or optical channel to fool, so compressed gas and the other no-touch tricks have nothing to act on.',
+        tags: ['Mechanical RX', 'Grade 1', 'UL 305 panic'],
+        specs: [['Signal','One internal SPDT switch on the push pad'],['Rating','2 A resistive (LC-RX option: 50 mA)'],['Function','Shunts door-forced alarm, logs egress'],['Grade','ANSI/BHMA A156.3 Grade 1'],['Availability','RX option on 22 / 33A / 35A / 98 / 99']],
+        comments: [] },
       { cat: 'sensor', maker: 'BEA', name: 'R2E-100',
         type: 'Focused active-infrared REX sensor',
-        image: 'https://us.beasensors.com/thumbor/FH8NEm1JvJiYp99f1i5pogkaXQ0=/fit-in/960x/--/uploads/2017/03/R2E-100.png',
-        datasheet: 'https://us.beasensors.com/en/product/r2e-100/specs/',
+        image: 'https://us.beasensors.com/thumbor/czX7Yonvg0bb7q5R8GWCXyvw2r4=/fit-in/1024x/--/uploads/2017/03/R2E-100.png',
+        datasheet: 'https://us.beasensors.com/files/downloads/products/r2e-100/cut-sheets/en/79.0023.17.EN-R2E-100-20230419.pdf',
         productUrl: 'https://us.beasensors.com/en/product/r2e-100/',
-        blurb: 'A request-to-exit sensor whose active-infrared beam is focused on the door handle rather than a wide passive-IR field. It looks for a hand reaching the lever, not ambient heat, so the compressed-gas trick that fools PIR REX units has nothing to spoof.',
-        defeats: 'It does not sense heat. It emits its own infrared beam and only fires when that beam reflects off a solid object at the handle. Gas is transparent to that beam and reflects nothing, so the cold spray a PIR reads as a moving warm body never registers here.',
-        tags: ['Active IR', 'REX sensor', 'UL listed', 'Anti-spoof'],
-        specs: [
-          ['Detection', 'Focused active infrared (AIR)'],
-          ['Detection zone', 'Aimed at the handle, 20–48 in (adjustable)'],
-          ['Mounting height', 'Up to 8 ft'],
-          ['Outputs', 'Two Form C relays · 1.3 A @ 24 VAC'],
-          ['Aux inputs', 'REX button · card reader · door position'],
-          ['Hold time', '0.5–60 s (adjustable)'],
-          ['Power', '12–24 V AC/DC · ~155 mA'],
-          ['Built-in', 'Audible tamper alarm to 85 dB · multiple re-lock modes']
-        ],
+        blurb: 'An active-infrared beam focused on the door handle rather than a wide field. It looks for a hand reaching the lever, not ambient heat, so the compressed-gas trick has nothing to spoof.',
+        defeats: 'It emits its own infrared beam and fires only when a solid object reflects it back at the handle. Gas is transparent to that beam, so the cold spray a PIR reads as a moving body never registers.',
+        tags: ['Active IR', 'UL 294', 'Two Form C'],
+        specs: [['Detection','Active infrared, focused on the handle'],['Range','Adjustable 20 to 48 in'],['Tilt','0 to 10 degrees; swing doors to 7 ft'],['Outputs','Two Form C relays; 3 aux inputs'],['Re-lock','Timed or door-position modes'],['Listing','UL 294 / CAN-ULC-S319']],
         comments: [
           { author: 'Editor’s note', role: '', date: 'Aug 2026',
             text: 'A fair question is why the gas does not fool this sensor too, since it lands right by the handle. The answer is what active infrared measures. A PIR watches for a moving heat gradient, and the cold spray is exactly that. Active infrared instead sends out its own beam and only responds when a solid object reflects it back, and gas reflects nothing. Note the limit of that logic: active IR does respond to a solid object placed in its beam, so an under-door tool that pushes a physical object up to the lens could in principle trigger it. The object’s warmth would be irrelevant; the reflection is what matters. That is a different and far harder attack than the gas spoof, and it is closed off by keeping the beam tight on the lever and sealing the door gap (see CPSC-002). Confirm the exact behavior in a lab before you rely on it.' }
         ] },
-      { cat: 'sensor', maker: 'Bosch', name: 'DS160',
-        type: 'Hardened PIR REX (DSP + sequential logic)',
-        image: '', datasheet: '',
-        productUrl: 'https://us.boschsecurity.com/en/products/intrusionalarmsystems/detectorsandaccessories/requesttoexit/ds160serieshighperformanc/ds160serieshighperformanc_26279',
-        blurb: 'A high-performance request-to-exit PIR detector with digital signal processing and a Sequential Logic Input (SLI) that can require a second, sequential motion event before it releases the door.',
-        defeats: 'Still a PIR, but the DSP filtering plus Sequential Logic Input reject a lone anomalous pulse. A one-shot cold-gas burst at the door gap does not satisfy the two-step logic, so it is discarded instead of unlocking. Treat it as a hardened PIR, not a thermally immune one.',
-        tags: ['Hardened PIR', 'DSP + SLI', 'REX sensor'],
-        specs: [
-          ['Detection', 'Passive infrared · 15 coverage patterns'],
-          ['Coverage', '~8 ft × 10 ft dense pattern'],
-          ['Outputs', 'Two Form C · 1 A @ 30 V · 0.5–64 s latch'],
-          ['Anti-defeat', 'Sequential Logic Input (SLI)'],
-          ['Power', '12–30 V AC/DC · ~39 mA alarm'],
-          ['Mode', 'Fail-safe / fail-secure selectable']
-        ],
-        comments: [] },
-      { cat: 'sensor', maker: 'SECO-LARM', name: 'Enforcer E-931-S35RRQ',
-        type: 'Retro-reflective infrared beam sensor',
-        image: '',
-        datasheet: 'https://www.seco-larm.com/wp-content/uploads/2020/12/MI_E-931-S35RRQ_231108.pdf',
-        productUrl: 'https://www.seco-larm.com/product/e-931-s35rrq/',
-        blurb: 'A modulated infrared beam bounced off a reflector. Detection happens the instant a solid body breaks the beam. It is a no-contact way to sense someone at the door with no heat sensing at all.',
-        defeats: 'It only triggers when a solid object interrupts its own infrared beam. Compressed gas is optically transparent, so a spray passes straight through without breaking the beam, and there is no thermal channel to exploit in the first place.',
-        tags: ['IR beam', 'No-contact', 'Gas-immune'],
-        specs: [
-          ['Detection', 'Retro-reflective modulated IR beam + reflector'],
-          ['Range', '0.5–35 ft (0.1–11 m)'],
-          ['Output', 'SPDT relay · 250 VAC/1 A · 30 VDC/2 A'],
-          ['Response', '10 ms max'],
-          ['Power', '12–240 VDC / 24–240 VAC'],
-          ['Enclosure', 'IP66 · −20 to 55 °C']
-        ],
-        comments: [] },
       { cat: 'sensor', maker: 'Optex', name: 'Reaction Two',
         type: 'Microwave (Doppler) REX / activation sensor',
-        image: '', datasheet: '',
-        productUrl: 'https://optexamerica.com/products/automatic-door-sensors/reaction-t',
-        blurb: 'A microwave motion sensor that detects movement toward the door by Doppler shift rather than by heat or light. Widely used for touchless egress and automatic-door activation.',
-        defeats: 'Microwave detection reads motion as a frequency (Doppler) shift in its own radar echo. A puff of gas has no meaningful motion and reflects essentially no radar return, so it can’t produce the Doppler change the sensor triggers on.',
-        tags: ['Microwave', 'Doppler', 'Gas-immune'],
-        specs: [
-          ['Detection', 'Microwave Doppler motion'],
-          ['Range', 'Up to ~9 m, adjustable'],
-          ['Pattern', 'Narrow or wide · uni-directional option'],
-          ['Output', 'Form C relay'],
-          ['Mount', 'Door header or ceiling'],
-          ['Standard', 'Meets ANSI/BHMA A156.10 §8']
-        ],
+        image: 'https://cdn.prod.website-files.com/67f908f283cfa9bab814a30b/68bb173e9a5676f2372f6a32_reaction-two-dt.png',
+        datasheet: 'https://cdn.prod.website-files.com/67f908f283cfa9bab814a30b/686021ac59684aaf12bfdadf_REACTION-2_web.pdf',
+        productUrl: 'https://www.optexamerica.com/products/automatic-door-sensors/reaction-t',
+        blurb: 'A microwave motion sensor for touchless egress and door activation, with adjustable narrow or wide patterns and directional modes.',
+        defeats: 'Doppler radar reads motion, not infrared. Cooling the sensor face with compressed gas produces no Doppler shift, so it cannot trigger.',
+        tags: ['Microwave', 'Directional', 'A156.10'],
+        specs: [['Detection','Microwave Doppler radar'],['Pattern','Adjustable narrow or wide; aimable'],['Modes','Bi-directional, uni-directional, auto-caution'],['Output','Form C relay'],['Mount','Header or ceiling'],['Standard','Meets ANSI/BHMA A156.10 §8']],
+        comments: [] },
+      { cat: 'sensor', maker: 'Bosch', name: 'DS160',
+        type: 'Hardened PIR REX (sequential logic)',
+        image: '', datasheet: 'https://jmacfiles.s3.amazonaws.com/DS160-DataSheet.PDF',
+        productUrl: 'https://us.boschsecurity.com/en/products/intrusionalarmsystems/detectorsandaccessories/requesttoexit/ds160serieshighperformanc/ds160serieshighperformanc_26279',
+        blurb: 'A high-performance PIR request-to-exit detector. Its Sequential Logic Input means the PIR channel cannot release the door until a second device arms it, and a built-in door monitor flags anomalies.',
+        defeats: 'It is still a PIR, so treat it as risk reduction, not immunity. The Sequential Logic Input requires an independent arming signal before it can grant, so a lone gas burst cannot release the door on its own.',
+        tags: ['Hardened PIR', 'SLI', 'UL 294'],
+        specs: [['Detection','PIR, pointable ~8 x 10 ft'],['Anti-defeat','Sequential Logic Input (SLI) arming'],['Relay','Fail-safe or fail-secure; 0.5 to 64 s latch'],['Door monitor','Built-in, with sounder (DS161)'],['Listing','UL 294']],
         comments: [] },
       { cat: 'platform', maker: 'LenelS2', name: 'OnGuard',
-        type: 'Access-control platform · REX event rules',
+        type: 'Enterprise access control with video',
         image: '', datasheet: '',
-        productUrl: 'https://www.lenels2.com/en/products/software/onguard',
-        blurb: 'An enterprise access-control platform. Its alarm-monitoring and anti-passback logic can flag a door that releases on a REX event with no matching badge or occupancy.',
-        defeats: 'It won’t stop the sensor from firing, but it makes a spoof visible: OnGuard can raise an operator alarm when a maglock drops on a REX with no corresponding credential read, which turns a silent unlock into an actionable, correlated event.',
-        tags: ['ACS platform', 'Alarm rules', 'Anti-passback'],
-        specs: [
-          ['Publisher', 'LenelS2 (Carrier / Honeywell lineage)'],
-          ['Module', 'Alarm Monitoring · System Administration'],
-          ['REX handling', 'Inputs logged; custom alarm definitions'],
-          ['Correlation', 'Anti-passback / area occupancy'],
-          ['Alerting', 'Workstation, email/action, linked video']
-        ],
+        productUrl: 'https://buildings.honeywell.com/us/en/brands/our-brands/lenels2/security-products/onguard',
+        blurb: 'An enterprise access-control platform. REX and door-contact states are logged and exposed to video and analytics partners, so unverified openings can be flagged.',
+        defeats: 'It will not stop the sensor from firing, but it makes a spoof visible: correlating the REX event with recorded video and door state means a release with no person present reads as an unverified event, not a normal exit.',
+        tags: ['ACS platform', 'OpenAccess API', 'Video verify'],
+        specs: [['REX handling','Per-door REX inputs; custom alarms'],['Event logging','Forced / held / REX via OpenAccess API'],['Video','Recorder integration; Magic Monitor'],['AI verify','OpenAccess partners flag tailgate / ajar']],
         comments: [] },
       { cat: 'platform', maker: 'Genetec', name: 'Security Center',
-        type: 'Unified access control + video · REX-to-video',
+        type: 'Unified access + video, REX correlation',
         image: '', datasheet: '',
         productUrl: 'https://www.genetec.com/products/unified-security/security-center',
-        blurb: 'A unified platform that binds each door’s access events to its cameras, so REX and door-forced/held events can be reviewed against recorded video.',
-        defeats: 'Because a REX event is tied to the door’s camera, a release that fires while the video shows no person present surfaces as a video-verifiable anomaly, exactly the tell a compressed-gas spoof leaves behind.',
-        tags: ['Unified platform', 'Video correlation', 'Alarms'],
-        specs: [
-          ['Publisher', 'Genetec Inc.'],
-          ['Modules', 'Synergis (access) + Omnicast (video)'],
-          ['REX handling', 'Per-door REX input configuration'],
-          ['Correlation', 'Events linked to associated cameras'],
-          ['Alarms', 'Customizable · video-linked']
-        ],
-        comments: [] },
-      { cat: 'standard', maker: 'IEC', name: 'IEC 62676',
-        type: 'Video surveillance systems standard',
-        image: '', datasheet: '',
-        productUrl: 'https://webstore.iec.ch/en/publication/7347',
-        blurb: 'The international standard series for video surveillance systems in security applications. Part 4 (application guidelines) covers how to plan camera coverage, image quality and operational requirements.',
-        defeats: 'Not a device. It is the basis for requiring that security-critical doors carry camera coverage at a defined image quality, so a REX-released door can always be checked on video for whether a person was actually there.',
-        tags: ['Standard', 'IEC', 'Camera coverage'],
-        specs: [
-          ['Publisher', 'International Electrotechnical Commission'],
-          ['Part 1-1', 'System requirements, General (2013)'],
-          ['Part 4', 'Application guidelines (2025 ed.)'],
-          ['Scope', 'Design · install · test · commission VSS'],
-          ['Relevance', 'Camera coverage & image quality at doors']
-        ],
-        comments: [] },
-      { cat: 'standard', maker: 'ASIS International', name: 'Facilities Physical Security Measures',
-        type: 'Facility physical-security guideline (GDL FPSM-2009)',
-        image: '', datasheet: '',
-        productUrl: 'https://webstore.ansi.org/standards/asis/asisgdlfpsm2009',
-        blurb: 'The recognized ASIS guideline for selecting facility physical-security measures: access control, intrusion detection, video surveillance, lighting and more. Its content later fed the ASIS Physical Asset Protection (PAP-2021) standard.',
-        defeats: 'A citable authority rather than a product: its access-control and video-surveillance guidance is what you point to when you specify spoof-resistant REX hardware and require video verification of egress-controlled doors.',
-        tags: ['Guideline', 'ASIS', 'Specification basis'],
-        specs: [
-          ['Publisher', 'ASIS International'],
-          ['Designation', 'ASIS GDL FPSM-2009'],
-          ['Published', '2009'],
-          ['Scope', 'Facility physical-security measure selection'],
-          ['Note', 'Consolidated into ASIS PAP-2021']
-        ],
+        blurb: 'A unified platform that ties each door’s REX and door-position events to its cameras, so a release can be checked against what the video actually shows.',
+        defeats: 'It catches a spoof rather than preventing it: a REX or release event with no person on the associated camera surfaces as a reviewable anomaly rather than a silently shunted alarm.',
+        tags: ['Unified platform', 'Video correlation', 'Synergis'],
+        specs: [['REX handling','Suppresses door-forced alarm; optional unlock'],['Correlation','Door events linked to associated cameras'],['Controllers','Synergis / Mercury / Axis'],['Unification','Access, video, intrusion in one client']],
         comments: [] }
     ];
     CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
