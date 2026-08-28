@@ -425,11 +425,27 @@
     // To fill one out: add `image` (path/URL), `datasheet`, `productUrl`,
     // optional `specs` rows [label, value], and `comments` field notes.
     const PRODUCTS = [
-      { cat: 'sensor', maker: 'Optex', name: 'FTB-11T',
-        type: 'Dual-technology REX sensor',
-        image: '', datasheet: '', productUrl: '',
-        blurb: 'Dual-technology (PIR + microwave) REX sensor. Requires simultaneous detection from both technologies — a gas burst cannot satisfy both conditions at once.',
-        tags: ['Dual-tech', 'REX sensor', 'Flush mount'], specs: [], comments: [] },
+      { cat: 'sensor', maker: 'BEA', name: 'R2E-100',
+        type: 'Focused active-infrared REX sensor',
+        image: 'img/bea-r2e-100.svg',
+        datasheet: 'https://us.beasensors.com/en/product/r2e-100/specs/',
+        productUrl: 'https://us.beasensors.com/en/product/r2e-100/',
+        blurb: 'A request-to-exit sensor whose active-infrared beam is focused directly on the door handle, rather than a wide passive-IR field. Because it looks for a hand reaching the lever — not ambient heat — the compressed-gas trick that fools PIR REX units has no thermal gradient to spoof.',
+        tags: ['Active IR', 'REX sensor', 'UL listed', 'Anti-spoof'],
+        specs: [
+          ['Detection', 'Focused active infrared (AIR)'],
+          ['Detection zone', 'Aimed at the handle, 20–48 in (adjustable)'],
+          ['Mounting height', 'Up to 8 ft'],
+          ['Outputs', 'Two Form C relays · 1.3 A @ 24 VAC'],
+          ['Aux inputs', 'REX button · card reader · door position'],
+          ['Hold time', '0.5–60 s (adjustable)'],
+          ['Power', '12–24 V AC/DC · ~155 mA'],
+          ['Built-in', 'Audible tamper alarm to 85 dB · multiple re-lock modes']
+        ],
+        comments: [
+          { author: 'Pine Risk', role: 'Editorial note', date: 'Aug 2026',
+            text: 'This is a strong answer to CPSC-001: a focused active-IR beam on the lever gives the gas attack nothing to spoof. Aim the detection zone tightly on the handle, keep it off the door gap, and enable a re-lock mode so a held-open door re-secures on its own.' }
+        ] },
       { cat: 'sensor', maker: 'Bosch', name: 'DS180i',
         type: 'PIR detector with DSP',
         image: '', datasheet: '', productUrl: '',
