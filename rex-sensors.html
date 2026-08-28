@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choosing a Request-to-Exit Sensor</title>
+  <meta name="description" content="A deep dive on request-to-exit (REX) sensors: how each detection technology works, which ones a compressed-gas spoof can fool, what the life-safety codes require, and how to specify a higher-quality sensor.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ================= REX deep-dive page ================= */
+    .rex-hero { padding: 46px 0 40px; border-bottom: 1px solid var(--border); }
+    .rex-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.03;
+      margin: 16px 0 18px;
+      max-width: 780px;
+      text-wrap: balance;
+    }
+    .rex-hero h1 em { font-style: normal; color: var(--accent); }
+    .rex-lede {
+      font-size: 18.5px;
+      color: var(--text-secondary);
+      max-width: 660px;
+      line-height: 1.6;
+    }
+
+    /* verdict strip */
+    .verdict-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+    .verdict {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .verdict-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .verdict-tag::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .v-bad { color: var(--critical-text); }
+    .v-mid { color: var(--high-text); }
+    .v-good { color: var(--medium-text); }
+    .verdict p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; }
+    .verdict strong { color: var(--text-primary); font-weight: 600; }
+
+    /* jump-to nav */
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 20px 0 4px;
+    }
+    .toc-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-right: 4px;
+    }
+    .toc a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 13px;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+    .toc a:hover { color: var(--accent); border-color: var(--border-hover); }
+
+    /* generic section */
+    .rex-section { padding: 56px 0 0; scroll-margin-top: 76px; }
+    .rex-section .section-header { padding: 0 0 26px; }
+    .prose-col { max-width: 720px; }
+    .prose-col p { font-size: 15.5px; color: var(--text-secondary); line-height: 1.72; margin-bottom: 16px; }
+    .prose-col p:last-child { margin-bottom: 0; }
+    .prose-col strong { color: var(--text-primary); font-weight: 600; }
+
+    /* anatomy diagram */
+    .anatomy {
+      background: linear-gradient(180deg, #fbfcfe, #f4f7fb);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-top: 8px;
+    }
+    .anatomy svg { width: 100%; height: auto; display: block; }
+    .anatomy-cap {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+    }
+
+    /* technology cards */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+    .tech-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .tech-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .tech-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .tech-name { font-family: var(--font-display); font-size: 19px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+    .tech-sub { font-size: 12.5px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 3px; }
+    .verdict-chip {
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .chip-good { background: var(--medium-bg); color: var(--medium-text); border: 1px solid var(--medium-border); }
+    .chip-mid  { background: var(--high-bg);   color: var(--high-text);   border: 1px solid var(--high-border); }
+    .chip-bad  { background: var(--critical-bg); color: var(--critical-text); border: 1px solid var(--critical-border); }
+    .tech-body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+    .tech-body strong { color: var(--text-primary); font-weight: 600; }
+    .tech-meta {
+      display: flex;
+      gap: 18px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    .tech-meta div { display: flex; flex-direction: column; gap: 2px; }
+    .tech-meta .k { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .tech-meta .val { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+
+    /* comparison table */
+    .cmp-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); }
+    table.cmp { border-collapse: collapse; width: 100%; min-width: 760px; background: var(--bg-surface); font-size: 13.5px; }
+    table.cmp th, table.cmp td { text-align: left; padding: 13px 15px; border-bottom: 1px solid var(--border); }
+    table.cmp thead th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: var(--bg-elevated);
+      position: sticky; top: 0;
+    }
+    table.cmp tbody tr:last-child td { border-bottom: none; }
+    table.cmp tbody tr:hover td { background: #fafbfd; }
+    table.cmp td.tech { font-weight: 600; color: var(--text-primary); }
+    table.cmp td.tech small { display: block; font-weight: 400; color: var(--text-muted); font-family: var(--font-mono); font-size: 10.5px; margin-top: 2px; }
+    .chip { font-family: var(--font-mono); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+
+    /* checklist */
+    .checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+    .check-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 15px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .check-mark {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px;
+      background: var(--medium-bg); color: var(--medium-text);
+      display: grid; place-items: center;
+    }
+    .check-mark svg { width: 13px; height: 13px; }
+    .check-item .t { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+    .check-item .d { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* standards cards */
+    .std-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .std-card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--r-md); padding: 18px 20px; box-shadow: var(--shadow-sm);
+    }
+    .std-code { font-family: var(--font-mono); font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .std-title { font-family: var(--font-display); font-size: 16.5px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .std-card p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* decision guide */
+    .guide { display: flex; flex-direction: column; gap: 12px; }
+    .guide-row {
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; align-items: center;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 16px 20px; box-shadow: var(--shadow-sm);
+    }
+    .guide-when { font-size: 14.5px; font-weight: 600; color: var(--text-primary); }
+    .guide-when span { display: block; font-size: 12.5px; font-weight: 400; color: var(--text-muted); margin-top: 3px; }
+    .guide-pick { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+    .guide-pick strong { color: var(--medium-text); font-weight: 600; }
+
+    /* callout */
+    .callout {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--medium-bg); border: 1px solid var(--medium-border);
+      border-left: 3px solid var(--medium-text);
+      border-radius: var(--r-md); padding: 17px 19px; margin-top: 24px; max-width: 760px;
+    }
+    .callout-icon { flex-shrink: 0; color: var(--medium-text); margin-top: 1px; }
+    .callout-icon svg { width: 20px; height: 20px; }
+    .callout-t { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--medium-text); margin-bottom: 5px; }
+    .callout p { font-size: 14px; color: var(--text-primary); line-height: 1.62; }
+    .callout strong { font-weight: 600; }
+
+    @media (max-width: 700px) {
+      .tech-meta { gap: 14px; }
+      .guide-row { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <span class="logo-mark">CPSC</span>
+      <span class="logo-word">Common Physical Security Controls</span>
+    </a>
+    <nav class="header-nav">
+      <a href="https://pinerisk.com">pinerisk.com</a>
+      <a href="https://pinerisk.com/contact" class="btn-cta">Work with us</a>
+    </nav>
+  </header>
+
+  <main class="page-wrap">
+
+    <!-- Hero -->
+    <section class="rex-hero">
+      <div class="breadcrumb">
+        <a href="index.html">CPSC Library</a>
+        <span>/</span>
+        <a href="canned-air.html">CPSC-001</a>
+        <span>/</span>
+        <span>Deep dive</span>
+      </div>
+      <div class="vuln-meta-row">
+        <span class="cat-badge cat-tech">Sensor technology</span>
+        <span class="cat-badge cat-policy">Buying guide</span>
+        <span class="cat-badge cat-phys">Egress &amp; life safety</span>
+      </div>
+      <h1>Choosing a request-to-exit sensor <em>that can&rsquo;t be fooled</em></h1>
+      <p class="rex-lede">
+        A request-to-exit sensor unlocks a secured door for anyone leaving. That is a life-safety
+        necessity and a security liability at the same time. This is the long version: how each
+        detection technology actually works, which ones a can of compressed air can defeat, what
+        the codes force you to allow, and how to specify a sensor that holds up.
+      </p>
+
+      <div class="verdict-strip">
+        <div class="verdict">
+          <div class="verdict-tag v-bad">The problem</div>
+          <p>A plain <strong>PIR motion sensor</strong> releases the lock on a burst of cold gas, with no person present and no alarm.</p>
+        </div>
+        <div class="verdict">
+          <div class="verdict-tag v-good">The fix</div>
+          <p>A <strong>mechanical exit switch</strong>, or a <strong>dual-technology, microwave, or active-IR</strong> sensor, cannot be triggered by heat alone.</p>
+        </div>
+        <div class="verdict">
+          <div class="verdict-tag v-mid">The constraint</div>
+          <p>Life-safety code requires the door to <strong>release for people leaving</strong>, so you harden the trigger, not the exit.</p>
+        </div>
+      </div>
+
+      <nav class="toc">
+        <span class="toc-label">Jump to</span>
+        <a href="#role">The role</a>
+        <a href="#anatomy">Anatomy</a>
+        <a href="#tech">Technologies</a>
+        <a href="#compare">Comparison</a>
+        <a href="#codes">What codes require</a>
+        <a href="#spec">How to spec</a>
+        <a href="#guide">Decision guide</a>
+        <a href="#products">Reference tech</a>
+      </nav>
+    </section>
+
+    <!-- The role -->
+    <section class="rex-section" id="role">
+      <div class="section-header">
+        <div class="section-label">The role</div>
+        <div class="section-title">What a REX sensor is actually for</div>
+      </div>
+      <div class="prose-col">
+        <p>
+          On an electronically locked door, people on the inside still have to get out instantly, without a
+          badge, in a fire or a power failure. The <strong>request-to-exit (REX)</strong> device is what
+          grants that exit. On a door held by a magnetic lock it usually <strong>releases the lock</strong>
+          as someone approaches. On a door with an electric strike or an exit device, egress is already
+          mechanical, so the REX often just <strong>shunts the door-forced alarm</strong> while the person
+          pushes through.
+        </p>
+        <p>
+          That distinction matters more than any spec sheet. A REX that only shunts an alarm cannot let an
+          attacker in, because the latch is still mechanical. A REX that <strong>unlocks the door</strong>
+          is a remote release, and anything that can trigger it from the wrong side is a way in. The
+          compressed-gas attack (<a href="canned-air.html" style="color:var(--accent);font-weight:600;">CPSC-001</a>)
+          works precisely because the most common REX sensor, a passive-infrared motion detector, will
+          release a maglock for a plume of cold air.
+        </p>
+        <p>
+          So the goal of this page is narrow and practical: keep the exit reliable for the people who belong
+          inside, and make the release impossible to fake from outside. Everything below serves that.
+        </p>
+      </div>
+      <div class="callout">
+        <div class="callout-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        </div>
+        <div>
+          <div class="callout-t">Rule of thumb</div>
+          <p>The safest posture is to let the lock be released by free mechanical egress and the code-required fail-safe path, while the electronic REX only <strong>shunts the alarm and logs the event</strong>. Reserve unlock-on-motion for doors that truly need it, and there use the least forgeable sensor you can. A maglock whose only inside release is a motion sensor is the configuration most worth eliminating.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Anatomy -->
+    <section class="rex-section" id="anatomy">
+      <div class="section-header">
+        <div class="section-label">Anatomy</div>
+        <div class="section-title">The parts of a controlled door</div>
+        <p class="section-desc">Where the REX sits, what it talks to, and the two jobs it can be wired to do.</p>
+      </div>
+      <div class="anatomy">
+        <svg viewBox="0 0 720 340" role="img" aria-label="Diagram of a request-to-exit controlled door and its components">
+          <defs>
+            <pattern id="agrid" width="24" height="24" patternUnits="userSpaceOnUse">
+              <path d="M24 0 L0 0 0 24" fill="none" stroke="#e2e8f2" stroke-width="1"/>
+            </pattern>
+            <marker id="ar" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#9aa6b8"/></marker>
+          </defs>
+          <rect width="720" height="340" fill="#f7f9fc"/>
+          <rect width="720" height="340" fill="url(#agrid)"/>
+
+          <!-- side labels + divider -->
+          <text x="200" y="30" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="600" fill="#586780" text-anchor="middle">SECURE (INSIDE)</text>
+          <text x="545" y="30" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="600" fill="#586780" text-anchor="middle">PUBLIC (OUTSIDE)</text>
+          <line x1="370" y1="46" x2="370" y2="300" stroke="#c3ccd9" stroke-width="1" stroke-dasharray="4 4"/>
+
+          <!-- floor -->
+          <rect x="0" y="300" width="720" height="16" fill="#eef2f7"/>
+
+          <!-- door frame header + leaf -->
+          <rect x="346" y="58" width="48" height="10" rx="2" fill="#e3e9f1" stroke="#9aa6b8"/>
+          <rect x="354" y="68" width="32" height="232" rx="3" fill="#eef2f7" stroke="#9aa6b8" stroke-width="1.6"/>
+          <rect x="361" y="84" width="18" height="96" rx="2" fill="none" stroke="#d6dde7"/>
+          <rect x="361" y="192" width="18" height="96" rx="2" fill="none" stroke="#d6dde7"/>
+
+          <!-- maglock (top of leaf) -->
+          <rect x="350" y="48" width="40" height="12" rx="2" fill="#e3e9f1" stroke="#9aa6b8"/>
+          <circle cx="358" cy="54" r="3" fill="#0d9488"/>
+          <text x="370" y="42" font-family="'IBM Plex Mono',monospace" font-size="11" font-weight="600" fill="#16202e" text-anchor="middle">Magnetic lock</text>
+
+          <!-- access panel (top-left) -->
+          <rect x="60" y="62" width="74" height="50" rx="6" fill="#ffffff" stroke="#9aa6b8" stroke-width="1.4"/>
+          <text x="97" y="84" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="600" fill="#16202e" text-anchor="middle">Access</text>
+          <text x="97" y="98" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="600" fill="#16202e" text-anchor="middle">panel</text>
+
+          <!-- panel releases the maglock (output) -->
+          <line x1="134" y1="78" x2="346" y2="56" stroke="#9aa6b8" stroke-width="1.2" marker-end="url(#ar)"/>
+          <text x="238" y="60" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#8b95a6" text-anchor="middle">releases lock</text>
+
+          <!-- REX sensor + detection zone -->
+          <rect x="300" y="92" width="40" height="15" rx="3" fill="#e3e9f1" stroke="#9aa6b8" stroke-width="1.4"/>
+          <circle cx="335" cy="93" r="3" fill="#0d9488"/>
+          <path d="M320 107 L280 188 L360 188 Z" fill="rgba(13,148,136,0.10)" stroke="rgba(13,148,136,0.35)" stroke-width="1"/>
+          <text x="320" y="86" font-family="'IBM Plex Mono',monospace" font-size="11" font-weight="600" fill="#16202e" text-anchor="middle">REX sensor</text>
+          <text x="320" y="202" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#8b95a6" text-anchor="middle">detection zone</text>
+          <line x1="300" y1="100" x2="136" y2="100" stroke="#9aa6b8" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+
+          <!-- EXIT push (inside wall) -->
+          <rect x="150" y="146" width="26" height="34" rx="4" fill="#e3e9f1" stroke="#9aa6b8"/>
+          <circle cx="163" cy="163" r="7" fill="#fbe9e6" stroke="#b02417"/>
+          <text x="163" y="196" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#586780" text-anchor="middle">EXIT push</text>
+          <line x1="150" y1="150" x2="116" y2="112" stroke="#9aa6b8" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+
+          <!-- card reader (outside) -->
+          <rect x="474" y="150" width="24" height="40" rx="4" fill="#e3e9f1" stroke="#9aa6b8"/>
+          <rect x="480" y="158" width="12" height="4" rx="1" fill="#9aa6b8"/>
+          <text x="486" y="206" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#586780" text-anchor="middle">card reader</text>
+
+          <!-- door contact -->
+          <circle cx="386" cy="288" r="4" fill="#c9821c"/>
+          <text x="398" y="292" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#8b95a6" text-anchor="start">door contact</text>
+
+          <!-- two jobs callout -->
+          <rect x="474" y="228" width="224" height="64" rx="6" fill="#ffffff" stroke="#e4e8ef"/>
+          <text x="488" y="248" font-family="'IBM Plex Mono',monospace" font-size="9" font-weight="600" fill="#b02417">JOB 1 · RELEASE THE LOCK</text>
+          <text x="488" y="261" font-family="'IBM Plex Sans',sans-serif" font-size="10.5" fill="#4c5a6e">maglock drops. A spoof here means entry.</text>
+          <text x="488" y="279" font-family="'IBM Plex Mono',monospace" font-size="9" font-weight="600" fill="#0b7a6d">JOB 2 · SHUNT THE ALARM</text>
+          <text x="488" y="292" font-family="'IBM Plex Sans',sans-serif" font-size="10.5" fill="#4c5a6e">latch stays mechanical. Safer.</text>
+        </svg>
+        <div class="anatomy-cap">The REX detects someone leaving and tells the panel to release the maglock (Job 1) or to ignore the door-forced alarm while a mechanical latch is used (Job 2).</div>
+      </div>
+    </section>
+
+    <!-- Technologies -->
+    <section class="rex-section" id="tech">
+      <div class="section-header">
+        <div class="section-label">The technologies</div>
+        <div class="section-title">Eight ways to detect someone leaving</div>
+        <p class="section-desc">Ordered from the most spoofable to the most trustworthy. The chip on each card is the verdict against the compressed-gas attack specifically.</p>
+      </div>
+      <div class="tech-grid" id="tech-grid">
+        <!-- filled below -->
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="rex-section" id="compare">
+      <div class="section-header">
+        <div class="section-label">At a glance</div>
+        <div class="section-title">The comparison, in one table</div>
+        <p class="section-desc">Assurance is against a deliberate covert-entry attacker, not against everyday reliability.</p>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp" id="cmp-table">
+          <thead>
+            <tr>
+              <th>Technology</th>
+              <th>Gas / thermal spoof</th>
+              <th>Physical-object bypass</th>
+              <th>False triggers</th>
+              <th>Covert-entry assurance</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody><!-- filled below --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Codes -->
+    <section class="rex-section" id="codes">
+      <div class="section-header">
+        <div class="section-label">What the codes require</div>
+        <div class="section-title">Why the door has to let go</div>
+        <p class="section-desc">The reason a spoof is dangerous is that the law requires the lock to fail open for people leaving. You cannot engineer that away; you engineer the trigger instead.</p>
+      </div>
+      <div class="prose-col" style="margin-bottom: 26px;">
+        <p>
+          A locked egress door in the United States lives under building and life-safety code, and those codes
+          put getting people <strong>out</strong> ahead of keeping people out. Two things they require are exactly
+          what the compressed-gas attack abuses: the lock must <strong>unlock on loss of power</strong>, and, where an
+          approach sensor is used, the door must <strong>release when it detects someone leaving</strong>. A sensor that
+          faithfully obeys an exit request will faithfully obey a forged one. The fix is never to defeat those
+          requirements. It is to choose a trigger that is hard to forge, put it out of reach, and verify every opening.
+        </p>
+      </div>
+      <div class="std-grid" id="std-grid">
+        <!-- filled below -->
+      </div>
+      <div class="callout">
+        <div class="callout-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <div class="callout-t">The compliant way to harden</div>
+          <p>Prefer <strong>door-hardware release</strong> (IBC 1010.2.11 / NFPA 7.2.1.6.3), where a hand physically operates the hardware, over <strong>sensor release</strong> (IBC 1010.2.12 / NFPA 7.2.1.6.2) wherever the occupancy and the authority having jurisdiction allow. None of the hardening on this page may compromise the required fail-safe egress: a lock that would trap occupants to defeat a spoof is not code-compliant. Confirm the exact section and edition your AHJ has adopted.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to spec -->
+    <section class="rex-section" id="spec">
+      <div class="section-header">
+        <div class="section-label">How to spec</div>
+        <div class="section-title">What a higher-quality REX has</div>
+        <p class="section-desc">A checklist you can paste into a specification or hand to an integrator.</p>
+      </div>
+      <div class="checklist" id="checklist"><!-- filled below --></div>
+    </section>
+
+    <!-- Decision guide -->
+    <section class="rex-section" id="guide">
+      <div class="section-header">
+        <div class="section-label">Decision guide</div>
+        <div class="section-title">Which sensor for which door</div>
+        <p class="section-desc">Start from the door, not the catalog.</p>
+      </div>
+      <div class="guide" id="guide"><!-- filled below --></div>
+    </section>
+
+    <!-- Products -->
+    <section class="rex-section" id="products">
+      <div class="section-header">
+        <div class="section-label">Vetted hardware &amp; standards</div>
+        <div class="section-title">Reference Technology</div>
+        <p class="section-desc">Real, current products for each approach. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
+      </div>
+      <div class="filter-bar">
+        <span class="filter-label">Type:</span>
+        <button class="filter-btn active" data-prod-filter="all">All</button>
+        <button class="filter-btn" data-prod-filter="mechanical">Mechanical</button>
+        <button class="filter-btn" data-prod-filter="sensor">Sensors</button>
+        <button class="filter-btn" data-prod-filter="platform">Platforms</button>
+      </div>
+      <div class="card-grid" id="prod-grid" style="padding-bottom: 40px;"></div>
+    </section>
+
+  </main>
+
+  <footer class="page-wrap">
+    <div class="site-footer">
+      <span class="footer-brand">Pine Risk Management</span>
+      <span>CPSC-001 · Request-to-exit sensor deep dive</span>
+      <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const esc = s => (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    /* ---------- Technologies ---------- */
+    const TECH = [
+      { name:'Passive infrared (PIR)', sub:'Passive infrared', chip:'bad', chipText:'Spoofable',
+        body:'A pyroelectric element behind a faceted lens reads a moving change in infrared as a warm body crosses its zones. It keys on <strong>contrast in motion, not on warmth</strong>, which is why a plume of cold gas reads exactly like a person. It is the cheapest and by far the most common REX head, and the one the canned-air attack targets.',
+        assurance:'Low', cost:'Low' },
+      { name:'Hardened PIR', sub:'PIR + DSP + sequential logic', chip:'mid', chipText:'Reduced',
+        body:'The same infrared front end, but the firmware demands a valid approach signature across several zones and filters waveforms that do not look human. A single crude burst is often rejected, but a <strong>swept spray or a warm object</strong> walked across the zones can still satisfy it. It raises the effort; it does not close the hole.',
+        assurance:'Low–Med', cost:'Low–Med' },
+      { name:'Active infrared', sub:'Active infrared beam', chip:'good', chipText:'Immune',
+        body:'An emitter sends a modulated infrared beam and the sensor watches for it to reflect off a solid object, often focused tightly on the door handle. <strong>Cold gas is transparent to the beam</strong>, so the thermal trick does nothing. The residual risk is that any solid object pushed into the target volume trips it, so a tight, handle-aimed field matters.',
+        assurance:'Medium', cost:'Med' },
+      { name:'Microwave (Doppler)', sub:'Microwave Doppler', chip:'good', chipText:'Immune',
+        body:'A Doppler radar reads the frequency shift of its own signal off a moving body. Gas has no motion and no radar return, so it cannot spoof it. Its own weakness is that <strong>microwave passes through drywall and glass</strong>, so motion in the corridor or a hand waved through the wall can release the door. Rarely used alone for security.',
+        assurance:'Low–Med', cost:'Med' },
+      { name:'Dual-technology', sub:'PIR + microwave (AND)', chip:'good', chipText:'Immune',
+        body:'Both a PIR and a microwave channel must agree in the same instant before the head fires. Cold gas excites the infrared channel but returns nothing to the radar channel, so <strong>the door stays locked</strong>. It is the strongest sensor-only answer to the gas attack, though an attacker who also injects motion is a theoretical edge case worth testing.',
+        assurance:'Med–High', cost:'Med–High' },
+      { name:'Touchless wave-to-exit', sub:'Wave-to-exit switch', chip:'mid', chipText:'Depends',
+        body:'A short-range switch that fires when a hand enters a small zone, by capacitance or a focused reflective cell. It is an actuator, not a room scanner, so most variants ignore a thermal event. Its security <strong>lives or dies on mounting</strong>: if the active zone can be reached from the insecure side, an object waved into it opens the door.',
+        assurance:'Low–Med', cost:'Med' },
+      { name:'Mechanical exit switch', sub:'Switch in exit hardware', chip:'good', chipText:'Immune',
+        body:'A physical switch inside the exit device closes when a person actually pushes the bar or operates the lever. There is <strong>no field or beam to forge</strong>, so the no-touch attacks simply do not apply. Watch two things: an under-door tool that reaches in to work the hardware, and cheap cylindrical-lock switches that fire when the outside knob is forced.',
+        assurance:'High', cost:'Low–Med' },
+      { name:'Video-verified', sub:'Camera + analytics', chip:'good', chipText:'Detects it',
+        body:'A camera and analytics confirm a real person on the secure side, best used to <strong>verify another REX</strong> rather than to release the door itself. Invisible gas never looks like a person, so a spoofed opening with no one on camera is exactly what it flags. Latency keeps it out of the primary release path, but as a verification and audit layer it is the one technology that catches a successful spoof.',
+        assurance:'Med–High', cost:'High' }
+    ];
+
+    /* ---------- Comparison rows: [level, label] per cell ---------- */
+    const CMP = [
+      { t:'Passive infrared (PIR)', s:'Passive infrared',
+        cells:[['bad','Spoofable'],['bad','Yes'],['bad','High'],['bad','Low'],['','Low']] },
+      { t:'Hardened PIR', s:'DSP + sequential',
+        cells:[['mid','Reduced'],['bad','Yes'],['mid','Medium'],['mid','Low–Med'],['','Low–Med']] },
+      { t:'Active infrared', s:'Reflective beam',
+        cells:[['good','Immune'],['mid','If reachable'],['good','Low'],['mid','Medium'],['','Med']] },
+      { t:'Microwave', s:'Doppler',
+        cells:[['good','Immune'],['mid','Motion-based'],['bad','High (thru-wall)'],['mid','Low–Med'],['','Med']] },
+      { t:'Dual-technology', s:'PIR + microwave',
+        cells:[['good','Immune'],['mid','Hard'],['good','Low'],['good','Med–High'],['','Med–High']] },
+      { t:'Touchless wave', s:'Proximity switch',
+        cells:[['mid','Depends'],['mid','If reachable'],['good','Low'],['mid','Low–Med'],['','Med']] },
+      { t:'Mechanical switch', s:'In exit hardware',
+        cells:[['good','Immune'],['mid','Under-door'],['good','None'],['good','High'],['','Low–Med']] },
+      { t:'Video-verified', s:'Camera + analytics',
+        cells:[['good','Detects'],['good','Detects'],['mid','Medium'],['good','Med–High'],['','High']] }
+    ];
+
+    /* ---------- Standards ---------- */
+    const STANDARDS = [
+      { code:'IBC 2021 · §1010.2.12', title:'Sensor release of electrically locked egress doors',
+        body:'The provision that lets a REX motion sensor unlock a locked egress door. It requires the egress-side sensor to unlock on approach, the lock to release on loss of power, a labeled <strong>PUSH TO EXIT</strong> manual release that cuts lock power for at least 30 seconds, release on fire-alarm and sprinkler activation, emergency lighting, and hardware listed to UL&nbsp;294. Fail-safe is mandatory.' },
+      { code:'IBC 2021 · §1010.2.11', title:'Door hardware release of electrically locked egress doors',
+        body:'The safer cousin. Operating the door&rsquo;s own hardware, a lever, bar, or the RX switch in an exit device, directly interrupts power to the lock. There is no approach sensor to fool from a distance. Loss of power still unlocks, and required panic hardware must also release the lock. Listed to UL&nbsp;294. This provision was formerly titled &ldquo;electromagnetically locked egress doors.&rdquo;' },
+      { code:'NFPA 101 2021 · §7.2.1.6.2 / .6.3', title:'Access-controlled &amp; electrically controlled egress',
+        body:'NFPA&rsquo;s parallel to the two IBC provisions. §7.2.1.6.2 (access-controlled) mirrors sensor release; §7.2.1.6.3 (electrically controlled) mirrors door-hardware release. These subsection numbers move between editions, so cite the edition your authority having jurisdiction has adopted.' },
+      { code:'ANSI/UL 294', title:'Access Control System Units',
+        body:'The safety and performance listing the codes require for the locking-system electronics. It grades a unit in four areas (destructive attack, endurance, line security, and standby power), each from Level&nbsp;I to Level&nbsp;IV. Higher levels mean more attack resistance, more cycles, stronger line security, and longer battery hold.' },
+      { code:'ANSI/BHMA A156.10', title:'Power Operated Pedestrian Doors',
+        body:'Governs the activation and presence sensors on <em>automatic door operators</em>, which is not the same device as the egress-unlock REX. On a powered door the operator&rsquo;s open, close, and safety sensors follow A156.10, while the lock-releasing REX follows the IBC and NFPA egress provisions above. Keep the two straight in a spec.' }
+    ];
+
+    /* ---------- Spec checklist ---------- */
+    const CHECKS = [
+      { t:'Non-thermal detection', d:'Dual-technology, microwave, active-IR, or a mechanical exit switch. Not a bare PIR on a door that unlocks.' },
+      { t:'Separate shunt and unlock outputs', d:'Two Form C relays, so you can mask the door-forced alarm without ever releasing the lock.' },
+      { t:'Adjustable timing', d:'Independent activation dwell and hold/relock times. Set a minimum dwell so a brief pulse is ignored.' },
+      { t:'Sequential or dual-zone logic', d:'Requires a valid approach signature with DSP filtering, not one flash of thermal contrast.' },
+      { t:'Defined fail state', d:'Fail-safe or fail-secure selectable, with documented power-loss behavior, and fail-safe where code requires free egress.' },
+      { t:'Tamper and supervision', d:'A tamper output and line supervision, so blinding or cutting the sensor is itself an alarm.' },
+      { t:'Maskable coverage', d:'Trim the detection field off the door gap, the frame edge, and any glazing.' },
+      { t:'Right listings', d:'UL 294 for the access-control function, ANSI/BHMA A156.10 where a power operator is involved, and life-safety compliance to IBC 1010 and NFPA 101.' }
+    ];
+
+    /* ---------- Decision guide ---------- */
+    const GUIDE = [
+      { when:'High-value interior door', ctx:'Server room, IDF, executive suite. Low traffic, serious if breached.',
+        pick:'A <strong>mechanical RX switch</strong> in the exit device, shunt-only. If a motion release is unavoidable, dual-technology plus video verification. Never a bare PIR.' },
+      { when:'Standard office egress on a maglock', ctx:'Moderate value, must unlock on approach.',
+        pick:'A <strong>dual-technology REX</strong>, ceiling-mounted with the field off the gap. Minimum dwell, plus an alarm on any REX with no matching badge.' },
+      { when:'Touchless or ADA requirement', ctx:'Hygiene or accessibility drives a no-touch exit.',
+        pick:'A <strong>short-range wave-to-exit switch</strong> on the secure side, mounted out of reach of the gap and glazing. Pair it with door-position monitoring.' },
+      { when:'Door next to glass or a shared wall', ctx:'Glazing or a stud wall sits behind the sensor.',
+        pick:'<strong>Avoid microwave</strong>; it sees through both. Use focused active-IR or a mechanical switch.' },
+      { when:'Electric strike or exit device, not a maglock', ctx:'Egress is already mechanical.',
+        pick:'Use the exit device&rsquo;s <strong>RX switch to shunt the alarm</strong>. The latch is the real exit, so there is nothing to spoof open.' },
+      { when:'A spoofable PIR you cannot replace yet', ctx:'Budget or schedule blocks a swap.',
+        pick:'Set a minimum dwell, seal the door gap (see CPSC-002), add <strong>REX-to-video and badge correlation</strong>, and prioritize the swap.' }
+    ];
+
+    /* ---------- Reference products ---------- */
+    const PRODUCTS = [
+      { cat:'mechanical', maker:'Von Duprin / Allegion', name:'98/99 Series with RX switch',
+        type:'Panic exit device with request-to-exit switch',
+        image:'https://www.vonduprin.com/content/dam/von-duprin/product-images/options-&-accessories/VON_99_EO_AX_626_1000x10000_SL.png',
+        datasheet:'https://www.vonduprin.com/content/dam/allegion-us-2/web-files/von-duprin-/information-documents/Von_Duprin_98.99_Series_Catalog_106590.pdf',
+        productUrl:'https://www.vonduprin.com/en/products/exit-devices/98-99-series.html',
+        blurb:'A Grade 1 panic exit device with the RX option: an internal switch that closes only when someone physically pushes the bar. Wire it to shunt the door-forced alarm and log the exit, and the latch stays the real, mechanical way out.',
+        defeats:'The request-to-exit signal comes only from a mechanical push of the bar. There is no infrared, radar, or optical channel to fool, so compressed gas and the other no-touch tricks have nothing to act on.',
+        tags:['Mechanical RX','Grade 1','UL 305 panic'],
+        specs:[['Signal','One internal SPDT switch on the push pad'],['Rating','2 A resistive (LC-RX option: 50 mA)'],['Function','Shunts door-forced alarm, logs egress'],['Grade','ANSI/BHMA A156.3 Grade 1'],['Availability','RX option on 22 / 33A / 35A / 98 / 99; fire-rated versions']],
+        comments:[] },
+      { cat:'sensor', maker:'BEA', name:'R2E-100',
+        type:'Focused active-infrared REX sensor',
+        image:'https://us.beasensors.com/thumbor/czX7Yonvg0bb7q5R8GWCXyvw2r4=/fit-in/1024x/--/uploads/2017/03/R2E-100.png',
+        datasheet:'https://us.beasensors.com/files/downloads/products/r2e-100/cut-sheets/en/79.0023.17.EN-R2E-100-20230419.pdf',
+        productUrl:'https://us.beasensors.com/en/product/r2e-100/',
+        blurb:'An active-infrared beam focused on the door handle rather than a wide field. It looks for a hand reaching the lever, not ambient heat, so the compressed-gas trick has nothing to spoof.',
+        defeats:'It emits its own infrared beam and fires only when a solid object reflects it back at the handle. Gas is transparent to that beam, so the cold spray a PIR reads as a moving body never registers.',
+        tags:['Active IR','UL 294','Two Form C'],
+        specs:[['Detection','Active infrared, focused on the handle'],['Range','Adjustable 20 to 48 in'],['Tilt','0 to 10 degrees; swing doors to 7 ft'],['Outputs','Two Form C relays; 3 aux inputs'],['Re-lock','Timed or door-position modes'],['Listing','UL 294 / CAN-ULC-S319']],
+        comments:[
+          { author:'Editor’s note', role:'', date:'Aug 2026',
+            text:'A fair question is why the gas does not fool this sensor too, since it lands right by the handle. The answer is what active infrared measures. A PIR watches for a moving heat gradient, and the cold spray is exactly that. Active infrared instead sends out its own beam and only responds when a solid object reflects it back, and gas reflects nothing. Note the limit of that logic: active IR does respond to a solid object placed in its beam, so an under-door tool that pushes a physical object up to the lens could in principle trigger it. The object’s warmth would be irrelevant; the reflection is what matters. That is a different and far harder attack than the gas spoof, and it is closed off by keeping the beam tight on the lever and sealing the door gap (see CPSC-002). Confirm the exact behavior in a lab before you rely on it.' }
+        ] },
+      { cat:'sensor', maker:'BEA', name:'R2E-ARTEK',
+        type:'Microwave (Doppler) REX sensor',
+        image:'', datasheet:'https://us.beasensors.com/files/downloads/products/r2e-artek/cut-sheets/en/79.0795.01.EN-R2E-ARTEK-Cut-Sheet-20260817.pdf',
+        productUrl:'https://us.beasensors.com/en/product/r2e-artek/',
+        blurb:'BEA’s current microwave request-to-exit sensor, with filters that reject cross traffic, sunlight, and HVAC. Motion, not heat, is what triggers it.',
+        defeats:'Detection depends on a Doppler frequency shift from a moving body. A cold-gas plume has no motion and returns no radar signal, so the thermal spoof does nothing.',
+        tags:['Microwave','24.15 GHz','IP54'],
+        specs:[['Detection','Microwave radar, 24.15 GHz'],['Coverage','Wide 13 x 6.5 ft; narrow 6.5 x 7 ft at 7 ft mount'],['Mount','6 to 15 ft'],['Output','Solid-state relay, polarity-free'],['Power','12 to 24 V AC/DC, under 1 W'],['Environment','IP54; sunlight and HVAC filters']],
+        comments:[] },
+      { cat:'sensor', maker:'Optex', name:'Reaction Two',
+        type:'Microwave (Doppler) REX / activation sensor',
+        image:'https://cdn.prod.website-files.com/67f908f283cfa9bab814a30b/68bb173e9a5676f2372f6a32_reaction-two-dt.png',
+        datasheet:'https://cdn.prod.website-files.com/67f908f283cfa9bab814a30b/686021ac59684aaf12bfdadf_REACTION-2_web.pdf',
+        productUrl:'https://www.optexamerica.com/products/automatic-door-sensors/reaction-t',
+        blurb:'A microwave motion sensor for touchless egress and door activation, with adjustable narrow or wide patterns and directional modes.',
+        defeats:'Doppler radar reads motion, not infrared. Cooling the sensor face with compressed gas produces no Doppler shift, so it cannot trigger.',
+        tags:['Microwave','Directional','A156.10'],
+        specs:[['Detection','Microwave Doppler radar'],['Pattern','Adjustable narrow or wide; aimable'],['Modes','Bi-directional, uni-directional, auto-caution'],['Output','Form C relay'],['Mount','Header or ceiling'],['Standard','Meets ANSI/BHMA A156.10 §8']],
+        comments:[] },
+      { cat:'sensor', maker:'Bosch', name:'DS160',
+        type:'Hardened PIR REX (sequential logic)',
+        image:'', datasheet:'https://jmacfiles.s3.amazonaws.com/DS160-DataSheet.PDF',
+        productUrl:'https://us.boschsecurity.com/en/products/intrusionalarmsystems/detectorsandaccessories/requesttoexit/ds160serieshighperformanc/ds160serieshighperformanc_26279',
+        blurb:'A high-performance PIR request-to-exit detector. Its Sequential Logic Input means the PIR channel cannot release the door until a second device arms it, and a built-in door monitor flags anomalies.',
+        defeats:'It is still a PIR, so treat it as risk reduction, not immunity. The Sequential Logic Input requires an independent arming signal before it can grant, so a lone gas burst cannot release the door on its own.',
+        tags:['Hardened PIR','SLI','UL 294'],
+        specs:[['Detection','PIR, pointable ~8 x 10 ft'],['Anti-defeat','Sequential Logic Input (SLI) arming'],['Relay','Fail-safe or fail-secure; 0.5 to 64 s latch'],['Door monitor','Built-in, with sounder (DS161)'],['Listing','UL 294']],
+        comments:[] },
+      { cat:'sensor', maker:'BEA', name:'MS41 Magic Switch',
+        type:'Touchless wave-to-exit actuator',
+        image:'', datasheet:'https://us.beasensors.com/files/downloads/products/ms41/cut-sheets/en/79.0627.08.EN-MS41-20250414.pdf',
+        productUrl:'https://us.beasensors.com/en/product/ms41/',
+        blurb:'A short-range wave switch: the user passes a hand within inches to request exit. It is an intentional action, not a room scanner, so it ignores a thermal event.',
+        defeats:'It fires on a deliberate close-range hand wave over a microwave field, with no passive infrared channel. Mount it out of reach of the door gap and glazing and there is nothing for a spoof to reach.',
+        tags:['Touchless','Wave-to-exit','IP55'],
+        specs:[['Detection','Microwave, close-range hand wave'],['Range','Adjustable 4 to 24 in'],['Hold','0.5 to 30 s configurable'],['Enclosure','IP55, stainless faceplate'],['Feedback','Illuminated ring and audible']],
+        comments:[] },
+      { cat:'sensor', maker:'Camden Door Controls', name:'CM-330 SureWave',
+        type:'Wireless touchless wave switch',
+        image:'', datasheet:'https://jmacfiles.s3.amazonaws.com/docs_Camden_SureWave_Product_Guide.pdf',
+        productUrl:'https://www.camdencontrols.com/promotions/cm330',
+        blurb:'A battery-powered wireless wave-to-exit switch. A hand within a few inches actuates it, and it signals a Camden receiver over RF.',
+        defeats:'Like any wave switch it is an intentional close-range actuator, not a passive detector, and it uses a microwave field rather than PIR, so the compressed-gas trick is irrelevant to how it triggers.',
+        tags:['Touchless','Wireless RF','Battery'],
+        specs:[['Detection','Microwave hand wave (momentary)'],['Range','Adjustable 1 to 12 in'],['Delay','3 to 30 s adjustable'],['Wireless','Lazerpoint 915 MHz to CM-RX receiver'],['Power','2x AA, about 2 yr life']],
+        comments:[] },
+      { cat:'platform', maker:'Genetec', name:'Security Center',
+        type:'Unified access + video, REX correlation',
+        image:'', datasheet:'', productUrl:'https://www.genetec.com/products/unified-security/security-center',
+        blurb:'A unified platform that ties each door’s REX and door-position events to its cameras, so a release can be checked against what the video actually shows.',
+        defeats:'It will not stop a spoof at the sensor, but it catches one: a REX or release event with no person on the associated camera surfaces as a reviewable anomaly rather than a silently shunted alarm.',
+        tags:['Unified platform','Video correlation','Synergis'],
+        specs:[['REX handling','Suppresses door-forced alarm; optional unlock'],['Correlation','Door events linked to associated cameras'],['Controllers','Synergis / Mercury / Axis'],['Unification','Access, video, intrusion in one client']],
+        comments:[] },
+      { cat:'platform', maker:'LenelS2', name:'OnGuard',
+        type:'Enterprise access control with video',
+        image:'', datasheet:'', productUrl:'https://buildings.honeywell.com/us/en/brands/our-brands/lenels2/security-products/onguard',
+        blurb:'An enterprise access-control platform. REX and door-contact states are logged and exposed to video and analytics partners, so unverified openings can be flagged.',
+        defeats:'Correlating the REX event with recorded video and door state means a spoofed or unattended release reads as an unverified event, not a normal exit.',
+        tags:['ACS platform','OpenAccess API','Video verify'],
+        specs:[['REX handling','Per-door REX inputs; custom alarms'],['Event logging','Forced / held / REX via OpenAccess API'],['Video','Recorder integration; Magic Monitor'],['AI verify','OpenAccess partners flag tailgate / ajar']],
+        comments:[] }
+    ];
+
+    /* ---------- render ---------- */
+    function fillTech(){
+      document.getElementById('tech-grid').innerHTML = TECH.map(t =>
+        `<div class="tech-card">
+           <div class="tech-card-top">
+             <div><div class="tech-name">${esc(t.name)}</div><div class="tech-sub">${esc(t.sub)}</div></div>
+             <span class="verdict-chip chip-${t.chip}">${esc(t.chipText)}</span>
+           </div>
+           <div class="tech-body">${t.body}</div>
+           <div class="tech-meta">
+             <div><span class="k">Covert-entry assurance</span><span class="val">${esc(t.assurance)}</span></div>
+             <div><span class="k">Relative cost</span><span class="val">${esc(t.cost)}</span></div>
+           </div>
+         </div>`).join('');
+    }
+    function fillCmp(){
+      const cell = c => c[0] ? `<span class="chip chip-${c[0]}">${esc(c[1])}</span>` : esc(c[1]);
+      document.querySelector('#cmp-table tbody').innerHTML = CMP.map(r =>
+        `<tr><td class="tech">${esc(r.t)}<small>${esc(r.s)}</small></td>${r.cells.map(c=>`<td>${cell(c)}</td>`).join('')}</tr>`).join('');
+    }
+    function fillStandards(){
+      const g = document.getElementById('std-grid');
+      if(!STANDARDS.length){ g.closest('.rex-section').style.display='none'; return; }
+      g.innerHTML = STANDARDS.map(s =>
+        `<div class="std-card"><div class="std-code">${esc(s.code)}</div><div class="std-title">${esc(s.title)}</div><p>${s.body}</p></div>`).join('');
+    }
+    function fillChecks(){
+      const mark = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+      document.getElementById('checklist').innerHTML = CHECKS.map(c =>
+        `<div class="check-item"><div class="check-mark">${mark}</div><div><div class="t">${esc(c.t)}</div><div class="d">${c.d}</div></div></div>`).join('');
+    }
+    function fillGuide(){
+      document.getElementById('guide').innerHTML = GUIDE.map(g =>
+        `<div class="guide-row"><div class="guide-when">${esc(g.when)}<span>${esc(g.ctx)}</span></div><div class="guide-pick">${g.pick}</div></div>`).join('');
+    }
+
+    fillTech(); fillCmp(); fillStandards(); fillChecks(); fillGuide();
+    CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
+  </script>
+
+</body>
+</html>

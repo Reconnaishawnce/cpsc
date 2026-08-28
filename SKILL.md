@@ -143,6 +143,17 @@ The design is a committed **light "field manual" theme** (readable, professional
 
 ---
 
+## Guide pages (deep dives)
+
+Beyond the numbered vulnerability pages, the library can carry **guide pages**: long-form
+deep dives on a topic (the first is `rex-sensors.html`, "Choosing a request-to-exit sensor").
+A guide reuses the shared design system and `app.js` (for its Reference Technology modal) and
+adds page-specific `<style>` for its own sections (comparison table, technology cards, decision
+guide, standards cards). It is linked from the related vuln page and the index with a
+`.deepdive-cta` banner (styles in `style.css`). Guides are validated the same way as everything
+else: real products with working links, and technical/legal claims (e.g. IBC/NFPA code sections)
+checked against sources, with edition noted.
+
 ## Reference Technology data model
 
 The "Reference Technology" section on each vuln page is **data-driven**. Shared

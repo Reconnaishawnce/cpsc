@@ -1055,6 +1055,29 @@ body.no-scroll { overflow: hidden; }
 }
 .warning-box strong { color: var(--high-text); font-weight: 600; }
 
+/* ---- Deep-dive call to action (links to a guide page) ---- */
+.deepdive-cta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.deepdive-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-hover); }
+.dd-icon { flex-shrink: 0; width: 46px; height: 46px; display: grid; place-items: center; background: var(--accent-dim); color: var(--accent); border-radius: 11px; }
+.dd-icon svg { width: 23px; height: 23px; }
+.dd-eyebrow { font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+.dd-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.2; }
+.dd-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; margin-top: 4px; }
+.dd-arrow { margin-left: auto; color: var(--accent); font-size: 24px; flex-shrink: 0; transition: transform 0.18s; }
+.deepdive-cta:hover .dd-arrow { transform: translateX(4px); }
+@media (max-width: 600px) { .dd-arrow { display: none; } .deepdive-cta { gap: 14px; padding: 18px; } }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
