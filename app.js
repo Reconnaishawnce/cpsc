@@ -138,8 +138,7 @@ window.CPSC = (function () {
     var mailto = 'mailto:' + CONTACT_EMAIL + '?subject=' + subject;
     var add = '<a class="add-note-btn" href="' + mailto + '">' +
       '<span class="add-note-icon" aria-hidden="true">+</span>' +
-      '<span>Add a field note<span class="add-note-sub">Emails ' + CONTACT_EMAIL +
-      ' &middot; subject line pre-filled</span></span></a>';
+      '<span>Add a field note<span class="add-note-sub">Opens your email app &middot; subject line pre-filled</span></span></a>';
     return '<section class="notes-section"><div class="notes-head">' +
       '<h3>Field notes from implementers</h3>' +
       (p.comments && p.comments.length ? '<span class="notes-count">' +

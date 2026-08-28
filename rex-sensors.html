@@ -570,7 +570,7 @@
       { name:'Mechanical exit switch', sub:'Switch in exit hardware', chip:'good', chipText:'Immune',
         body:'A physical switch inside the exit device closes when a person actually pushes the bar or operates the lever. There is <strong>no field or beam to forge</strong>, so the no-touch attacks simply do not apply. Watch two things: an under-door tool that reaches in to work the hardware, and cheap cylindrical-lock switches that fire when the outside knob is forced.',
         assurance:'High', cost:'Low–Med' },
-      { name:'Video-verified', sub:'Camera + analytics', chip:'good', chipText:'Detects it',
+      { name:'Video-verified', sub:'Camera + analytics', chip:'mid', chipText:'Detection only',
         body:'A camera and analytics confirm a real person on the secure side, best used to <strong>verify another REX</strong> rather than to release the door itself. Invisible gas never looks like a person, so a spoofed opening with no one on camera is exactly what it flags. Latency keeps it out of the primary release path, but as a verification and audit layer it is the one technology that catches a successful spoof.',
         assurance:'Med–High', cost:'High' }
     ];
@@ -592,7 +592,7 @@
       { t:'Mechanical switch', s:'In exit hardware',
         cells:[['good','Immune'],['mid','Under-door'],['good','None'],['good','High'],['','Low–Med']] },
       { t:'Video-verified', s:'Camera + analytics',
-        cells:[['good','Detects'],['good','Detects'],['mid','Medium'],['good','Med–High'],['','High']] }
+        cells:[['mid','Detection only'],['mid','Detection only'],['mid','Medium'],['mid','Med–High'],['','High']] }
     ];
 
     /* ---------- Standards ---------- */

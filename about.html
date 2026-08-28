@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About the CPSC Project</title>
-  <meta name="description" content="How the Common Physical Security Controls reference is built: an independent University of Minnesota faculty project, assembled from integrator and end-user feedback and honest lab testing. Vendors can send a demo unit to be tested for free.">
+  <meta name="description" content="About the Common Physical Security Controls reference: an independent, vendor-neutral reference for security professionals, managed by Shawn Abelson and assembled from practitioner feedback and primary sources.">
   <link rel="stylesheet" href="style.css">
   <style>
     .about-hero { padding: 52px 0 40px; border-bottom: 1px solid var(--border); }
@@ -20,6 +20,7 @@
     }
     .about-hero h1 em { font-style: normal; color: var(--accent); }
     .about-lede { font-size: 18px; color: var(--text-secondary); max-width: 660px; line-height: 1.62; }
+    .about-lede a { color: var(--accent); font-weight: 600; }
 
     .who-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
     .who-chip {
@@ -36,6 +37,7 @@
     .prose-col p { font-size: 15.5px; color: var(--text-secondary); line-height: 1.72; margin-bottom: 16px; }
     .prose-col p:last-child { margin-bottom: 0; }
     .prose-col strong { color: var(--text-primary); font-weight: 600; }
+    .prose-col a { color: var(--accent); font-weight: 600; }
 
     /* numbered steps */
     .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
@@ -52,7 +54,7 @@
     .step h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
     .step p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
 
-    /* pledge */
+    /* ground rules */
     .pledge { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
     .pledge-item {
       display: flex; gap: 12px; align-items: flex-start;
@@ -62,19 +64,6 @@
     .pledge-item svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--medium-text); margin-top: 1px; }
     .pledge-item p { font-size: 13.5px; color: var(--text-primary); line-height: 1.55; }
     .pledge-item strong { font-weight: 600; }
-
-    /* lab callout */
-    .lab-banner {
-      display: flex; gap: 20px; align-items: center;
-      background: linear-gradient(180deg, #fbfcfe, #f3f6fb);
-      border: 1px solid var(--border); border-left: 3px solid var(--accent);
-      border-radius: var(--r-lg); padding: 24px 26px; box-shadow: var(--shadow-sm);
-      margin-top: 8px;
-    }
-    .lab-banner .lb-icon { flex-shrink: 0; width: 52px; height: 52px; display: grid; place-items: center; background: var(--accent-dim); color: var(--accent); border-radius: 12px; }
-    .lab-banner .lb-icon svg { width: 26px; height: 26px; }
-    .lab-banner h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
-    .lab-banner p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; }
 
     /* contribute cards */
     .contrib-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
@@ -91,8 +80,7 @@
     .contrib-card p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; flex: 1; }
     .contrib-link { font-size: 13.5px; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
     .contrib-note { font-size: 12.5px; color: var(--text-muted); margin-top: 40px; max-width: 720px; line-height: 1.6; }
-
-    @media (max-width: 600px) { .lab-banner { flex-direction: column; align-items: flex-start; gap: 14px; } }
+    .contrib-note a { color: var(--text-secondary); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -118,32 +106,33 @@
         <span>About</span>
       </div>
       <span class="hero-eyebrow" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:0.14em;background:var(--accent-dim);border:1px solid var(--accent-border);padding:6px 12px;border-radius:999px;">About the project</span>
-      <h1>An honest, <em>independently tested</em> reference</h1>
+      <h1>An honest, <em>independent</em> reference</h1>
       <p class="about-lede">
-        CPSC is a vendor-neutral reference for physical security. It is a University of Minnesota
-        faculty project, assembled from the people who install and live with this hardware, and
-        checked in a lab against the same attacks it documents.
+        CPSC is a vendor-neutral reference for physical security professionals. It is managed by
+        <a href="https://cse.umn.edu/tli/shawn-abelson" target="_blank" rel="noopener">Shawn Abelson</a>,
+        and assembled from the people who install and live with this hardware, then checked against
+        primary sources and the relevant standards.
       </p>
       <div class="who-strip">
-        <span class="who-chip">University of Minnesota faculty project</span>
+        <span class="who-chip">Independent</span>
         <span class="who-chip">Vendor-neutral</span>
         <span class="who-chip">Open access</span>
-        <span class="who-chip">Lab-tested</span>
+        <span class="who-chip">Practitioner-informed</span>
       </div>
     </section>
 
-    <!-- How it's assembled -->
+    <!-- How it is built -->
     <section class="about-section">
       <div class="section-header">
-        <div class="section-label">How it is assembled</div>
-        <div class="section-title">Three inputs, in order</div>
-        <p class="section-desc">Nothing here is a product brochure. Every entry starts with the field and ends in a lab.</p>
+        <div class="section-label">How it is built</div>
+        <div class="section-title">From the field to the page</div>
+        <p class="section-desc">Nothing here is a product brochure. Each entry starts with practitioners and ends against primary sources.</p>
       </div>
       <div class="steps">
         <div class="step">
           <div class="step-n">1</div>
           <h3>Listen</h3>
-          <p>The weaknesses and the fixes come from the people who work these doors every day: integrators who install the hardware, and the security teams, locksmiths, and facility managers who have to live with it.</p>
+          <p>The weaknesses and the fixes come from the people who work these openings every day: integrators who install the hardware, and the security teams, locksmiths, and facility managers who have to live with it.</p>
         </div>
         <div class="step">
           <div class="step-n">2</div>
@@ -152,50 +141,40 @@
         </div>
         <div class="step">
           <div class="step-n">3</div>
-          <h3>Test</h3>
-          <p>Where we can get hardware in hand, we run it in the lab against the real attacks: compressed-gas spoofing, under-door tools, shimming, and the rest. The result decides whether it stays on the site.</p>
+          <h3>Maintain</h3>
+          <p>Corrections and new field notes are folded back in, and entries are revised as products, standards, and the techniques against them change. The site is meant to stay current, not to be published once.</p>
         </div>
       </div>
     </section>
 
-    <!-- The lab / vendor program -->
-    <section class="about-section" id="lab">
+    <!-- Ground rules -->
+    <section class="about-section">
       <div class="section-header">
-        <div class="section-label">The lab</div>
-        <div class="section-title">Send us a unit</div>
-        <p class="section-desc">The offer to vendors is simple and the terms are fixed.</p>
+        <div class="section-label">The ground rules</div>
+        <div class="section-title">How recommendations work</div>
+        <p class="section-desc">The list is small and the rules are fixed, so a reader can trust why something is on it.</p>
       </div>
-      <div class="lab-banner">
-        <div class="lb-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7 16h10"/></svg>
-        </div>
-        <div>
-          <h3>Free, honest testing for demo hardware</h3>
-          <p>Ship a demo product to our lab and we will test it against the common attacks documented on this site, at no cost. The write-up is public either way. A vendor cannot buy a recommendation here, only earn one.</p>
-        </div>
-      </div>
-      <div class="prose-col" style="margin-top: 24px;">
+      <div class="prose-col" style="margin-bottom: 24px;">
         <p>
-          <strong>If it does not hold up,</strong> we simply remove it as a recommendation and explain why.
-          There is no penalty and no drama; the point is an accurate site.
-        </p>
-        <p>
-          <strong>If it performs,</strong> we recommend it, highlight it, and publish short video showing exactly
-          how it resists the attack, so an integrator or end-user can see the evidence rather than take our word for it.
+          A product is listed because it addresses a documented weakness by design, and because its
+          behavior can be verified from the manufacturer&rsquo;s own specifications. No manufacturer
+          sponsors this site, and placement cannot be bought. Recommendations are also scoped:
+          <strong>no device is unbeatable</strong>, so each entry says what an item resists and
+          what it does not.
         </p>
       </div>
-      <div class="pledge" style="margin-top: 24px;">
+      <div class="pledge">
         <div class="pledge-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-          <p><strong>No pay-to-play.</strong> Money never buys placement, a rating, or a recommendation.</p>
+          <p><strong>Vendor-neutral.</strong> No sponsors, and money never buys placement or a recommendation.</p>
         </div>
         <div class="pledge-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-          <p><strong>Results are public.</strong> Good or bad, the test outcome is posted, with the method described.</p>
+          <p><strong>Claims are scoped.</strong> Each item says what it resists and what it does not; nothing is called unbeatable.</p>
         </div>
         <div class="pledge-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-          <p><strong>Claims are scoped.</strong> No device is unbeatable; we say what an item resists and what it does not.</p>
+          <p><strong>Corrections win.</strong> A sourced correction changes the page, and a rec that no longer holds up comes off it.</p>
         </div>
       </div>
     </section>
@@ -205,32 +184,32 @@
       <div class="section-header">
         <div class="section-label">Get involved</div>
         <div class="section-title">Three ways to contribute</div>
-        <p class="section-desc">Practitioners and vendors both make this better. Everything routes to one inbox.</p>
+        <p class="section-desc">Practitioners make this better. The more real-world experience behind an entry, the more useful it is.</p>
       </div>
       <div class="contrib-grid">
         <a class="contrib-card" href="mailto:abels023@umn.edu?subject=CPSC-Note">
           <div class="contrib-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <h3>Share a field note</h3>
-          <p>Installed or tested one of these products? Tell us how it actually performed. Field notes appear on the product cards.</p>
+          <p>Installed or worked with one of these products? Tell us how it actually performed. Field notes appear on the product cards.</p>
           <span class="contrib-link">Email a note <span aria-hidden="true">&rarr;</span></span>
         </a>
-        <a class="contrib-card" href="mailto:abels023@umn.edu?subject=CPSC-Demo unit for lab testing">
-          <div class="contrib-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9V3"/></svg></div>
-          <h3>Send a demo unit</h3>
-          <p>Vendors: get your hardware tested for free against the common attacks, with an honest, public write-up and video if it performs.</p>
-          <span class="contrib-link">Arrange a test <span aria-hidden="true">&rarr;</span></span>
+        <a class="contrib-card" href="mailto:abels023@umn.edu?subject=CPSC-Suggestion">
+          <div class="contrib-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></div>
+          <h3>Suggest a product or fix</h3>
+          <p>A weakness we have missed, a product worth adding, or a detail to correct. Sourced suggestions are welcome and credited.</p>
+          <span class="contrib-link">Send a suggestion <span aria-hidden="true">&rarr;</span></span>
         </a>
         <a class="contrib-card" href="mailto:abels023@umn.edu?subject=CPSC-General">
           <div class="contrib-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-          <h3>Suggest or correct</h3>
-          <p>A weakness we have missed, a product to add, or a detail to fix. Corrections are welcome and credited.</p>
-          <span class="contrib-link">Get in touch <span aria-hidden="true">&rarr;</span></span>
+          <h3>Get in touch</h3>
+          <p>Questions about the project, the recommendations, or how something was verified. Reach out anytime.</p>
+          <span class="contrib-link">Contact <span aria-hidden="true">&rarr;</span></span>
         </a>
       </div>
       <p class="contrib-note">
-        CPSC is an independent academic project run by University of Minnesota faculty. It is vendor-neutral and
-        not sponsored by any manufacturer. Views are the maintainers&rsquo; own and do not represent an official
-        position of the University.
+        CPSC is an independent reference for security professionals, managed by
+        <a href="https://cse.umn.edu/tli/shawn-abelson" target="_blank" rel="noopener">Shawn Abelson</a>.
+        It is vendor-neutral and not sponsored by any manufacturer.
       </p>
     </section>
 
@@ -239,7 +218,7 @@
   <footer class="page-wrap">
     <div class="site-footer">
       <span class="footer-brand">Common Physical Security Controls</span>
-      <span>A University of Minnesota faculty project</span>
+      <span>An independent reference for security professionals</span>
       <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
     </div>
   </footer>
