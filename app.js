@@ -104,6 +104,16 @@ window.CPSC = (function () {
       esc(label) + ' <span class="ext" aria-hidden="true">↗</span></a>';
   }
 
+  function defeatsHTML(p) {
+    if (!p.defeats) return '';
+    var shield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>';
+    return '<div class="defeats"><div class="defeats-icon" aria-hidden="true">' + shield +
+      '</div><div><div class="defeats-label">Why it beats this attack</div>' +
+      '<p class="defeats-text">' + esc(p.defeats) + '</p></div></div>';
+  }
+
   function specsHTML(p) {
     if (!p.specs || !p.specs.length) return '';
     var rows = p.specs.map(function (row) {
@@ -152,6 +162,7 @@ window.CPSC = (function () {
       '</div>' +
       '<div class="modal-body">' +
         (p.blurb ? '<p class="modal-blurb">' + esc(p.blurb) + '</p>' : '') +
+        defeatsHTML(p) +
         specsHTML(p) +
         '<div class="modal-actions">' +
           linkBtn('Data sheet', p.datasheet, true) +

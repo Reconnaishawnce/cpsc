@@ -143,6 +143,44 @@ The design is a committed **light "field manual" theme** (readable, professional
 
 ---
 
+## Reference Technology data model
+
+The "Reference Technology" section on each vuln page is **data-driven**. Shared
+behavior (card rendering + the in-page detail modal) lives in `app.js`; the data
+lives in a `PRODUCTS` array in each page's inline `<script>`, ending with
+`CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS })`.
+
+Each product object:
+
+```js
+{ cat: 'sensor',                 // must match a data-prod-filter button
+  maker: 'BEA',
+  name: 'R2E-100',
+  type: 'Focused active-infrared REX sensor',   // short subtitle
+  image: 'https://…/photo.png',  // '' → generated "no image yet" placeholder
+  datasheet: 'https://…/spec.pdf', // '' → button shows "not yet added"
+  productUrl: 'https://…',        // '' → button shows "not yet added"
+  blurb: 'One-paragraph summary (card + modal).',
+  defeats: 'Why this specifically beats the attack — shown as a callout.',
+  tags: ['Active IR', 'REX sensor'],
+  specs: [ ['Detection','Focused active infrared'], … ],  // [] → no spec table
+  comments: [ { author, role, date, text }, … ] }         // [] → empty state
+```
+
+**Rules**
+- **Real products only, verified.** Every `name`, `datasheet`, `productUrl`, and
+  `image` must resolve to a real page/file — check before publishing. Several
+  originally-drafted model numbers were fabricated and had to be corrected; don't
+  trust a model number without confirming it exists.
+- **`defeats` is required for every technology** — one sentence, technically
+  accurate, on why it defeats *this page's* attack. This is the "explain why we
+  suggest it" rule.
+- **`image`**: use the manufacturer's own hosted image URL (confirm it isn't
+  hotlink-protected). Do not fabricate product photos or make placeholder art.
+- The **"Add a field note"** button emails `abels023@umn.edu` with subject
+  `CPSC-Note on [name]` — implementers submit real-world notes that become
+  `comments` entries.
+
 ## Branding notes
 
 - Pine Risk brand color: `#b8382c` (red)
