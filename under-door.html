@@ -35,7 +35,7 @@
       </div>
       <h1>Under-door lever manipulation</h1>
       <p class="lead">
-        A purpose-built tool — or a bent wire coat hanger — slides through the gap at the base of
+        A purpose-built tool, or even a bent wire coat hanger, slides through the gap at the base of
         a door and hooks the interior lever handle. The attacker pulls down. The door opens. The
         access control system logs nothing, because no credential was ever read.
       </p>
@@ -54,27 +54,27 @@
         <h2>How the weakness works</h2>
         <p>
           Most commercial and office doors are secured with an <strong>electronic access control
-          system on the exterior</strong> — a card reader or keypad — while the interior side has a
+          system on the exterior</strong> (a card reader or keypad), while the interior side has a
           simple lever handle or push bar that anyone inside can use to exit. This design is correct
           for life safety: people always need to be able to exit freely.
         </p>
         <p>
           The vulnerability is the <strong>door gap</strong>. Standard doors have a gap of
-          ½ to 1 inch at the bottom. A thin, rigid tool — purpose-built or improvised — can pass
+          ½ to 1 inch at the bottom. A thin, rigid tool, whether purpose-built or improvised, can pass
           through that gap, extend upward inside the secured space, hook around the lever handle,
           and depress it. The latch retracts. The door opens.
         </p>
         <p>
           <strong>No credential is ever presented</strong>, so the access control system has nothing
-          to log. If the door has a forced-door alarm (monitoring the door contact), it may fire —
+          to log. If the door has a forced-door alarm (monitoring the door contact), it may fire,
           but only after the latch is already depressed and the door begins to open. In practice,
           many door contacts are set with a delay or are ignored after hours.
         </p>
         <div class="attack-steps">
           <div class="attack-step"><span class="step-num">01</span><span class="step-text">Attacker confirms the door uses a lever handle or push bar on the interior, and has a visible gap at the base. Most hollow metal frames in commercial buildings qualify.</span></div>
-          <div class="attack-step"><span class="step-num">02</span><span class="step-text">Tool is inserted flat through the door gap. <strong>Purpose-built "loid" tools</strong> use a flexible stem with a hook end — improvised versions use wire or a coat hanger bent to shape.</span></div>
+          <div class="attack-step"><span class="step-num">02</span><span class="step-text">Tool is inserted flat through the door gap. <strong>Purpose-built "loid" tools</strong> use a flexible stem with a hook end. Improvised versions use wire or a coat hanger bent to shape.</span></div>
           <div class="attack-step"><span class="step-num">03</span><span class="step-text">Tool is positioned against the interior lever handle and rotated or pulled downward. The lever depresses, <strong>retracting the latch bolt</strong>.</span></div>
-          <div class="attack-step"><span class="step-num">04</span><span class="step-text">Door swings open from the outside. <strong>No badge event, no REX event</strong>. Only a door-open alarm fires — if one is configured and monitored.</span></div>
+          <div class="attack-step"><span class="step-num">04</span><span class="step-text">Door swings open from the outside. <strong>No badge event, no REX event</strong>. Only a door-open alarm fires, and only if one is configured and monitored.</span></div>
         </div>
         <div class="warning-box">
           <strong>Field note:</strong> This technique works on the majority of commercial doors in
@@ -150,7 +150,7 @@
 
           </svg>
         </div>
-        <div class="av-caption" id="av-caption">Door is secured. Electronic latch holds on exterior; interior has a standard lever handle accessible from inside only — or so the design assumes.</div>
+        <div class="av-caption" id="av-caption">Door is secured. Electronic latch holds on exterior; interior has a standard lever handle accessible from inside only, or so the design assumes.</div>
         <div class="av-controls">
           <button class="av-btn" id="btn-prev" disabled onclick="changeState(-1)">← Prev</button>
           <div class="av-dots">
@@ -168,7 +168,7 @@
     <div class="section-header">
       <div class="section-label">Mitigation framework</div>
       <div class="section-title">How to defend against this</div>
-      <p class="section-desc">Gap elimination and lever protection are the most effective controls. Hardware upgrades remove the underlying vulnerability entirely.</p>
+      <p class="section-desc">Four layers, strongest first. Removing the exposed lever ends the attack, sealing the gap denies the tool its path, and the rest narrows the window and makes an attempt visible.</p>
     </div>
 
     <div class="filter-bar">
@@ -181,59 +181,59 @@
 
     <div class="card-grid" id="mit-grid">
 
-      <div class="mit-card" data-mit-cat="phys">
-        <div class="mit-card-header">
-          <div class="mit-card-title">Door gap elimination</div>
-          <span class="cat-badge cat-phys">Physical</span>
-        </div>
-        <p class="mit-card-desc">Remove or reduce the gap at the base of the door so that a tool cannot be inserted at all, or is too restricted to maneuver.</p>
-        <div class="mit-points">
-          <div class="mit-point">Install door bottom sweeps that compress against the floor when the door closes — Pemko and NGP make commercial-grade versions</div>
-          <div class="mit-point">Add an automatic drop seal (rises when door opens, seals when closed) for high-security applications</div>
-          <div class="mit-point">Install a door frame astragal on the door edge to eliminate the gap between door and frame on the latch side</div>
-          <div class="mit-point">Threshold seals at the floor line further restrict insertion angle</div>
-        </div>
-      </div>
-
-      <div class="mit-card" data-mit-cat="phys">
-        <div class="mit-card-header">
-          <div class="mit-card-title">Lever handle protection</div>
-          <span class="cat-badge cat-phys">Physical</span>
-        </div>
-        <p class="mit-card-desc">If the gap cannot be fully eliminated, protect the lever handle from being engaged by a tool inserted from outside.</p>
-        <div class="mit-points">
-          <div class="mit-point">Install a lever wrap or lever restrictor that physically blocks the lever from being actuated by an external hook</div>
-          <div class="mit-point">Recess the lever into a mortise housing — reduces how much of the lever is accessible to an angled tool</div>
-          <div class="mit-point">Replace levers with knobs (harder to hook) where life safety egress requirements permit</div>
-          <div class="mit-point">Install a door-side guard plate on the interior covering the gap adjacent to the lever</div>
-        </div>
-      </div>
-
       <div class="mit-card" data-mit-cat="tech">
         <div class="mit-card-header">
-          <div class="mit-card-title">Hardware upgrade</div>
-          <span class="cat-badge cat-tech">Technology</span>
+          <div class="mit-card-title">Remove the lever from the attack</div>
+          <span class="cat-badge cat-tech">Hardware</span>
         </div>
-        <p class="mit-card-desc">Replace the interior egress hardware with systems that cannot be actuated by an under-door tool.</p>
+        <p class="mit-card-desc">The durable fix is to leave nothing under the door worth hooking. Strongest options first.</p>
         <div class="mit-points">
-          <div class="mit-point">Concealed vertical rod panic hardware (Von Duprin 98/99 series) routes the latch mechanism through the door itself — no exposed lever to hook</div>
-          <div class="mit-point">Electric latch retraction (ELR) hardware moves the unlocking mechanism to the credential side — interior always free, no hookable latch</div>
-          <div class="mit-point">Surface-applied vertical rod devices extend latch points to top and bottom of door — hooking one lever doesn't release the door</div>
-          <div class="mit-point">Electrified mortise locks where the entire latch/deadbolt system is credential-controlled</div>
+          <div class="mit-point">Fit a push-bar exit device. A horizontal push pad has no lever or knob to catch, so an under-door tool has no target.</div>
+          <div class="mit-point">Concealed vertical rod hardware routes the latching inside the door leaf and latches top and bottom, so there is no exposed mechanism to reach at all.</div>
+          <div class="mit-point">Where the door stays access-controlled, use electric latch retraction or a fail-secure electric strike so it releases on a credential, not on any interior handle.</div>
+          <div class="mit-point">If a lever must remain for code or accessibility reasons, pair it with the gap and detection controls below rather than relying on it alone.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="phys">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Close the gap the tool needs</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">No flat clearance under the door means no way to slide a tool in and up to the hardware.</p>
+        <div class="mit-points">
+          <div class="mit-point">Add an automatic door bottom that drops a continuous seal onto the threshold when the door closes, taking the undercut to near zero.</div>
+          <div class="mit-point">For a lighter retrofit, a compression door sweep closes the same clearance against the floor or threshold.</div>
+          <div class="mit-point">Combine with a threshold, and on pairs of doors an astragal at the meeting stile, so there is no path in from any edge.</div>
+          <div class="mit-point">Verify the finished gap in the field. A sweep set too high leaves exactly the clearance the tool needs.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="phys">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Guard a lever you cannot remove</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">If the interior hardware has to stay a lever, make it hard to reach and hard to hook.</p>
+        <div class="mit-points">
+          <div class="mit-point">Add an interior lever shroud or guard that blocks a tool from catching the handle and pulling it down.</div>
+          <div class="mit-point">Choose hardware where the lever returns nearly flush and offers little edge for a hook to grab.</div>
+          <div class="mit-point">Reposition the hardware away from the door edge and the undercut so an angled tool cannot line up on it.</div>
+          <div class="mit-point">Fit a floor-level guard plate on the interior across the undercut next to the hardware.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="detect">
         <div class="mit-card-header">
-          <div class="mit-card-title">Detection and alerting</div>
+          <div class="mit-card-title">See it and alarm</div>
           <span class="cat-badge cat-detect">Detection</span>
         </div>
-        <p class="mit-card-desc">When hardware fixes are not immediately possible, ensure the attack is detected and responded to quickly.</p>
+        <p class="mit-card-desc">Where prevention is not yet in place, make an attempt loud and reviewable in real time.</p>
         <div class="mit-points">
-          <div class="mit-point">Configure immediate forced-door alarms with short or zero delay — attacker gains entry at the moment the door opens</div>
-          <div class="mit-point">Camera coverage at door base level; low-angle cameras or fisheye lenses capture tool insertion attempts</div>
-          <div class="mit-point">Door contact monitoring with GSOC alert — any unexpected open event after hours triggers immediate review</div>
-          <div class="mit-point">Video analytics (motion at door perimeter) as an early-warning layer before the door opens</div>
+          <div class="mit-point">Set the forced-door alarm to zero or minimal delay. The attacker is inside the moment the door swings, so a long shunt hands them the room.</div>
+          <div class="mit-point">Cover the door at floor level with a camera framed to catch a tool at the gap, and alarm on motion at the door perimeter after hours.</div>
+          <div class="mit-point">Monitor the door-position contact and route any unexpected after-hours opening to the monitoring center as an event to investigate.</div>
+          <div class="mit-point">Alarm on a door-open with no matching badge or request-to-exit, so a credential-free opening never clears silently.</div>
         </div>
       </div>
 
@@ -244,7 +244,7 @@
     <div class="section-header">
       <div class="section-label">Vetted hardware &amp; standards</div>
       <div class="section-title">Reference Technology</div>
-      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who&rsquo;ve deployed it &mdash; and add your own.</p>
+      <p class="section-desc">Real, current hardware and standards that close this attack, strongest first. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
     </div>
 
     <div class="filter-bar">
@@ -263,7 +263,7 @@
   <footer class="page-wrap">
     <div class="site-footer">
       <span class="footer-brand">Common Physical Security Controls</span>
-      <span>CPSC-002 — Under-door lever manipulation</span>
+      <span>CPSC-002 · Under-door lever manipulation</span>
       <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
     </div>
   </footer>
@@ -273,7 +273,7 @@
     const states = [
       {
         label: 'Door secured', labelStyle: 'background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)',
-        caption: 'Door is secured. Electronic latch holds on exterior; interior has a standard lever handle — accessible from inside only, or so the design assumes.',
+        caption: 'Door is secured. Electronic latch holds on exterior; interior has a standard lever handle, accessible from inside only, or so the design assumes.',
         setup(svg) {
           svg.getElementById('tool-group').style.opacity = '0';
           svg.getElementById('success-group').style.opacity = '0';
@@ -293,7 +293,7 @@
       },
       {
         label: 'Door open', labelStyle: 'background:var(--critical-bg);color:var(--critical-text);border:1px solid var(--critical-border)',
-        caption: 'Lever depressed. Latch retracts. Door opens from outside. No credential was ever read. If a door-forced alarm is configured, it fires now — after entry is already achieved.',
+        caption: 'Lever depressed. Latch retracts. Door opens from outside. No credential was ever read. If a door-forced alarm is configured, it fires now, after entry is already achieved.',
         setup(svg) {
           svg.getElementById('tool-group').style.opacity = '0.3';
           svg.getElementById('success-group').style.opacity = '1';
