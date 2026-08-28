@@ -242,9 +242,9 @@
     <hr class="divider" style="margin-top: 44px;">
 
     <div class="section-header">
-      <div class="section-label">Product and program reference</div>
-      <div class="section-title">What to specify</div>
-      <p class="section-desc">Hardware, systems, and standards that address under-door lever manipulation. Click for more detail.</p>
+      <div class="section-label">Vetted hardware &amp; standards</div>
+      <div class="section-title">Reference Technology</div>
+      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who&rsquo;ve deployed it &mdash; and add your own.</p>
     </div>
 
     <div class="filter-bar">
@@ -256,56 +256,7 @@
     </div>
 
     <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
-
-      <div class="prod-card" data-prod-cat="door" onclick="askAbout('Pemko 3784 automatic door bottom seal')">
-        <div class="prod-maker">Pemko / Allegion</div>
-        <div class="prod-name">3784 Automatic Door Bottom</div>
-        <p class="prod-note">Automatic drop seal — plunger mechanism deploys the seal when the door closes. Creates a near-zero gap without affecting normal door operation. Standard in high-security commercial specifications.</p>
-        <div class="prod-tags"><span class="tag">Door bottom</span><span class="tag">Auto drop</span><span class="tag">Commercial</span></div>
-        <div class="prod-cta">Click for more detail →</div>
       </div>
-
-      <div class="prod-card" data-prod-cat="door" onclick="askAbout('NGP 790 door bottom sweep commercial')">
-        <div class="prod-maker">National Guard Products</div>
-        <div class="prod-name">790 Series Door Bottom</div>
-        <p class="prod-note">Blade-style door bottom sweep in commercial aluminum. Mounted to door face, compresses against threshold. Widely specified, cost-effective first line of defense against under-door tool insertion.</p>
-        <div class="prod-tags"><span class="tag">Door sweep</span><span class="tag">Retrofit</span><span class="tag">Cost-effective</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="door" onclick="askAbout('Don-Jo lever restrictor cover under door protection')">
-        <div class="prod-maker">Don-Jo / Trimco</div>
-        <div class="prod-name">Lever Wrap / Restrictor Cover</div>
-        <p class="prod-note">Surface-applied cover that restricts side and under access to lever handles. Fits most commercial lever sets. Primary function: prevents tool hooks from gaining purchase on the lever body.</p>
-        <div class="prod-tags"><span class="tag">Lever protection</span><span class="tag">Surface mount</span><span class="tag">Retrofit</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="egress" onclick="askAbout('Von Duprin 98/99 concealed vertical rod panic hardware')">
-        <div class="prod-maker">Von Duprin / Allegion</div>
-        <div class="prod-name">98/99 Concealed Vertical Rod</div>
-        <p class="prod-note">Concealed vertical rod panic device routes latch actuation through the door body — no exterior-accessible lever. Industry standard for high-security egress. Eliminates the under-door attack vector entirely.</p>
-        <div class="prod-tags"><span class="tag">CVR panic</span><span class="tag">Eliminates vector</span><span class="tag">Life safety</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="egress" onclick="askAbout('HES 9600 series electric strike latch retraction')">
-        <div class="prod-maker">HES / Assa Abloy</div>
-        <div class="prod-name">9600 Series Electric Strike</div>
-        <p class="prod-note">Electric latch retraction strike — the credential controls latch retraction, removing the interior lever from the attack surface. Interior egress remains free; latch is released by credential on exterior.</p>
-        <div class="prod-tags"><span class="tag">Electric strike</span><span class="tag">ELR</span><span class="tag">Access control</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="standard" onclick="askAbout('ANSI BHMA A156.31 access control hardware standard')">
-        <div class="prod-maker">ANSI / BHMA</div>
-        <div class="prod-name">A156.31 — Access Control Hardware</div>
-        <p class="prod-note">ANSI/BHMA standard covering electrified and access-controlled hardware performance requirements. Useful for specifying minimum grades for credential-controlled latch hardware in commercial applications.</p>
-        <div class="prod-tags"><span class="tag">Standard</span><span class="tag">Hardware grade</span><span class="tag">Specification</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-    </div>
 
   </main>
 
@@ -317,6 +268,7 @@
     </div>
   </footer>
 
+  <script src="app.js"></script>
   <script>
     const states = [
       {
@@ -373,18 +325,42 @@
         document.querySelectorAll('#mit-grid .mit-card').forEach(c => { c.style.display = f === 'all' || c.dataset.mitCat === f ? '' : 'none'; });
       });
     });
-    document.querySelectorAll('[data-prod-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-prod-filter]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.prodFilter;
-        document.querySelectorAll('#prod-grid .prod-card').forEach(c => { c.style.display = f === 'all' || c.dataset.prodCat === f ? '' : 'none'; });
-      });
-    });
-    function askAbout(topic) {
-      if (typeof window.sendPrompt === 'function') { window.sendPrompt('Tell me more about: ' + topic); }
-      else { alert('Detail on: ' + topic); }
-    }
+    // ---- Reference technology: data drives the cards + modal ----
+    // To fill one out: add `image` (path/URL), `datasheet`, `productUrl`,
+    // optional `specs` rows [label, value], and `comments` field notes.
+    const PRODUCTS = [
+      { cat: 'door', maker: 'Pemko / Allegion', name: '3784 Automatic Door Bottom',
+        type: 'Automatic drop seal',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Automatic drop seal — a plunger deploys the seal when the door closes, creating a near-zero gap without affecting normal operation. Standard in high-security commercial specs.',
+        tags: ['Door bottom', 'Auto drop', 'Commercial'], specs: [], comments: [] },
+      { cat: 'door', maker: 'National Guard Products', name: '790 Series Door Bottom',
+        type: 'Blade-style door sweep',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Blade-style door bottom sweep in commercial aluminum. Mounts to the door face and compresses against the threshold — a cost-effective first line against under-door tool insertion.',
+        tags: ['Door sweep', 'Retrofit', 'Cost-effective'], specs: [], comments: [] },
+      { cat: 'door', maker: 'Don-Jo / Trimco', name: 'Lever Wrap / Restrictor Cover',
+        type: 'Lever protection',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Surface-applied cover that restricts side and under access to lever handles. Prevents tool hooks from gaining purchase on the lever body. Fits most commercial lever sets.',
+        tags: ['Lever protection', 'Surface mount', 'Retrofit'], specs: [], comments: [] },
+      { cat: 'egress', maker: 'Von Duprin / Allegion', name: '98/99 Concealed Vertical Rod',
+        type: 'Panic exit hardware',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Concealed vertical rod panic device routes latch actuation through the door body — no exterior-accessible lever. Eliminates the under-door attack vector entirely.',
+        tags: ['CVR panic', 'Eliminates vector', 'Life safety'], specs: [], comments: [] },
+      { cat: 'egress', maker: 'HES / Assa Abloy', name: '9600 Series Electric Strike',
+        type: 'Electric latch retraction strike',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Electric latch retraction strike — the credential controls latch retraction, removing the interior lever from the attack surface. Interior egress remains free.',
+        tags: ['Electric strike', 'ELR', 'Access control'], specs: [], comments: [] },
+      { cat: 'standard', maker: 'ANSI / BHMA', name: 'A156.31 — Access Control Hardware',
+        type: 'Hardware performance standard',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Covers electrified and access-controlled hardware performance requirements. Useful for specifying minimum grades for credential-controlled latch hardware in commercial applications.',
+        tags: ['Standard', 'Hardware grade', 'Specification'], specs: [], comments: [] }
+    ];
+    CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
   </script>
 
 </body>

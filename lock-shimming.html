@@ -261,9 +261,9 @@
     <hr class="divider" style="margin-top: 44px;">
 
     <div class="section-header">
-      <div class="section-label">Product and program reference</div>
-      <div class="section-title">What to specify</div>
-      <p class="section-desc">Hardware and standards that address spring latch shimming. Click any card for more detail.</p>
+      <div class="section-label">Vetted hardware &amp; standards</div>
+      <div class="section-title">Reference Technology</div>
+      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who&rsquo;ve deployed it &mdash; and add your own.</p>
     </div>
 
     <div class="filter-bar">
@@ -275,56 +275,7 @@
     </div>
 
     <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
-
-      <div class="prod-card" data-prod-cat="lock" onclick="askAbout('Schlage B-series Grade 1 deadbolt for commercial applications')">
-        <div class="prod-maker">Schlage / Allegion</div>
-        <div class="prod-name">B-Series Deadbolt</div>
-        <p class="prod-note">ANSI Grade 1 deadbolt series, the most widely specified commercial deadbolt in the US market. Square bolt face cannot be shimmed. Available in single-cylinder, double-cylinder, and electrified variants.</p>
-        <div class="prod-tags"><span class="tag">Grade 1</span><span class="tag">Deadbolt</span><span class="tag">Shim-proof</span></div>
-        <div class="prod-cta">Click for more detail →</div>
       </div>
-
-      <div class="prod-card" data-prod-cat="lock" onclick="askAbout('Medeco high security cylinder deadbolt pick and shim resistant')">
-        <div class="prod-maker">Medeco / Assa Abloy</div>
-        <div class="prod-name">Medeco High-Security Cylinders</div>
-        <p class="prod-note">High-security cylinder technology with rotating/elevating pins that resist picking, bumping, and unauthorized key duplication. Pairs with Grade 1 deadbolts for maximum protection at high-value access points.</p>
-        <div class="prod-tags"><span class="tag">High security</span><span class="tag">Anti-pick</span><span class="tag">Key control</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="lock" onclick="askAbout('Hager anti-shim latch commercial Grade 1')">
-        <div class="prod-maker">Hager Companies</div>
-        <div class="prod-name">Anti-Shim Grade 1 Latch</div>
-        <p class="prod-note">Cylindrical latch with an integrated deadlocking plunger — when the door is fully closed, the plunger compresses against the strike plate and locks the latch against retraction. Retrofit-compatible with most cylindrical preparations.</p>
-        <div class="prod-tags"><span class="tag">Anti-shim</span><span class="tag">Deadlocking</span><span class="tag">Retrofit</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="frame" onclick="askAbout('Don-Jo door frame armor FA-90 latch guard protection')">
-        <div class="prod-maker">Don-Jo Manufacturing</div>
-        <div class="prod-name">FA-90 Frame Armor</div>
-        <p class="prod-note">Surface-applied steel frame armor covers the door/frame gap at the latch location. Eliminates card insertion angle entirely. Installs over existing frame with screws — no frame replacement required.</p>
-        <div class="prod-tags"><span class="tag">Frame armor</span><span class="tag">Gap cover</span><span class="tag">Surface mount</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="frame" onclick="askAbout('Armor Concepts door armor door jamb reinforcement kit')">
-        <div class="prod-maker">Armor Concepts</div>
-        <div class="prod-name">Door Armor MAX Kit</div>
-        <p class="prod-note">Comprehensive door frame reinforcement system — steel plates covering jamb, hinge, and strike locations. Adds frame rigidity in addition to shim protection. Commonly specified for apartment and hotel retrofit programs.</p>
-        <div class="prod-tags"><span class="tag">Frame kit</span><span class="tag">Strike wrap</span><span class="tag">Retrofit</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="standard" onclick="askAbout('ANSI BHMA A156.30 high security locks standard')">
-        <div class="prod-maker">ANSI / BHMA</div>
-        <div class="prod-name">A156.30 — High-Security Locks</div>
-        <p class="prod-note">ANSI/BHMA standard for high-security lock performance, including resistance to shimming, picking, drilling, and forced entry. Grade classifications useful for specifying minimum protection levels in security assessments.</p>
-        <div class="prod-tags"><span class="tag">Standard</span><span class="tag">High security</span><span class="tag">Grade classification</span></div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-    </div>
 
   </main>
 
@@ -336,6 +287,7 @@
     </div>
   </footer>
 
+  <script src="app.js"></script>
   <script>
     const states = [
       {
@@ -392,18 +344,42 @@
         document.querySelectorAll('#mit-grid .mit-card').forEach(c => { c.style.display = f === 'all' || c.dataset.mitCat === f ? '' : 'none'; });
       });
     });
-    document.querySelectorAll('[data-prod-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-prod-filter]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.prodFilter;
-        document.querySelectorAll('#prod-grid .prod-card').forEach(c => { c.style.display = f === 'all' || c.dataset.prodCat === f ? '' : 'none'; });
-      });
-    });
-    function askAbout(topic) {
-      if (typeof window.sendPrompt === 'function') { window.sendPrompt('Tell me more about: ' + topic); }
-      else { alert('Detail on: ' + topic); }
-    }
+    // ---- Reference technology: data drives the cards + modal ----
+    // To fill one out: add `image` (path/URL), `datasheet`, `productUrl`,
+    // optional `specs` rows [label, value], and `comments` field notes.
+    const PRODUCTS = [
+      { cat: 'lock', maker: 'Schlage / Allegion', name: 'B-Series Deadbolt',
+        type: 'ANSI Grade 1 deadbolt',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'The most widely specified commercial deadbolt in the US market. Its square bolt face cannot be shimmed. Available in single-cylinder, double-cylinder, and electrified variants.',
+        tags: ['Grade 1', 'Deadbolt', 'Shim-proof'], specs: [], comments: [] },
+      { cat: 'lock', maker: 'Medeco / Assa Abloy', name: 'High-Security Cylinders',
+        type: 'Pick- and bump-resistant cylinders',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Rotating/elevating pin technology that resists picking, bumping, and unauthorized key duplication. Pairs with Grade 1 deadbolts for maximum protection at high-value access points.',
+        tags: ['High security', 'Anti-pick', 'Key control'], specs: [], comments: [] },
+      { cat: 'lock', maker: 'Hager Companies', name: 'Anti-Shim Grade 1 Latch',
+        type: 'Deadlocking cylindrical latch',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Cylindrical latch with an integrated deadlocking plunger — when the door is fully closed the plunger locks the latch against retraction. Retrofit-compatible with most cylindrical preps.',
+        tags: ['Anti-shim', 'Deadlocking', 'Retrofit'], specs: [], comments: [] },
+      { cat: 'frame', maker: 'Don-Jo Manufacturing', name: 'FA-90 Frame Armor',
+        type: 'Latch-gap cover plate',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Surface-applied steel armor covering the door/frame gap at the latch location. Eliminates the card insertion angle entirely. Installs over an existing frame — no replacement required.',
+        tags: ['Frame armor', 'Gap cover', 'Surface mount'], specs: [], comments: [] },
+      { cat: 'frame', maker: 'Armor Concepts', name: 'Door Armor MAX Kit',
+        type: 'Frame reinforcement system',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Steel plates covering jamb, hinge, and strike locations. Adds frame rigidity in addition to shim protection. Commonly specified for apartment and hotel retrofit programs.',
+        tags: ['Frame kit', 'Strike wrap', 'Retrofit'], specs: [], comments: [] },
+      { cat: 'standard', maker: 'ANSI / BHMA', name: 'A156.30 — High-Security Locks',
+        type: 'Lock performance standard',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Performance standard for high-security locks, including resistance to shimming, picking, drilling, and forced entry. Grade classes are useful for specifying minimum protection levels.',
+        tags: ['Standard', 'High security', 'Grade classification'], specs: [], comments: [] }
+    ];
+    CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
   </script>
 
 </body>

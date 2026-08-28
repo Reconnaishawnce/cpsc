@@ -313,9 +313,9 @@
 
     <!-- Product reference -->
     <div class="section-header">
-      <div class="section-label">Product and program reference</div>
-      <div class="section-title">What to specify</div>
-      <p class="section-desc">US-market products and standards that address this vulnerability. Click any card for more detail.</p>
+      <div class="section-label">Vetted hardware &amp; standards</div>
+      <div class="section-title">Reference Technology</div>
+      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who&rsquo;ve deployed it &mdash; and add your own.</p>
     </div>
 
     <div class="filter-bar">
@@ -327,104 +327,7 @@
     </div>
 
     <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
-
-      <div class="prod-card" data-prod-cat="sensor" onclick="askAbout('Optex FTB-11T dual-technology REX sensor')">
-        <div class="prod-maker">Optex</div>
-        <div class="prod-name">FTB-11T</div>
-        <p class="prod-note">Dual-technology (PIR + microwave) REX sensor. Requires simultaneous detection from both technologies — a gas burst cannot satisfy both conditions simultaneously.</p>
-        <div class="prod-tags">
-          <span class="tag">Dual-tech</span>
-          <span class="tag">REX sensor</span>
-          <span class="tag">Flush mount</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
       </div>
-
-      <div class="prod-card" data-prod-cat="sensor" onclick="askAbout('Bosch DS180i REX sensor with DSP')">
-        <div class="prod-maker">Bosch</div>
-        <div class="prod-name">DS180i</div>
-        <p class="prod-note">PIR motion detector with Digital Signal Processing. Analyzes infrared waveform characteristics to distinguish human motion from environmental triggers including gas and airflow.</p>
-        <div class="prod-tags">
-          <span class="tag">DSP</span>
-          <span class="tag">Anti-mask</span>
-          <span class="tag">Indoor</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="sensor" onclick="askAbout('Seco-Larm E-931-S35RRSQ dual-tech REX sensor')">
-        <div class="prod-maker">Seco-Larm</div>
-        <div class="prod-name">E-931-S35RRSQ</div>
-        <p class="prod-note">Dual-technology PIR + microwave REX sensor with adjustable sensitivity. Entry-level price point for dual-tech protection — widely specified in commercial retrofit projects.</p>
-        <div class="prod-tags">
-          <span class="tag">Dual-tech</span>
-          <span class="tag">Cost-effective</span>
-          <span class="tag">Retrofit</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="sensor" onclick="askAbout('Camden Door Controls CM-45 microwave REX sensor')">
-        <div class="prod-maker">Camden Door Controls</div>
-        <div class="prod-name">CM-45 Series</div>
-        <p class="prod-note">Microwave-only REX sensor. Immune to thermal-contrast attacks entirely — detects motion via Doppler shift in microwave signal, not infrared change.</p>
-        <div class="prod-tags">
-          <span class="tag">Microwave only</span>
-          <span class="tag">Gas-immune</span>
-          <span class="tag">ADA compliant</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="platform" onclick="askAbout('Lenel OnGuard REX time delay configuration')">
-        <div class="prod-maker">Lenel / Carrier</div>
-        <div class="prod-name">OnGuard — REX event rules</div>
-        <p class="prod-note">OnGuard access control platform supports configurable REX time-delay, anti-passback enforcement at REX points, and custom alert rules for unmatched REX/badge events.</p>
-        <div class="prod-tags">
-          <span class="tag">ACS platform</span>
-          <span class="tag">Event rules</span>
-          <span class="tag">Alert logic</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="platform" onclick="askAbout('Genetec Security Center REX analytics and video correlation')">
-        <div class="prod-maker">Genetec</div>
-        <div class="prod-name">Security Center — REX analytics</div>
-        <p class="prod-note">Genetec SC supports correlating REX events with video clips and can generate alerts when a REX trigger occurs without an associated camera motion event at the same door.</p>
-        <div class="prod-tags">
-          <span class="tag">Video correlation</span>
-          <span class="tag">Event analytics</span>
-          <span class="tag">GSOC tools</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="standard" onclick="askAbout('IEC 62676 video surveillance standard and REX coverage requirements')">
-        <div class="prod-maker">IEC / ISO</div>
-        <div class="prod-name">IEC 62676 Video Surveillance</div>
-        <p class="prod-note">International standard for video surveillance systems. Defines camera coverage requirements for access control points — useful for mandating REX-side camera coverage in specifications.</p>
-        <div class="prod-tags">
-          <span class="tag">Standard</span>
-          <span class="tag">Camera coverage</span>
-          <span class="tag">Specification</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-      <div class="prod-card" data-prod-cat="standard" onclick="askAbout('ASIS PSC.1 physical security standard and REX sensor requirements')">
-        <div class="prod-maker">ASIS International</div>
-        <div class="prod-name">PSC.1 — Physical Security Standard</div>
-        <p class="prod-note">ASIS consensus standard for physical security systems. References REX device requirements in access control system design guidance — useful as a baseline specification document.</p>
-        <div class="prod-tags">
-          <span class="tag">Standard</span>
-          <span class="tag">ASIS</span>
-          <span class="tag">Baseline spec</span>
-        </div>
-        <div class="prod-cta">Click for more detail →</div>
-      </div>
-
-    </div>
 
   </main>
 
@@ -436,6 +339,7 @@
     </div>
   </footer>
 
+  <script src="app.js"></script>
   <script>
     // ---- Attack diagram state machine ----
     const states = [
@@ -517,26 +421,52 @@
       });
     });
 
-    // ---- Filter: products ----
-    document.querySelectorAll('[data-prod-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-prod-filter]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.prodFilter;
-        document.querySelectorAll('#prod-grid .prod-card').forEach(card => {
-          card.style.display = f === 'all' || card.dataset.prodCat === f ? '' : 'none';
-        });
-      });
-    });
-
-    // ---- Product detail ask ----
-    function askAbout(topic) {
-      if (typeof window.sendPrompt === 'function') {
-        window.sendPrompt('Tell me more about: ' + topic);
-      } else {
-        alert('Detail on: ' + topic + '\n\nIntegrate with your AI assistant to get live product details.');
-      }
-    }
+    // ---- Reference technology: data drives the cards + modal ----
+    // To fill one out: add `image` (path/URL), `datasheet`, `productUrl`,
+    // optional `specs` rows [label, value], and `comments` field notes.
+    const PRODUCTS = [
+      { cat: 'sensor', maker: 'Optex', name: 'FTB-11T',
+        type: 'Dual-technology REX sensor',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Dual-technology (PIR + microwave) REX sensor. Requires simultaneous detection from both technologies — a gas burst cannot satisfy both conditions at once.',
+        tags: ['Dual-tech', 'REX sensor', 'Flush mount'], specs: [], comments: [] },
+      { cat: 'sensor', maker: 'Bosch', name: 'DS180i',
+        type: 'PIR detector with DSP',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'PIR motion detector with Digital Signal Processing. Analyzes infrared waveform characteristics to distinguish human motion from environmental triggers including gas and airflow.',
+        tags: ['DSP', 'Anti-mask', 'Indoor'], specs: [], comments: [] },
+      { cat: 'sensor', maker: 'Seco-Larm', name: 'E-931-S35RRSQ',
+        type: 'Dual-technology REX sensor',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Dual-technology PIR + microwave REX sensor with adjustable sensitivity. Entry-level price point for dual-tech protection — widely specified in commercial retrofit projects.',
+        tags: ['Dual-tech', 'Cost-effective', 'Retrofit'], specs: [], comments: [] },
+      { cat: 'sensor', maker: 'Camden Door Controls', name: 'CM-45 Series',
+        type: 'Microwave-only REX sensor',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Microwave-only REX sensor. Immune to thermal-contrast attacks entirely — detects motion via Doppler shift in the microwave signal, not infrared change.',
+        tags: ['Microwave only', 'Gas-immune', 'ADA compliant'], specs: [], comments: [] },
+      { cat: 'platform', maker: 'Lenel / Carrier', name: 'OnGuard — REX event rules',
+        type: 'Access control platform',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'OnGuard supports configurable REX time-delay, anti-passback enforcement at REX points, and custom alert rules for unmatched REX/badge events.',
+        tags: ['ACS platform', 'Event rules', 'Alert logic'], specs: [], comments: [] },
+      { cat: 'platform', maker: 'Genetec', name: 'Security Center — REX analytics',
+        type: 'Access control + video platform',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Correlates REX events with video clips and can generate alerts when a REX trigger occurs without an associated camera motion event at the same door.',
+        tags: ['Video correlation', 'Event analytics', 'GSOC tools'], specs: [], comments: [] },
+      { cat: 'standard', maker: 'IEC / ISO', name: 'IEC 62676 Video Surveillance',
+        type: 'International standard',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'Defines camera coverage requirements for access control points — useful for mandating REX-side camera coverage in specifications.',
+        tags: ['Standard', 'Camera coverage', 'Specification'], specs: [], comments: [] },
+      { cat: 'standard', maker: 'ASIS International', name: 'PSC.1 — Physical Security Standard',
+        type: 'Consensus standard',
+        image: '', datasheet: '', productUrl: '',
+        blurb: 'ASIS consensus standard for physical security systems. References REX device requirements in access control system design guidance — useful as a baseline specification document.',
+        tags: ['Standard', 'ASIS', 'Baseline spec'], specs: [], comments: [] }
+    ];
+    CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
   </script>
 
 </body>
