@@ -10,8 +10,8 @@
 
   <header class="site-header">
     <a href="index.html" class="site-logo">
-      <div class="logo-mark">PR</div>
-      Pine Risk <span class="logo-sep">/</span> <span class="logo-label">CPSC</span>
+      <span class="logo-mark">CPSC</span>
+      <span class="logo-word">Common Physical Security Controls</span>
     </a>
     <nav class="header-nav">
       <a href="https://pinerisk.com">pinerisk.com</a>
@@ -37,7 +37,7 @@
       <h1>REX sensor spoofing via compressed gas</h1>
       <p class="lead">
         A can of compressed air costs $10 and takes five seconds to use. In the right spot, it
-        silently unlocks a maglock-secured door — no badge, no credential, no forced entry. Most
+        silently unlocks a maglock-secured door with no badge, no credential, and no forced entry. Most
         PIR-only REX sensors are vulnerable.
       </p>
     </section>
@@ -74,7 +74,7 @@
         <p>
           <strong>Request-to-Exit (REX) sensors</strong> allow people to exit through a
           maglock-secured door without badging out. The most common type is a
-          <strong>passive infrared (PIR)</strong> sensor — it detects changes in infrared
+          <strong>passive infrared (PIR)</strong> sensor, which detects changes in infrared
           radiation in its field of view. When a person's body heat enters the detection zone,
           the sensor sends a signal to the access control panel, which releases the maglock.
         </p>
@@ -87,18 +87,18 @@
         </p>
         <p>
           From the access control system's perspective, this is an entirely normal and legitimate
-          exit event. It will appear in logs as a REX actuation — indistinguishable from a real
-          person walking out, unless you're looking at camera footage alongside the logs.
+          exit event. It will appear in logs as a REX actuation, indistinguishable from a real
+          person walking out unless you are looking at camera footage alongside the logs.
         </p>
 
         <div class="attack-steps">
           <div class="attack-step">
             <span class="step-num">01</span>
-            <span class="step-text">Attacker identifies door secured with a maglock. A small sensor device mounted near the door frame or above the door is the REX sensor — often with a small LED indicator.</span>
+            <span class="step-text">Attacker identifies door secured with a maglock. A small sensor device mounted near the door frame or above the door is the REX sensor, often with a small LED indicator.</span>
           </div>
           <div class="attack-step">
             <span class="step-num">02</span>
-            <span class="step-text">Can of compressed air is positioned near the sensor. <strong>Distance and angle matter</strong> — attacker may test from the door gap or from the secured side if there's sensor visibility.</span>
+            <span class="step-text">Can of compressed air is positioned near the sensor. <strong>Distance and angle matter.</strong> The attacker may test from the door gap, or from the secured side if the sensor is visible.</span>
           </div>
           <div class="attack-step">
             <span class="step-num">03</span>
@@ -113,7 +113,7 @@
         <div class="warning-box">
           <strong>Field note:</strong> In assessments, this technique reliably bypasses PIR-only
           REX sensors in under 10 seconds. The only consistent detection mechanism is camera footage
-          reviewed alongside access logs — which almost no organization does in real time.
+          reviewed alongside access logs, which almost no organization does in real time.
         </div>
       </div>
 
@@ -237,7 +237,7 @@
     <div class="section-header">
       <div class="section-label">Mitigation framework</div>
       <div class="section-title">How to defend against this</div>
-      <p class="section-desc">Four categories of control, ranked by effectiveness. Sensor upgrades are the most reliable fix; configuration changes are fast and cost-nothing wins.</p>
+      <p class="section-desc">Four layers of control, strongest first. The durable fix is to remove the spoofable sensor from the trust path; the logic and detection changes are fast wins you can make today.</p>
     </div>
 
     <div class="filter-bar">
@@ -253,57 +253,57 @@
 
       <div class="mit-card" data-mit-cat="tech">
         <div class="mit-card-header">
-          <div class="mit-card-title">Sensor technology upgrade</div>
+          <div class="mit-card-title">Take the sensor out of the trust path</div>
           <span class="cat-badge cat-tech">Technology</span>
         </div>
-        <p class="mit-card-desc">Replace PIR-only sensors with multi-technology or active IR sensors that can't be fooled by a cold gas burst.</p>
+        <p class="mit-card-desc">The durable fix is to stop letting a device that a thermal change can trigger release a locked door. Strongest options first.</p>
         <div class="mit-points">
-          <div class="mit-point">Dual-technology sensors combine PIR and microwave — both must trigger simultaneously to unlock</div>
-          <div class="mit-point">Active IR sensors transmit an IR beam; gas disruption is far less effective against active vs passive detection</div>
-          <div class="mit-point">DSP (Digital Signal Processing) sensors analyze signal waveform and reject anomalous thermal signatures</div>
-          <div class="mit-point">Video REX sensors integrate a camera; the system can optionally require camera verification before releasing</div>
+          <div class="mit-point">Use a mechanical request-to-exit switch built into the exit hardware (the RX switch in a push bar or panic device). A physical switch cannot be actuated remotely by gas or any other trick.</div>
+          <div class="mit-point">Where a maglock is not required, move to a fail-secure electric strike or electric latch retraction on an exit device, so egress no longer depends on a motion sensor at all.</div>
+          <div class="mit-point">If a motion sensor must stay, specify microwave (Doppler) or dual-technology detection that requires PIR and microwave to agree. A cold-gas burst satisfies neither.</div>
+          <div class="mit-point">On camera-covered doors, a video-verified REX requires visual confirmation of a person before it releases the lock.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="policy">
         <div class="mit-card-header">
-          <div class="mit-card-title">Configuration hardening</div>
+          <div class="mit-card-title">Tighten the release logic</div>
           <span class="cat-badge cat-policy">Policy / config</span>
         </div>
-        <p class="mit-card-desc">Adjust sensor and panel settings to reduce the attack window. Many controls are free within existing hardware.</p>
+        <p class="mit-card-desc">Settings you can change today on most panels and sensors, at no hardware cost.</p>
         <div class="mit-points">
-          <div class="mit-point">Add a minimum signal duration (e.g. 2 seconds) — a gas burst spike is shorter than a human body dwell time</div>
-          <div class="mit-point">Reduce sensor sensitivity in areas adjacent to unsecured space</div>
-          <div class="mit-point">Configure alarm on rapid repeated REX events at the same reader (retry behavior)</div>
-          <div class="mit-point">Enable anti-mask detection where the sensor supports it</div>
+          <div class="mit-point">Require a minimum activation dwell of about one to two seconds. A gas burst is a brief spike and will not hold like a person moving through the zone.</div>
+          <div class="mit-point">Where the sensor supports it, require sequential or dual-zone detection before the panel accepts the request-to-exit.</div>
+          <div class="mit-point">Alarm on any REX release that has no matching badge activity or occupancy, and on rapid repeated REX events at the same door.</div>
+          <div class="mit-point">Monitor the maglock bond sensor and the door position contact, so a release with no door-open, or a door-open with no valid REX, is flagged.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="phys">
         <div class="mit-card-header">
-          <div class="mit-card-title">Physical hardening</div>
+          <div class="mit-card-title">Put the sensor out of reach</div>
           <span class="cat-badge cat-phys">Physical</span>
         </div>
-        <p class="mit-card-desc">Limit how easily an attacker can reach the sensor from the unsecured side of the door.</p>
+        <p class="mit-card-desc">Deny the attacker a line to the sensor and to the air right in front of it.</p>
         <div class="mit-points">
-          <div class="mit-point">Recess the sensor higher on the wall, out of reach through the door gap</div>
-          <div class="mit-point">Install a tamper-resistant sensor housing or cage that limits cone accessibility</div>
-          <div class="mit-point">Reduce door gap with sweeps and astragals so the sensor cannot be reached through the gap</div>
-          <div class="mit-point">Relocate sensor to interior ceiling mount where it can't be targeted from the unsecured side</div>
+          <div class="mit-point">Mount the sensor on the interior ceiling, aimed down and inward, so it cannot be reached or sprayed from the insecure side or through the door gap.</div>
+          <div class="mit-point">Keep the detection zone off the door gap and the frame edge, so gas introduced at the gap falls outside the field of view.</div>
+          <div class="mit-point">Close the door undercut and perimeter gaps with sweeps and gasketing, so neither gas nor a tool can be worked in near the sensor (see CPSC-002).</div>
+          <div class="mit-point">Use a tamper-resistant housing and monitor the sensor tamper and supervision outputs.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="detect">
         <div class="mit-card-header">
-          <div class="mit-card-title">Detection and response</div>
+          <div class="mit-card-title">See it and respond</div>
           <span class="cat-badge cat-detect">Detection</span>
         </div>
-        <p class="mit-card-desc">If prevention isn't possible, ensure the attack is detectable after the fact — and ideally in real time.</p>
+        <p class="mit-card-desc">If a spoof still gets through, make it loud and reviewable, ideally in real time.</p>
         <div class="mit-points">
-          <div class="mit-point">Mount a camera covering the REX side of the door, aligned to capture anyone near the sensor</div>
-          <div class="mit-point">Set up automatic video-clip capture triggered by REX events for after-hours review</div>
-          <div class="mit-point">Generate an alert when a REX event occurs with no corresponding badge-in on the same door</div>
-          <div class="mit-point">GSOC review of REX event logs — any access pattern during off-hours warrants camera review</div>
+          <div class="mit-point">Cover the REX side of every maglock door with a camera framed to capture anyone at the sensor or the door.</div>
+          <div class="mit-point">Correlate REX events with video and badge data: alert when a REX fires with no person on camera or no matching credential.</div>
+          <div class="mit-point">Auto-capture a short video clip on every after-hours REX for next-morning review.</div>
+          <div class="mit-point">Have the monitoring center treat an unexplained after-hours REX as an access event to investigate, not noise to clear.</div>
         </div>
       </div>
 
@@ -315,7 +315,7 @@
     <div class="section-header">
       <div class="section-label">Vetted hardware &amp; standards</div>
       <div class="section-title">Reference Technology</div>
-      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who&rsquo;ve deployed it &mdash; and add your own.</p>
+      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
     </div>
 
     <div class="filter-bar">
@@ -334,7 +334,7 @@
   <footer class="page-wrap">
     <div class="site-footer">
       <span class="footer-brand">Pine Risk Management</span>
-      <span>CPSC-001 — REX sensor spoofing</span>
+      <span>CPSC-001 · REX sensor spoofing</span>
       <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
     </div>
   </footer>
@@ -360,7 +360,7 @@
       {
         label: 'Attack in progress',
         labelStyle: 'background:var(--high-bg);color:var(--high-text);border:1px solid var(--high-border)',
-        caption: 'Attacker sprays compressed air near the PIR sensor. The rapid thermal contrast from the cold gas mimics a body heat signature — the sensor fires a REX trigger.',
+        caption: 'Attacker sprays compressed air near the PIR sensor. The rapid thermal contrast from the cold gas mimics a body heat signature, and the sensor fires a REX trigger.',
         setup(svg) {
           svg.getElementById('person').style.opacity = '0.2';
           svg.getElementById('attack-elements').style.opacity = '1';
@@ -430,8 +430,8 @@
         image: 'https://us.beasensors.com/thumbor/FH8NEm1JvJiYp99f1i5pogkaXQ0=/fit-in/960x/--/uploads/2017/03/R2E-100.png',
         datasheet: 'https://us.beasensors.com/en/product/r2e-100/specs/',
         productUrl: 'https://us.beasensors.com/en/product/r2e-100/',
-        blurb: 'A request-to-exit sensor whose active-infrared beam is focused directly on the door handle, rather than a wide passive-IR field. It looks for a hand reaching the lever — not ambient heat — so the compressed-gas trick that fools PIR REX units has nothing to spoof.',
-        defeats: 'It doesn’t sense heat at all: it emits its own infrared beam and only fires when that beam reflects off a solid object at the handle. Gas is transparent to the beam and gives it nothing to bounce off, so the spray can’t fake a hand — whereas a PIR reads that same cold spray as a moving warm body.',
+        blurb: 'A request-to-exit sensor whose active-infrared beam is focused on the door handle rather than a wide passive-IR field. It looks for a hand reaching the lever, not ambient heat, so the compressed-gas trick that fools PIR REX units has nothing to spoof.',
+        defeats: 'It does not sense heat. It emits its own infrared beam and only fires when that beam reflects off a solid object at the handle. Gas is transparent to that beam and reflects nothing, so the cold spray a PIR reads as a moving warm body never registers here.',
         tags: ['Active IR', 'REX sensor', 'UL listed', 'Anti-spoof'],
         specs: [
           ['Detection', 'Focused active infrared (AIR)'],
@@ -445,14 +445,14 @@
         ],
         comments: [
           { author: 'Editor’s note', role: '', date: 'Aug 2026',
-            text: 'A fair question: the gas is sprayed right by the handle, so why doesn’t it fool this sensor too? Because active infrared measures something different. A PIR REX watches for a moving heat gradient, and the cold spray is exactly that — a fake warm edge crossing its field. Active IR emits its own beam and only triggers when the beam reflects off a solid object; gas is transparent to it and reflects nothing, so there’s no return signal to mistake for a hand. In practice: aim the zone tightly on the lever, keep it off the door gap, and enable a re-lock mode.' }
+            text: 'A fair question is why the gas does not fool this sensor too, since it lands right by the handle. The answer is what active infrared measures. A PIR watches for a moving heat gradient, and the cold spray is exactly that. Active infrared instead sends out its own beam and only responds when a solid object reflects it back, and gas reflects nothing. Note the limit of that logic: active IR does respond to a solid object placed in its beam, so an under-door tool that pushes a physical object up to the lens could in principle trigger it. The object’s warmth would be irrelevant; the reflection is what matters. That is a different and far harder attack than the gas spoof, and it is closed off by keeping the beam tight on the lever and sealing the door gap (see CPSC-002). Confirm the exact behavior on the bench before you rely on it.' }
         ] },
       { cat: 'sensor', maker: 'Bosch', name: 'DS160',
         type: 'Hardened PIR REX (DSP + sequential logic)',
         image: '', datasheet: '',
         productUrl: 'https://us.boschsecurity.com/en/products/intrusionalarmsystems/detectorsandaccessories/requesttoexit/ds160serieshighperformanc/ds160serieshighperformanc_26279',
         blurb: 'A high-performance request-to-exit PIR detector with digital signal processing and a Sequential Logic Input (SLI) that can require a second, sequential motion event before it releases the door.',
-        defeats: 'Still a PIR, but the DSP filtering plus Sequential Logic Input reject a lone anomalous pulse — a one-shot cold-gas burst at the door gap doesn’t satisfy the two-step “real person” logic, so it’s discarded instead of unlocking. Treat it as a hardened PIR, not a thermally-immune one.',
+        defeats: 'Still a PIR, but the DSP filtering plus Sequential Logic Input reject a lone anomalous pulse. A one-shot cold-gas burst at the door gap does not satisfy the two-step logic, so it is discarded instead of unlocking. Treat it as a hardened PIR, not a thermally immune one.',
         tags: ['Hardened PIR', 'DSP + SLI', 'REX sensor'],
         specs: [
           ['Detection', 'Passive infrared · 15 coverage patterns'],
@@ -468,8 +468,8 @@
         image: '',
         datasheet: 'https://www.seco-larm.com/wp-content/uploads/2020/12/MI_E-931-S35RRQ_231108.pdf',
         productUrl: 'https://www.seco-larm.com/product/e-931-s35rrq/',
-        blurb: 'A modulated infrared beam bounced off a reflector. Detection happens the instant a solid body breaks the beam — a no-contact way to sense someone at the door with no heat sensing at all.',
-        defeats: 'It only triggers when a solid object interrupts its own infrared beam. Compressed gas is optically transparent, so a spray passes straight through without breaking the beam — and there is no thermal channel to exploit in the first place.',
+        blurb: 'A modulated infrared beam bounced off a reflector. Detection happens the instant a solid body breaks the beam. It is a no-contact way to sense someone at the door with no heat sensing at all.',
+        defeats: 'It only triggers when a solid object interrupts its own infrared beam. Compressed gas is optically transparent, so a spray passes straight through without breaking the beam, and there is no thermal channel to exploit in the first place.',
         tags: ['IR beam', 'No-contact', 'Gas-immune'],
         specs: [
           ['Detection', 'Retro-reflective modulated IR beam + reflector'],
@@ -501,7 +501,7 @@
         image: '', datasheet: '',
         productUrl: 'https://www.lenels2.com/en/products/software/onguard',
         blurb: 'An enterprise access-control platform. Its alarm-monitoring and anti-passback logic can flag a door that releases on a REX event with no matching badge or occupancy.',
-        defeats: 'It won’t stop the sensor from firing, but it makes a spoof visible: OnGuard can raise an operator alarm when a maglock drops on a REX with no corresponding credential read — turning a silent unlock into an actionable, correlated event.',
+        defeats: 'It won’t stop the sensor from firing, but it makes a spoof visible: OnGuard can raise an operator alarm when a maglock drops on a REX with no corresponding credential read, which turns a silent unlock into an actionable, correlated event.',
         tags: ['ACS platform', 'Alarm rules', 'Anti-passback'],
         specs: [
           ['Publisher', 'LenelS2 (Carrier / Honeywell lineage)'],
@@ -516,7 +516,7 @@
         image: '', datasheet: '',
         productUrl: 'https://www.genetec.com/products/unified-security/security-center',
         blurb: 'A unified platform that binds each door’s access events to its cameras, so REX and door-forced/held events can be reviewed against recorded video.',
-        defeats: 'Because a REX event is tied to the door’s camera, a release that fires while the video shows no person present surfaces as a video-verifiable anomaly — exactly the tell a compressed-gas spoof leaves behind.',
+        defeats: 'Because a REX event is tied to the door’s camera, a release that fires while the video shows no person present surfaces as a video-verifiable anomaly, exactly the tell a compressed-gas spoof leaves behind.',
         tags: ['Unified platform', 'Video correlation', 'Alarms'],
         specs: [
           ['Publisher', 'Genetec Inc.'],
@@ -531,11 +531,11 @@
         image: '', datasheet: '',
         productUrl: 'https://webstore.iec.ch/en/publication/7347',
         blurb: 'The international standard series for video surveillance systems in security applications. Part 4 (application guidelines) covers how to plan camera coverage, image quality and operational requirements.',
-        defeats: 'Not a device — it’s the basis for requiring that security-critical doors carry camera coverage at a defined image quality, so a REX-released door can always be checked on video for whether a person was actually there.',
+        defeats: 'Not a device. It is the basis for requiring that security-critical doors carry camera coverage at a defined image quality, so a REX-released door can always be checked on video for whether a person was actually there.',
         tags: ['Standard', 'IEC', 'Camera coverage'],
         specs: [
           ['Publisher', 'International Electrotechnical Commission'],
-          ['Part 1-1', 'System requirements — General (2013)'],
+          ['Part 1-1', 'System requirements, General (2013)'],
           ['Part 4', 'Application guidelines (2025 ed.)'],
           ['Scope', 'Design · install · test · commission VSS'],
           ['Relevance', 'Camera coverage & image quality at doors']
@@ -545,7 +545,7 @@
         type: 'Facility physical-security guideline (GDL FPSM-2009)',
         image: '', datasheet: '',
         productUrl: 'https://webstore.ansi.org/standards/asis/asisgdlfpsm2009',
-        blurb: 'The recognized ASIS guideline for selecting facility physical-security measures — access control, intrusion detection, video surveillance, lighting and more. Its content later fed the ASIS Physical Asset Protection (PAP-2021) standard.',
+        blurb: 'The recognized ASIS guideline for selecting facility physical-security measures: access control, intrusion detection, video surveillance, lighting and more. Its content later fed the ASIS Physical Asset Protection (PAP-2021) standard.',
         defeats: 'A citable authority rather than a product: its access-control and video-surveillance guidance is what you point to when you specify spoof-resistant REX hardware and require video verification of egress-controlled doors.',
         tags: ['Guideline', 'ASIS', 'Specification basis'],
         specs: [
