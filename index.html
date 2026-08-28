@@ -3,73 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPSC — Common Physical Security Controls | Pine Risk Management</title>
-  <meta name="description" content="A reference library covering real attack techniques used against corporate physical security controls — with mitigation frameworks and product guidance.">
+  <title>CPSC — Physical Security Controls Reference</title>
+  <meta name="description" content="A defensive reference library for physical security teams. Each entry pairs a common weakness with the controls, products, and standards that close it.">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ---- Index-specific styles ---- */
-
+    /* ---- Index-specific ---- */
     .hero {
-      padding: 72px 0 52px;
-      border-bottom: 1px solid var(--border);
+      padding: 78px 0 30px;
     }
     .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-family: var(--font-mono);
       font-size: 11px;
+      font-weight: 500;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 0.14em;
-      margin-bottom: 18px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 26px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
     }
     .hero h1 {
       font-family: var(--font-display);
-      font-size: clamp(36px, 5.5vw, 58px);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -0.01em;
-      max-width: 680px;
-      margin-bottom: 22px;
+      font-size: clamp(38px, 6vw, 66px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      max-width: 860px;
+      margin-bottom: 24px;
+      text-wrap: balance;
     }
     .hero h1 em { font-style: normal; color: var(--accent); }
     .hero-desc {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--text-secondary);
-      max-width: 520px;
-      line-height: 1.7;
+      max-width: 600px;
+      line-height: 1.65;
     }
 
+    /* Mission strip */
+    .mission {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      max-width: 720px;
+      margin-top: 30px;
+      padding: 18px 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .mission-icon {
+      flex-shrink: 0;
+      width: 34px; height: 34px;
+      display: grid; place-items: center;
+      background: var(--accent-dim);
+      border-radius: 8px;
+      color: var(--accent);
+    }
+    .mission p {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .mission strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Stats */
     .stats-bar {
       display: flex;
       gap: 0;
+      margin: 52px 0 8px;
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
     .stat {
-      padding: 24px 36px 24px 0;
+      padding: 26px 40px 26px 0;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
     .stat:not(:last-child) {
-      margin-right: 36px;
+      margin-right: 40px;
       border-right: 1px solid var(--border);
-      padding-right: 36px;
+      padding-right: 40px;
     }
     .stat-value {
       font-family: var(--font-display);
-      font-size: 30px;
-      font-weight: 700;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
       color: var(--text-primary);
       line-height: 1;
+      font-variant-numeric: tabular-nums;
     }
     .stat-label {
       font-family: var(--font-mono);
       font-size: 10px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.09em;
+      letter-spacing: 0.1em;
     }
 
-    /* ---- Vuln cards ---- */
+    /* Vuln cards */
+    .vuln-grid-section { padding-bottom: 90px; }
+
     .vuln-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
@@ -77,29 +125,21 @@
       padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      transition: border-color 0.2s, transform 0.2s;
+      gap: 15px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow-sm);
       position: relative;
-      overflow: hidden;
-    }
-    .vuln-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.25s ease;
     }
     .vuln-card:hover {
       border-color: var(--border-hover);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
     }
-    .vuln-card:hover::after { transform: scaleX(1); }
-
     .vuln-card.coming-soon {
-      opacity: 0.45;
+      background: transparent;
+      border-style: dashed;
+      box-shadow: none;
+      opacity: 0.72;
       pointer-events: none;
     }
 
@@ -110,51 +150,52 @@
     }
     .card-title {
       font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1.2;
-      letter-spacing: 0.01em;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: -0.015em;
     }
     .card-vector-tag {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 10.5px;
+      font-weight: 500;
       color: var(--accent);
       background: var(--accent-dim);
       border: 1px solid var(--accent-border);
-      padding: 3px 9px;
-      border-radius: var(--r-sm);
-      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
       width: fit-content;
     }
     .card-desc {
       font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.65;
+      line-height: 1.62;
     }
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .card-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 14px;
+      padding-top: 15px;
       border-top: 1px solid var(--border);
       margin-top: auto;
     }
     .card-cta {
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--accent);
-      transition: letter-spacing 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
-    .vuln-card:hover .card-cta { letter-spacing: 0.02em; }
+    .card-cta .arw { transition: transform 0.18s; }
+    .vuln-card:hover .card-cta .arw { transform: translateX(3px); }
     .card-meta {
       font-family: var(--font-mono);
       font-size: 10px;
       color: var(--text-muted);
+      letter-spacing: 0.02em;
     }
 
     .coming-soon-label {
@@ -163,21 +204,19 @@
       background: var(--bg-elevated);
       border: 1px solid var(--border);
       color: var(--text-muted);
-      padding: 3px 8px;
-      border-radius: var(--r-sm);
+      padding: 3px 9px;
+      border-radius: 999px;
       position: absolute;
-      top: 16px;
-      right: 16px;
-    }
-
-    .vuln-grid-section {
-      padding-bottom: 80px;
+      top: 18px;
+      right: 18px;
+      letter-spacing: 0.04em;
     }
 
     @media (max-width: 760px) {
+      .hero { padding: 52px 0 24px; }
       .stats-bar { flex-wrap: wrap; }
-      .stat:not(:last-child) { border-right: none; }
-      .hero { padding: 48px 0 40px; }
+      .stat { padding: 20px 24px 20px 0; }
+      .stat:not(:last-child) { border-right: none; margin-right: 24px; padding-right: 24px; }
     }
   </style>
 </head>
@@ -186,7 +225,7 @@
   <header class="site-header">
     <a href="/" class="site-logo">
       <div class="logo-mark">PR</div>
-      Pine Risk <span class="logo-sep">/</span> CPSC
+      Pine Risk <span class="logo-sep">/</span> <span class="logo-label">CPSC</span>
     </a>
     <nav class="header-nav">
       <a href="https://pinerisk.com">pinerisk.com</a>
@@ -198,19 +237,34 @@
 
     <!-- Hero -->
     <section class="hero">
-      <div class="hero-eyebrow">Pine Risk Management // CPSC Library</div>
-      <h1>Common Physical Security <em>Vulnerabilities</em></h1>
+      <span class="hero-eyebrow">Pine Risk Management · CPSC Library</span>
+      <h1>Common Physical Security <em>Controls</em></h1>
       <p class="hero-desc">
-        Real attack techniques used against corporate physical security controls — with
-        illustrated explainers, mitigation frameworks, and product references for each.
+        A plain-language reference for the people who protect buildings. Each entry explains
+        a common weakness in everyday access hardware — and exactly how to close it.
       </p>
+
+      <div class="mission">
+        <div class="mission-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <p>
+          <strong>Built to improve physical security — nothing else.</strong>
+          This library exists so security teams, facility managers, and integrators can find,
+          understand, and fix the gaps in their own doors before someone else does. Every page
+          leads with the defense: the controls, products, and standards that resolve the issue.
+        </p>
+      </div>
     </section>
 
     <!-- Stats -->
     <div class="stats-bar">
       <div class="stat">
         <div class="stat-value">3</div>
-        <div class="stat-label">Vulnerabilities documented</div>
+        <div class="stat-label">Controls documented</div>
       </div>
       <div class="stat">
         <div class="stat-value">12+</div>
@@ -218,18 +272,18 @@
       </div>
       <div class="stat">
         <div class="stat-value">30+</div>
-        <div class="stat-label">Product references</div>
+        <div class="stat-label">Products &amp; standards</div>
       </div>
       <div class="stat">
         <div class="stat-value">Free</div>
-        <div class="stat-label">Always open access</div>
+        <div class="stat-label">Open access, always</div>
       </div>
     </div>
 
     <!-- Filter + Grid -->
     <div class="vuln-grid-section">
       <div class="filter-bar">
-        <span class="filter-label">Filter:</span>
+        <span class="filter-label">Filter</span>
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="access-control">Access control</button>
         <button class="filter-btn" data-filter="sensor">Sensors</button>
@@ -248,19 +302,16 @@
           <div class="card-title">REX sensor spoofing via compressed gas</div>
           <div class="card-vector-tag">PIR thermal bypass</div>
           <p class="card-desc">
-            A can of compressed air sprayed near a PIR request-to-exit sensor creates a sudden
-            thermal contrast that triggers the sensor — releasing a maglock with no badge, no key,
-            and no person present.
+            A can of compressed air sprayed near a request-to-exit sensor creates a sudden thermal
+            contrast that trips it — releasing a maglock with no badge, no key, and no person present.
           </p>
           <div class="card-tags">
             <span class="tag">PIR sensor</span>
             <span class="tag">Maglock</span>
             <span class="tag">REX bypass</span>
-            <span class="tag">~$10 tool</span>
-            <span class="tag">Seconds to execute</span>
           </div>
           <div class="card-footer">
-            <span class="card-cta">View explainer →</span>
+            <span class="card-cta">View the fix <span class="arw">→</span></span>
             <span class="card-meta">Sensors · Access control</span>
           </div>
         </a>
@@ -274,18 +325,16 @@
           <div class="card-title">Under-door lever manipulation</div>
           <div class="card-vector-tag">Mechanical bypass</div>
           <p class="card-desc">
-            A flat, flexible tool is slid through the gap at the base of a secured door to reach
-            and manipulate the interior lever or push bar — bypassing an electronically locked door
-            from the outside in under ten seconds.
+            A flat, flexible tool slides through the gap at the base of a secured door to reach the
+            interior lever — opening an electronically locked door from the outside in seconds.
           </p>
           <div class="card-tags">
             <span class="tag">Door gap</span>
             <span class="tag">Lever handle</span>
-            <span class="tag">No credential needed</span>
-            <span class="tag">Covert entry</span>
+            <span class="tag">Egress hardware</span>
           </div>
           <div class="card-footer">
-            <span class="card-cta">View explainer →</span>
+            <span class="card-cta">View the fix <span class="arw">→</span></span>
             <span class="card-meta">Door mechanics · Access control</span>
           </div>
         </a>
@@ -299,18 +348,16 @@
           <div class="card-title">Spring latch shimming</div>
           <div class="card-vector-tag">Latch manipulation</div>
           <p class="card-desc">
-            A thin shim — a credit card, plastic strip, or purpose-built tool — worked into the
-            gap between door and frame depresses the angled spring latch, opening the door without
-            a key, badge, or forced entry.
+            A thin shim — a credit card or plastic strip — worked into the door-frame gap depresses
+            the angled spring latch, opening the door without a key, badge, or forced entry.
           </p>
           <div class="card-tags">
             <span class="tag">Spring latch</span>
-            <span class="tag">Door frame gap</span>
-            <span class="tag">Improvised tool</span>
+            <span class="tag">Deadbolt</span>
             <span class="tag">Hotels / offices</span>
           </div>
           <div class="card-footer">
-            <span class="card-cta">View explainer →</span>
+            <span class="card-cta">View the fix <span class="arw">→</span></span>
             <span class="card-meta">Lock hardware · Access control</span>
           </div>
         </a>
@@ -325,18 +372,16 @@
           <div class="card-title">Proximity badge cloning</div>
           <div class="card-vector-tag">RFID credential theft</div>
           <p class="card-desc">
-            125 kHz HID and EM4100 credentials can be silently read and cloned at range using
-            off-the-shelf hardware — creating a working duplicate badge with no physical contact
-            and no alert generated.
+            125 kHz HID and EM4100 credentials can be read and copied at short range with off-the-shelf
+            hardware — producing a working duplicate badge with no physical contact.
           </p>
           <div class="card-tags">
             <span class="tag">HID Prox</span>
             <span class="tag">125 kHz RFID</span>
-            <span class="tag">Flipper Zero</span>
-            <span class="tag">Clone in seconds</span>
+            <span class="tag">Smart credentials</span>
           </div>
           <div class="card-footer">
-            <span class="card-cta" style="color: var(--text-muted)">In development</span>
+            <span class="card-meta" style="color: var(--text-muted)">In development</span>
             <span class="card-meta">Sensors · Access control</span>
           </div>
         </div>
@@ -349,7 +394,7 @@
   <footer class="page-wrap">
     <div class="site-footer">
       <span class="footer-brand">Pine Risk Management</span>
-      <span>CPSC Library — open reference for security professionals</span>
+      <span>CPSC Library — an open reference for security professionals</span>
       <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
     </div>
   </footer>
@@ -363,7 +408,6 @@
       btn.addEventListener('click', () => {
         btns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         const filter = btn.dataset.filter;
         cards.forEach(card => {
           const cats = (card.dataset.cats || '').split(' ');

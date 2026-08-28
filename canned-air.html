@@ -5,329 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CPSC-001: REX Sensor Spoofing | Pine Risk Management</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* ---- Vuln page layout ---- */
-    .vuln-hero {
-      padding: 40px 0 44px;
-      border-bottom: 1px solid var(--border);
-    }
-    .breadcrumb {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .breadcrumb a { color: var(--text-secondary); transition: color 0.15s; }
-    .breadcrumb a:hover { color: var(--text-primary); }
-    .breadcrumb span { color: var(--text-muted); }
-
-    .vuln-meta-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-    .vuln-hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      line-height: 1.1;
-      margin-bottom: 16px;
-      max-width: 680px;
-    }
-    .vuln-hero .lead {
-      font-size: 16px;
-      color: var(--text-secondary);
-      max-width: 580px;
-      line-height: 1.7;
-    }
-
-    /* ---- Attack fast-facts ---- */
-    .fast-facts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px;
-      padding: 28px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .fact {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-md);
-      padding: 14px 16px;
-    }
-    .fact-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      margin-bottom: 5px;
-    }
-    .fact-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
-    /* ---- Explainer prose ---- */
-    .explainer {
-      padding: 44px 0 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-    .explainer-prose h2 {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-    .explainer-prose p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 14px;
-      line-height: 1.7;
-    }
-    .explainer-prose p:last-child { margin-bottom: 0; }
-    .explainer-prose strong { color: var(--text-primary); font-weight: 500; }
-
-    .attack-steps {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .attack-step {
-      display: flex;
-      gap: 14px;
-      padding: 14px 0;
-      border-top: 1px solid var(--border);
-    }
-    .step-num {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--accent);
-      width: 20px;
-      flex-shrink: 0;
-      padding-top: 2px;
-    }
-    .step-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .step-text strong { color: var(--text-primary); font-weight: 500; }
-
-    /* ---- Attack visual ---- */
-    .attack-visual {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      overflow: hidden;
-      position: sticky;
-      top: 74px;
-    }
-    .av-header {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .av-title {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-    }
-    .av-state-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: var(--r-sm);
-      transition: all 0.3s;
-    }
-    .av-stage { padding: 24px; min-height: 280px; position: relative; }
-
-    /* SVG diagram */
-    .diagram-svg {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .av-caption {
-      padding: 14px 18px;
-      border-top: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      min-height: 60px;
-    }
-    .av-controls {
-      padding: 12px 18px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .av-btn {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      padding: 5px 14px;
-      border-radius: var(--r-sm);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      transition: all 0.15s;
-    }
-    .av-btn:hover:not(:disabled) {
-      border-color: var(--border-hover);
-      color: var(--text-primary);
-    }
-    .av-btn:disabled { opacity: 0.3; cursor: default; }
-    .av-dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-    .av-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--border-hover);
-      transition: background 0.2s;
-      cursor: pointer;
-      border: none;
-    }
-    .av-dot.active { background: var(--accent); }
-
-    /* ---- Mitigation cards ---- */
-    .mit-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: border-color 0.2s;
-    }
-    .mit-card:hover { border-color: var(--border-hover); }
-
-    .mit-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-    }
-    .mit-card-title {
-      font-family: var(--font-display);
-      font-size: 17px;
-      font-weight: 600;
-      line-height: 1.2;
-    }
-    .mit-card-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .mit-points {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding-top: 4px;
-      border-top: 1px solid var(--border);
-    }
-    .mit-point {
-      font-size: 13px;
-      color: var(--text-secondary);
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-    }
-    .mit-point::before {
-      content: '—';
-      color: var(--text-muted);
-      flex-shrink: 0;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      margin-top: 2px;
-    }
-
-    /* ---- Product cards ---- */
-    .prod-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      padding: 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.15s;
-    }
-    .prod-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-1px);
-    }
-    .prod-name {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .prod-maker {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .prod-note {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-    .prod-tags { display: flex; gap: 5px; flex-wrap: wrap; }
-    .prod-cta {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--accent);
-      margin-top: auto;
-    }
-
-    /* ---- Warning box ---- */
-    .warning-box {
-      background: var(--accent-dim);
-      border: 1px solid var(--accent-border);
-      border-radius: var(--r-md);
-      padding: 14px 18px;
-      margin-top: 32px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .warning-box strong { color: var(--accent); font-weight: 500; }
-
-    @media (max-width: 900px) {
-      .explainer { grid-template-columns: 1fr; }
-      .attack-visual { position: static; }
-    }
-  </style>
 </head>
 <body>
 
   <header class="site-header">
     <a href="index.html" class="site-logo">
       <div class="logo-mark">PR</div>
-      Pine Risk <span class="logo-sep">/</span> CPSC
+      Pine Risk <span class="logo-sep">/</span> <span class="logo-label">CPSC</span>
     </a>
     <nav class="header-nav">
       <a href="https://pinerisk.com">pinerisk.com</a>
@@ -386,7 +70,7 @@
     <div class="explainer">
 
       <div class="explainer-prose">
-        <h2>How the attack works</h2>
+        <h2>How the weakness works</h2>
         <p>
           <strong>Request-to-Exit (REX) sensors</strong> allow people to exit through a
           maglock-secured door without badging out. The most common type is a
@@ -427,7 +111,7 @@
         </div>
 
         <div class="warning-box">
-          <strong>Red team note:</strong> In assessments, this technique reliably bypasses PIR-only
+          <strong>Field note:</strong> In assessments, this technique reliably bypasses PIR-only
           REX sensors in under 10 seconds. The only consistent detection mechanism is camera footage
           reviewed alongside access logs — which almost no organization does in real time.
         </div>
@@ -436,7 +120,7 @@
       <!-- Interactive attack diagram -->
       <div class="attack-visual">
         <div class="av-header">
-          <span class="av-title">Attack sequence</span>
+          <span class="av-title">How it happens</span>
           <span class="av-state-label" id="state-label" style="background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)">Normal operation</span>
         </div>
 
@@ -445,7 +129,7 @@
             <!-- Background grid subtle -->
             <defs>
               <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1c2236" stroke-width="0.5"/>
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d6dde7" stroke-width="0.5"/>
               </pattern>
               <!-- Glow filter for sensor active -->
               <filter id="glow">
@@ -456,34 +140,34 @@
             <rect width="360" height="260" fill="url(#grid)"/>
 
             <!-- Door frame - left wall section -->
-            <rect x="20" y="20" width="14" height="220" rx="2" fill="#161b2c" stroke="#1c2236" stroke-width="1"/>
+            <rect x="20" y="20" width="14" height="220" rx="2" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
             <!-- Door frame top -->
-            <rect x="20" y="20" width="200" height="14" rx="2" fill="#161b2c" stroke="#1c2236" stroke-width="1"/>
+            <rect x="20" y="20" width="200" height="14" rx="2" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
             <!-- Floor -->
-            <rect x="20" y="228" width="200" height="12" rx="2" fill="#161b2c" stroke="#1c2236" stroke-width="1"/>
+            <rect x="20" y="228" width="200" height="12" rx="2" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
             <!-- Door panel -->
-            <rect x="34" y="34" width="130" height="194" rx="2" fill="#0f1320" stroke="#2e3659" stroke-width="1.5"/>
+            <rect x="34" y="34" width="130" height="194" rx="2" fill="#eef2f7" stroke="#9aa6b8" stroke-width="1.5"/>
             <!-- Door gap indicator -->
-            <line x1="34" y1="34" x2="34" y2="228" stroke="#c8372a" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
+            <line x1="34" y1="34" x2="34" y2="228" stroke="#b8382c" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
             <!-- Door detail lines -->
-            <rect x="44" y="50" width="110" height="80" rx="2" fill="none" stroke="#1c2236" stroke-width="1"/>
-            <rect x="44" y="144" width="110" height="70" rx="2" fill="none" stroke="#1c2236" stroke-width="1"/>
+            <rect x="44" y="50" width="110" height="80" rx="2" fill="none" stroke="#d6dde7" stroke-width="1"/>
+            <rect x="44" y="144" width="110" height="70" rx="2" fill="none" stroke="#d6dde7" stroke-width="1"/>
             <!-- Maglock -->
-            <rect x="164" y="34" width="20" height="32" rx="2" fill="#161b2c" stroke="#2e3659" stroke-width="1"/>
-            <text x="174" y="55" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle">MAG</text>
+            <rect x="164" y="34" width="20" height="32" rx="2" fill="#e3e9f1" stroke="#9aa6b8" stroke-width="1"/>
+            <text x="174" y="55" font-family="IBM Plex Mono, monospace" font-size="6" fill="#7a869b" text-anchor="middle">MAG</text>
             <!-- Maglock LED indicator - changes color by state -->
-            <circle id="maglock-led" cx="174" cy="38" r="3" fill="#30c8b5"/>
+            <circle id="maglock-led" cx="174" cy="38" r="3" fill="#0d9488"/>
 
             <!-- PIR Sensor on right wall -->
-            <rect id="sensor-body" x="220" y="80" width="24" height="18" rx="3" fill="#161b2c" stroke="#2e3659" stroke-width="1.5"/>
-            <text x="232" y="92" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle">PIR</text>
+            <rect id="sensor-body" x="220" y="80" width="24" height="18" rx="3" fill="#e3e9f1" stroke="#9aa6b8" stroke-width="1.5"/>
+            <text x="232" y="92" font-family="IBM Plex Mono, monospace" font-size="6" fill="#7a869b" text-anchor="middle">PIR</text>
             <!-- Sensor LED -->
-            <circle id="sensor-led" cx="240" cy="81" r="3" fill="#30c8b5"/>
+            <circle id="sensor-led" cx="240" cy="81" r="3" fill="#0d9488"/>
             <!-- Detection cone - normal -->
             <path id="detect-cone" d="M 220 89 L 170 50 L 170 128 Z" fill="rgba(20,184,166,0.06)" stroke="rgba(20,184,166,0.2)" stroke-width="0.5"/>
             <!-- Detection cone label -->
-            <text x="178" y="105" font-family="IBM Plex Mono, monospace" font-size="7" fill="#3e4d6a" text-anchor="middle">Detection</text>
-            <text x="178" y="114" font-family="IBM Plex Mono, monospace" font-size="7" fill="#3e4d6a" text-anchor="middle">zone</text>
+            <text x="178" y="105" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7a869b" text-anchor="middle">Detection</text>
+            <text x="178" y="114" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7a869b" text-anchor="middle">zone</text>
 
             <!-- State 1: Person -->
             <g id="person">
@@ -491,29 +175,29 @@
               <circle cx="280" cy="120" r="30" fill="rgba(234,148,45,0.06)" stroke="rgba(234,148,45,0.15)" stroke-width="1"/>
               <circle cx="280" cy="120" r="20" fill="rgba(234,148,45,0.08)"/>
               <!-- Person stick figure -->
-              <circle cx="280" cy="95" r="10" fill="none" stroke="#7888aa" stroke-width="1.5"/>
-              <line x1="280" y1="105" x2="280" y2="145" stroke="#7888aa" stroke-width="1.5"/>
-              <line x1="260" y1="120" x2="300" y2="120" stroke="#7888aa" stroke-width="1.5"/>
-              <line x1="280" y1="145" x2="262" y2="165" stroke="#7888aa" stroke-width="1.5"/>
-              <line x1="280" y1="145" x2="298" y2="165" stroke="#7888aa" stroke-width="1.5"/>
+              <circle cx="280" cy="95" r="10" fill="none" stroke="#586780" stroke-width="1.5"/>
+              <line x1="280" y1="105" x2="280" y2="145" stroke="#586780" stroke-width="1.5"/>
+              <line x1="260" y1="120" x2="300" y2="120" stroke="#586780" stroke-width="1.5"/>
+              <line x1="280" y1="145" x2="262" y2="165" stroke="#586780" stroke-width="1.5"/>
+              <line x1="280" y1="145" x2="298" y2="165" stroke="#586780" stroke-width="1.5"/>
               <!-- Heat label -->
-              <text x="280" y="185" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f0a850" text-anchor="middle">Body heat</text>
+              <text x="280" y="185" font-family="IBM Plex Mono, monospace" font-size="7" fill="#c9821c" text-anchor="middle">Body heat</text>
             </g>
 
             <!-- State 2: Can + gas cloud (hidden initially) -->
             <g id="attack-elements" opacity="0">
               <!-- Gas cloud near sensor -->
               <ellipse id="gas-cloud" cx="205" cy="89" rx="28" ry="18" fill="rgba(122,171,248,0.12)" stroke="rgba(122,171,248,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
-              <text x="205" y="93" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7aabf8" text-anchor="middle">Cold gas</text>
+              <text x="205" y="93" font-family="IBM Plex Mono, monospace" font-size="7" fill="#2f74c0" text-anchor="middle">Cold gas</text>
               <!-- Can of air (simplified) -->
-              <rect x="292" y="90" width="22" height="50" rx="4" fill="#161b2c" stroke="#2e3659" stroke-width="1.5"/>
-              <rect x="296" y="86" width="14" height="8" rx="2" fill="#161b2c" stroke="#2e3659" stroke-width="1"/>
-              <text x="303" y="120" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle" transform="rotate(-90 303 120)">DUST OFF</text>
+              <rect x="292" y="90" width="22" height="50" rx="4" fill="#e3e9f1" stroke="#9aa6b8" stroke-width="1.5"/>
+              <rect x="296" y="86" width="14" height="8" rx="2" fill="#e3e9f1" stroke="#9aa6b8" stroke-width="1"/>
+              <text x="303" y="120" font-family="IBM Plex Mono, monospace" font-size="6" fill="#7a869b" text-anchor="middle" transform="rotate(-90 303 120)">DUST OFF</text>
               <!-- Arrow showing spray direction -->
-              <line x1="290" y1="100" x2="240" y2="89" stroke="#7aabf8" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arrow-blue)"/>
+              <line x1="290" y1="100" x2="240" y2="89" stroke="#2f74c0" stroke-width="1" stroke-dasharray="4 2" marker-end="url(#arrow-blue)"/>
               <defs>
                 <marker id="arrow-blue" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L6,3 z" fill="#7aabf8"/>
+                  <path d="M0,0 L0,6 L6,3 z" fill="#2f74c0"/>
                 </marker>
               </defs>
             </g>
@@ -521,12 +205,12 @@
             <!-- State 3 overlay: Door open indicator (hidden initially) -->
             <g id="door-open" opacity="0">
               <rect x="90" y="110" width="80" height="36" rx="4" fill="rgba(220,50,47,0.15)" stroke="rgba(220,50,47,0.4)" stroke-width="1"/>
-              <text x="130" y="130" font-family="IBM Plex Mono, monospace" font-size="9" fill="#f07068" text-anchor="middle" font-weight="500">UNLOCKED</text>
-              <text x="130" y="142" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f07068" text-anchor="middle" opacity="0.7">no badge · no person</text>
+              <text x="130" y="130" font-family="IBM Plex Mono, monospace" font-size="9" fill="#cf3f31" text-anchor="middle" font-weight="500">UNLOCKED</text>
+              <text x="130" y="142" font-family="IBM Plex Mono, monospace" font-size="7" fill="#cf3f31" text-anchor="middle" opacity="0.7">no badge · no person</text>
             </g>
 
             <!-- Labels -->
-            <text x="27" y="145" font-family="IBM Plex Mono, monospace" font-size="7" fill="#3e4d6a" text-anchor="middle" transform="rotate(-90 27 145)">DOOR FRAME</text>
+            <text x="27" y="145" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7a869b" text-anchor="middle" transform="rotate(-90 27 145)">DOOR FRAME</text>
           </svg>
         </div>
 
@@ -765,8 +449,8 @@
           svg.getElementById('door-open').style.opacity = '0';
           svg.getElementById('detect-cone').setAttribute('fill','rgba(20,184,166,0.06)');
           svg.getElementById('detect-cone').setAttribute('stroke','rgba(20,184,166,0.2)');
-          svg.getElementById('sensor-led').setAttribute('fill','#30c8b5');
-          svg.getElementById('maglock-led').setAttribute('fill','#30c8b5');
+          svg.getElementById('sensor-led').setAttribute('fill','#0d9488');
+          svg.getElementById('maglock-led').setAttribute('fill','#0d9488');
         }
       },
       {
@@ -779,8 +463,8 @@
           svg.getElementById('door-open').style.opacity = '0';
           svg.getElementById('detect-cone').setAttribute('fill','rgba(122,171,248,0.08)');
           svg.getElementById('detect-cone').setAttribute('stroke','rgba(122,171,248,0.3)');
-          svg.getElementById('sensor-led').setAttribute('fill','#f0a850');
-          svg.getElementById('maglock-led').setAttribute('fill','#f0a850');
+          svg.getElementById('sensor-led').setAttribute('fill','#c9821c');
+          svg.getElementById('maglock-led').setAttribute('fill','#c9821c');
         }
       },
       {
@@ -793,8 +477,8 @@
           svg.getElementById('door-open').style.opacity = '1';
           svg.getElementById('detect-cone').setAttribute('fill','rgba(220,50,47,0.05)');
           svg.getElementById('detect-cone').setAttribute('stroke','rgba(220,50,47,0.15)');
-          svg.getElementById('sensor-led').setAttribute('fill','#f07068');
-          svg.getElementById('maglock-led').setAttribute('fill','#f07068');
+          svg.getElementById('sensor-led').setAttribute('fill','#cf3f31');
+          svg.getElementById('maglock-led').setAttribute('fill','#cf3f31');
         }
       }
     ];

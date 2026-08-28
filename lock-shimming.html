@@ -5,75 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CPSC-003: Spring Latch Shimming | Pine Risk Management</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .vuln-hero { padding: 40px 0 44px; border-bottom: 1px solid var(--border); }
-    .breadcrumb { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
-    .breadcrumb a { color: var(--text-secondary); transition: color 0.15s; }
-    .breadcrumb a:hover { color: var(--text-primary); }
-    .vuln-meta-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
-    .vuln-hero h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); font-weight: 700; letter-spacing: 0.01em; line-height: 1.1; margin-bottom: 16px; max-width: 680px; }
-    .vuln-hero .lead { font-size: 16px; color: var(--text-secondary); max-width: 580px; line-height: 1.7; }
-
-    .fast-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; padding: 28px 0; border-bottom: 1px solid var(--border); }
-    .fact { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; }
-    .fact-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 5px; }
-    .fact-value { font-size: 14px; font-weight: 500; color: var(--text-primary); }
-
-    .explainer { padding: 44px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-    .explainer-prose h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin-bottom: 16px; }
-    .explainer-prose p { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
-    .explainer-prose strong { color: var(--text-primary); font-weight: 500; }
-
-    .attack-steps { margin-top: 24px; display: flex; flex-direction: column; gap: 0; }
-    .attack-step { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
-    .step-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); width: 20px; flex-shrink: 0; padding-top: 2px; }
-    .step-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-    .step-text strong { color: var(--text-primary); font-weight: 500; }
-
-    .attack-visual { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: sticky; top: 74px; }
-    .av-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .av-title { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; }
-    .av-state-label { font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: var(--r-sm); transition: all 0.3s; }
-    .av-stage { padding: 24px; min-height: 280px; }
-    .diagram-svg { width: 100%; height: auto; display: block; }
-    .av-caption { padding: 14px 18px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.5; min-height: 60px; }
-    .av-controls { padding: 12px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-    .av-btn { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-secondary); padding: 5px 14px; border-radius: var(--r-sm); font-family: var(--font-mono); font-size: 11px; transition: all 0.15s; }
-    .av-btn:hover:not(:disabled) { border-color: var(--border-hover); color: var(--text-primary); }
-    .av-btn:disabled { opacity: 0.3; cursor: default; }
-    .av-dots { display: flex; gap: 6px; align-items: center; }
-    .av-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-hover); transition: background 0.2s; cursor: pointer; border: none; }
-    .av-dot.active { background: var(--accent); }
-
-    .mit-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.2s; }
-    .mit-card:hover { border-color: var(--border-hover); }
-    .mit-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-    .mit-card-title { font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.2; }
-    .mit-card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-    .mit-points { display: flex; flex-direction: column; gap: 6px; padding-top: 4px; border-top: 1px solid var(--border); }
-    .mit-point { font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; align-items: flex-start; }
-    .mit-point::before { content: '—'; color: var(--text-muted); flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; margin-top: 2px; }
-
-    .prod-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
-    .prod-card:hover { border-color: var(--border-hover); transform: translateY(-1px); }
-    .prod-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
-    .prod-maker { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
-    .prod-note { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
-    .prod-tags { display: flex; gap: 5px; flex-wrap: wrap; }
-    .prod-cta { font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-top: auto; }
-
-    .warning-box { background: var(--accent-dim); border: 1px solid var(--accent-border); border-radius: var(--r-md); padding: 14px 18px; margin-top: 32px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-    .warning-box strong { color: var(--accent); font-weight: 500; }
-
-    @media (max-width: 900px) { .explainer { grid-template-columns: 1fr; } .attack-visual { position: static; } }
-  </style>
 </head>
 <body>
 
   <header class="site-header">
     <a href="index.html" class="site-logo">
       <div class="logo-mark">PR</div>
-      Pine Risk <span class="logo-sep">/</span> CPSC
+      Pine Risk <span class="logo-sep">/</span> <span class="logo-label">CPSC</span>
     </a>
     <nav class="header-nav">
       <a href="https://pinerisk.com">pinerisk.com</a>
@@ -114,7 +52,7 @@
 
     <div class="explainer">
       <div class="explainer-prose">
-        <h2>How the attack works</h2>
+        <h2>How the weakness works</h2>
         <p>
           The standard <strong>spring latch bolt</strong> — found in virtually every lockset
           from $20 residential hardware to commercial cylindrical locks — has an angled face
@@ -142,82 +80,82 @@
           <div class="attack-step"><span class="step-num">04</span><span class="step-text"><strong>Door opens</strong>. No alarm fires unless a door contact is monitored. The access control system records nothing — no credential was ever read. Entry appears as a normal door-open event if logged at all.</span></div>
         </div>
         <div class="warning-box">
-          <strong>Red team note:</strong> Any door with a spring latch, a visible latch gap, and no deadbolt is shimable. Hotels are the canonical environment — but corporate interior doors, server room perimeters, and stairwell entries regularly exhibit this vulnerability. The auxiliary deadlocking plunger (found on better locksets) prevents shimming when the door is closed properly.
+          <strong>Field note:</strong> Any door with a spring latch, a visible latch gap, and no deadbolt is shimable. Hotels are the canonical environment — but corporate interior doors, server room perimeters, and stairwell entries regularly exhibit this vulnerability. The auxiliary deadlocking plunger (found on better locksets) prevents shimming when the door is closed properly.
         </div>
       </div>
 
       <div class="attack-visual">
         <div class="av-header">
-          <span class="av-title">Attack sequence</span>
+          <span class="av-title">How it happens</span>
           <span class="av-state-label" id="state-label" style="background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)">Latch secured</span>
         </div>
         <div class="av-stage">
           <svg id="diagram" viewBox="0 0 360 280" class="diagram-svg" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1c2236" stroke-width="0.5"/>
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d6dde7" stroke-width="0.5"/>
               </pattern>
             </defs>
             <rect width="360" height="280" fill="url(#grid3)"/>
 
             <!-- Front-view diagram of door/frame/latch area -->
             <!-- Door panel left side -->
-            <rect x="20" y="40" width="140" height="200" rx="2" fill="#0f1320" stroke="#2e3659" stroke-width="1.5"/>
+            <rect x="20" y="40" width="140" height="200" rx="2" fill="#eef2f7" stroke="#9aa6b8" stroke-width="1.5"/>
 
             <!-- Door frame right side (strike plate side) -->
-            <rect x="200" y="40" width="30" height="200" rx="2" fill="#161b2c" stroke="#1c2236" stroke-width="1"/>
+            <rect x="200" y="40" width="30" height="200" rx="2" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
 
             <!-- Gap between door and frame -->
             <rect x="160" y="40" width="40" height="200" fill="rgba(200,55,42,0.04)" stroke="none"/>
 
             <!-- Strike plate -->
-            <rect id="strike-plate" x="200" y="115" width="20" height="50" rx="1" fill="#1c2236" stroke="#2e3659" stroke-width="1.5"/>
+            <rect id="strike-plate" x="200" y="115" width="20" height="50" rx="1" fill="#d6dde7" stroke="#9aa6b8" stroke-width="1.5"/>
             <!-- Strike hole -->
-            <rect x="202" y="128" width="16" height="24" rx="1" fill="#0a0d14"/>
-            <text x="210" y="160" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle">strike</text>
+            <rect x="202" y="128" width="16" height="24" rx="1" fill="#ccd4e0"/>
+            <text x="210" y="160" font-family="IBM Plex Mono, monospace" font-size="6" fill="#7a869b" text-anchor="middle">strike</text>
 
             <!-- Latch bolt - normal position (extended) -->
             <g id="latch-extended">
               <!-- Latch body -->
-              <rect x="148" y="125" width="30" height="20" rx="1" fill="#2e3659" stroke="#3e4d6a" stroke-width="1"/>
+              <rect x="148" y="125" width="30" height="20" rx="1" fill="#9aa6b8" stroke="#7a869b" stroke-width="1"/>
               <!-- Bevel face (angled) -->
-              <polygon points="178,125 196,134 178,145" fill="#3e4d6a" stroke="#4a5a7a" stroke-width="0.5"/>
-              <text x="162" y="138" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#7888aa" text-anchor="middle">latch</text>
+              <polygon points="178,125 196,134 178,145" fill="#7a869b" stroke="#8f9cb0" stroke-width="0.5"/>
+              <text x="162" y="138" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#586780" text-anchor="middle">latch</text>
               <!-- Bevel label -->
-              <text x="192" y="128" font-family="IBM Plex Mono, monospace" font-size="6" fill="#3e4d6a" text-anchor="middle">bevel</text>
+              <text x="192" y="128" font-family="IBM Plex Mono, monospace" font-size="6" fill="#7a869b" text-anchor="middle">bevel</text>
             </g>
 
             <!-- Latch bolt - retracted (hidden initially) -->
             <g id="latch-retracted" opacity="0">
-              <rect x="128" y="125" width="30" height="20" rx="1" fill="#c8372a" stroke="#e8472a" stroke-width="1" opacity="0.7"/>
-              <text x="143" y="138" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#f07068" text-anchor="middle">retracted</text>
+              <rect x="128" y="125" width="30" height="20" rx="1" fill="#b8382c" stroke="#b02417" stroke-width="1" opacity="0.7"/>
+              <text x="143" y="138" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#cf3f31" text-anchor="middle">retracted</text>
             </g>
 
             <!-- Gap label -->
-            <text x="180" y="34" font-family="IBM Plex Mono, monospace" font-size="7" fill="#c8372a" text-anchor="middle">door/frame gap</text>
+            <text x="180" y="34" font-family="IBM Plex Mono, monospace" font-size="7" fill="#b8382c" text-anchor="middle">door/frame gap</text>
             <line x1="160" y1="38" x2="200" y2="38" stroke="rgba(200,55,42,0.4)" stroke-width="1"/>
 
             <!-- Door edge detail -->
-            <line x1="160" y1="40" x2="160" y2="240" stroke="#2e3659" stroke-width="1.5"/>
+            <line x1="160" y1="40" x2="160" y2="240" stroke="#9aa6b8" stroke-width="1.5"/>
             <!-- Frame edge -->
-            <line x1="200" y1="40" x2="200" y2="240" stroke="#2e3659" stroke-width="1"/>
+            <line x1="200" y1="40" x2="200" y2="240" stroke="#9aa6b8" stroke-width="1"/>
 
             <!-- DOOR label -->
-            <text x="90" y="250" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3e4d6a" text-anchor="middle">DOOR PANEL</text>
+            <text x="90" y="250" font-family="IBM Plex Mono, monospace" font-size="8" fill="#7a869b" text-anchor="middle">DOOR PANEL</text>
             <!-- FRAME label -->
-            <text x="215" y="250" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3e4d6a" text-anchor="middle">FRAME</text>
+            <text x="215" y="250" font-family="IBM Plex Mono, monospace" font-size="8" fill="#7a869b" text-anchor="middle">FRAME</text>
 
             <!-- Shim (credit card) - hidden initially -->
             <g id="shim-group" opacity="0">
               <!-- Card body -->
-              <rect x="165" y="80" width="5" height="100" rx="1" fill="rgba(240,168,80,0.7)" stroke="#f0a850" stroke-width="1"/>
-              <text x="172" y="120" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f0a850">credit</text>
-              <text x="172" y="130" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f0a850">card</text>
+              <rect x="165" y="80" width="5" height="100" rx="1" fill="rgba(240,168,80,0.7)" stroke="#c9821c" stroke-width="1"/>
+              <text x="172" y="120" font-family="IBM Plex Mono, monospace" font-size="7" fill="#c9821c">credit</text>
+              <text x="172" y="130" font-family="IBM Plex Mono, monospace" font-size="7" fill="#c9821c">card</text>
               <!-- Arrow showing direction of force -->
-              <line x1="162" y1="135" x2="140" y2="135" stroke="#f0a850" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+              <line x1="162" y1="135" x2="140" y2="135" stroke="#c9821c" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
               <defs>
                 <marker id="arrow-amber" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L6,3 z" fill="#f0a850"/>
+                  <path d="M0,0 L0,6 L6,3 z" fill="#c9821c"/>
                 </marker>
               </defs>
             </g>
@@ -225,8 +163,8 @@
             <!-- Success overlay -->
             <g id="success-group" opacity="0">
               <rect x="40" y="100" width="110" height="40" rx="4" fill="rgba(220,50,47,0.15)" stroke="rgba(220,50,47,0.4)" stroke-width="1"/>
-              <text x="95" y="120" font-family="IBM Plex Mono, monospace" font-size="9" fill="#f07068" text-anchor="middle" font-weight="500">DOOR OPEN</text>
-              <text x="95" y="132" font-family="IBM Plex Mono, monospace" font-size="7" fill="#f07068" text-anchor="middle" opacity="0.7">latch retracted · no alarm</text>
+              <text x="95" y="120" font-family="IBM Plex Mono, monospace" font-size="9" fill="#cf3f31" text-anchor="middle" font-weight="500">DOOR OPEN</text>
+              <text x="95" y="132" font-family="IBM Plex Mono, monospace" font-size="7" fill="#cf3f31" text-anchor="middle" opacity="0.7">latch retracted · no alarm</text>
             </g>
 
           </svg>

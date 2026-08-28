@@ -90,16 +90,15 @@ Copy an existing vuln page (e.g. `canned-air.html`) to `vulns/YOUR-SLUG.html`. U
 Each vuln page has an SVG attack diagram with 3 click-through states. The diagram uses a schematic/blueprint style — minimal, technical, no illustrations.
 
 **SVG viewBox:** Always `0 0 360 280` or `0 0 360 260`
-**Background:** `url(#grid)` pattern — already defined in each page
-**Colors:** Always use CSS variables via `fill="var(--xxx)"` — but note SVG doesn't support CSS vars in attributes for all properties; use hardcoded hex that matches the CSS var values:
-- Door/frame: `#161b2c` fill, `#2e3659` stroke
-- Background: `#0f1320`
-- Grid lines: `#1c2236`
-- Text labels: `#3e4d6a` (muted), `#7888aa` (secondary)
-- Accent: `#c8372a` (Pine Risk red)
-- Attack elements: `#f0a850` (amber/warning)
-- Alert state: `#f07068` (critical red)
-- Normal state: `#30c8b5` (teal/secure)
+**Background:** `url(#grid)` pattern — already defined in each page; sits on the light diagram panel
+**Colors:** Light "blueprint" palette. SVG doesn't support CSS vars in all attributes, so use hardcoded hex that matches the light design system:
+- Door/frame fill: `#e3e9f1`, deep fill/panel: `#eef2f7`, stroke: `#9aa6b8`
+- Grid lines: `#d6dde7`
+- Text labels: `#7a869b` (muted), `#586780` (secondary)
+- Accent: `#b8382c` (Pine Risk red)
+- Attack elements: `#c9821c` (amber/warning)
+- Alert state: `#cf3f31` (critical red)
+- Normal state: `#0d9488` (teal/secure)
 
 **State machine pattern:** Each diagram has a `states` array with 3 objects: `{ label, labelStyle, caption, setup(svg) }`. The `setup` function toggles opacity on SVG groups to show/hide elements per state.
 
@@ -107,23 +106,23 @@ Each vuln page has an SVG attack diagram with 3 click-through states. The diagra
 
 ## Design system reference
 
-All in `css/style.css`. Key values:
+The design is a committed **light "field manual" theme** (readable, professional, print-reference feel). All tokens live in `style.css`. Key values:
 
 | Token | Value |
 |-------|-------|
-| bg-primary | #090c13 |
-| bg-surface | #0f1320 |
-| bg-elevated | #161b2c |
-| accent (Pine Risk red) | #c8372a |
-| text-primary | #e2e8f4 |
-| text-secondary | #7888aa |
-| text-muted | #3e4d6a |
-| border | #1c2236 |
-| font-display | Barlow Condensed (600, 700) |
-| font-body | Barlow (400, 500) |
-| font-mono | IBM Plex Mono (400, 500) |
+| bg-primary (page) | #f3f5f8 |
+| bg-surface (cards) | #ffffff |
+| bg-elevated (chips) | #eef1f6 |
+| accent (Pine Risk red) | #b8382c |
+| text-primary (ink) | #16202e |
+| text-secondary (slate) | #4c5a6e |
+| text-muted | #8b95a6 |
+| border (hairline) | #e4e8ef |
+| font-display | Archivo (700, 800) |
+| font-body | IBM Plex Sans (400, 500, 600) |
+| font-mono | IBM Plex Mono (400, 500, 600) |
 
-**Severity ramp:** Critical = red (#f07068), High = amber (#f0a850), Medium = teal (#30c8b5), Low = blue (#7aabf8)
+**Severity ramp (chip text on light tint):** Critical = red (#b02417), High = amber (#925c07), Medium = teal (#0b7a6d), Low = blue (#2760a7)
 
 **Category badges:** `.cat-tech` (blue), `.cat-phys` (amber), `.cat-policy` (teal), `.cat-detect` (purple)
 
@@ -146,7 +145,7 @@ All in `css/style.css`. Key values:
 
 ## Branding notes
 
-- Pine Risk brand color: `#c8372a` (red)
+- Pine Risk brand color: `#b8382c` (red)
 - Logo mark: "PR" monogram in red square
 - Link to pinerisk.com in header nav and footer
 - Contact CTA: `https://pinerisk.com/contact`
