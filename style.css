@@ -1078,6 +1078,33 @@ body.no-scroll { overflow: hidden; }
 .deepdive-cta:hover .dd-arrow { transform: translateX(4px); }
 @media (max-width: 600px) { .dd-arrow { display: none; } .deepdive-cta { gap: 14px; padding: 18px; } }
 
+/* ---- Video embeds ---- */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.video-item { display: flex; flex-direction: column; gap: 12px; }
+.video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #0c1017;
+  box-shadow: var(--shadow-sm);
+}
+.video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-cap { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+.video-cap strong { color: var(--text-primary); font-weight: 600; }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }

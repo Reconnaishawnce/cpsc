@@ -35,10 +35,11 @@
       </div>
       <h1>Spring latch shimming</h1>
       <p class="lead">
-        The beveled spring latch — standard on most commercial and residential locks — can be
-        retracted using nothing more than a credit card, hotel key card, or thin piece of plastic.
-        No key, no tool kit, no expertise. It's one of the oldest bypass techniques in existence
-        and remains devastatingly effective.
+        The beveled spring latch found on most commercial and residential locks can be pushed
+        back with a credit card, a hotel key card, or any thin strip of plastic. No key and no
+        specialized tools are involved. It is one of the oldest bypass techniques there is, and
+        on any door that relies on the latch alone it still works. The controls that stop it are
+        well understood, and this page walks through them.
       </p>
     </section>
 
@@ -54,10 +55,10 @@
       <div class="explainer-prose">
         <h2>How the weakness works</h2>
         <p>
-          The standard <strong>spring latch bolt</strong> — found in virtually every lockset
-          from $20 residential hardware to commercial cylindrical locks — has an angled face
-          (the bevel) so that the door can close and latch without requiring the user to turn
-          the knob. When the door closes, the angled face slides against the strike plate and
+          The standard <strong>spring latch bolt</strong>, found in virtually every lockset
+          from inexpensive residential hardware to commercial cylindrical locks, has an angled
+          face (the bevel) so that the door can close and latch without the user turning the
+          knob. When the door closes, the angled face slides against the strike plate and
           retracts automatically.
         </p>
         <p>
@@ -68,19 +69,19 @@
           rulers, and a dozen other everyday objects work reliably.
         </p>
         <p>
-          On doors where the latch is <strong>accessible from the outside</strong> — meaning the
-          frame doesn't have a lip concealing the latch face — a skilled attacker can open the
-          door in under five seconds. On doors with better strike geometry, it may take 30 seconds
-          and some wiggling, but the technique still works.
+          On doors where the latch is <strong>accessible from the outside</strong>, meaning the
+          frame doesn't have a lip concealing the latch face, an attacker can open the door in
+          seconds. On doors with better strike geometry it takes longer and some wiggling, but
+          the technique still works.
         </p>
         <div class="attack-steps">
           <div class="attack-step"><span class="step-num">01</span><span class="step-text">Attacker identifies a door secured only by a spring latch (no deadbolt engaged, no auxiliary latch pin). The latch face may be visible in the gap between door and frame.</span></div>
           <div class="attack-step"><span class="step-num">02</span><span class="step-text"><strong>Shim is inserted</strong> into the gap at the latch location and angled toward the latch bevel. Card is worked in a rocking/pulling motion to engage the angled face of the bolt.</span></div>
-          <div class="attack-step"><span class="step-num">03</span><span class="step-text">Shim pushes the latch bevel inward, <strong>retracting the bolt</strong> out of the strike plate. Latch is now fully retracted — door no longer held.</span></div>
-          <div class="attack-step"><span class="step-num">04</span><span class="step-text"><strong>Door opens</strong>. No alarm fires unless a door contact is monitored. The access control system records nothing — no credential was ever read. Entry appears as a normal door-open event if logged at all.</span></div>
+          <div class="attack-step"><span class="step-num">03</span><span class="step-text">Shim pushes the latch bevel inward, <strong>retracting the bolt</strong> out of the strike plate. Latch is now fully retracted, and the door is no longer held.</span></div>
+          <div class="attack-step"><span class="step-num">04</span><span class="step-text"><strong>Door opens</strong>. No alarm fires unless a door contact is monitored. The access control system records nothing, because no credential was ever read. Entry appears as a normal door-open event if logged at all.</span></div>
         </div>
         <div class="warning-box">
-          <strong>Field note:</strong> Any door with a spring latch, a visible latch gap, and no deadbolt is shimable. Hotels are the canonical environment — but corporate interior doors, server room perimeters, and stairwell entries regularly exhibit this vulnerability. The auxiliary deadlocking plunger (found on better locksets) prevents shimming when the door is closed properly.
+          <strong>Field note:</strong> Any door with a spring latch, a visible latch gap, and no deadbolt is shimable. Hotels are the canonical environment, but corporate interior doors, server room perimeters, and stairwell entries regularly show the same weakness. The auxiliary deadlocking plunger (found on better locksets) prevents shimming when the door is closed properly.
         </div>
       </div>
 
@@ -169,7 +170,7 @@
 
           </svg>
         </div>
-        <div class="av-caption" id="av-caption">The spring latch is extended into the strike plate, holding the door closed. The angled bevel face is visible at the gap between door edge and frame — the attack surface.</div>
+        <div class="av-caption" id="av-caption">The spring latch is extended into the strike plate, holding the door closed. The angled bevel face is visible at the gap between door edge and frame, which is the attack surface.</div>
         <div class="av-controls">
           <button class="av-btn" id="btn-prev" disabled onclick="changeState(-1)">← Prev</button>
           <div class="av-dots">
@@ -187,7 +188,7 @@
     <div class="section-header">
       <div class="section-label">Mitigation framework</div>
       <div class="section-title">How to defend against this</div>
-      <p class="section-desc">Deadbolts are the most reliable fix. Anti-shim latches and frame armor close the gap for doors where a deadbolt isn't practical.</p>
+      <p class="section-desc">Four layers, strongest first. A deadbolt or a deadlocking latch removes the bevel the card works against, closing the door-to-frame gap denies the shim its path, and policy keeps that hardware actually engaged instead of latched by spring alone.</p>
     </div>
 
     <div class="filter-bar">
@@ -202,57 +203,57 @@
 
       <div class="mit-card" data-mit-cat="tech">
         <div class="mit-card-header">
-          <div class="mit-card-title">Deadbolt enforcement</div>
+          <div class="mit-card-title">Throw a deadbolt the shim cannot cam</div>
           <span class="cat-badge cat-tech">Hardware upgrade</span>
         </div>
-        <p class="mit-card-desc">A deadbolt eliminates the bevel entirely — its bolt is square-faced and cannot be retracted by a shim. The single most effective control against latch shimming.</p>
+        <p class="mit-card-desc">A deadbolt is the durable fix. Its bolt is square-faced with no spring bevel, so a card in the gap has nothing to push against. Strongest options first.</p>
         <div class="mit-points">
-          <div class="mit-point">ANSI Grade 1 single-cylinder deadbolt for all high-security interior doors</div>
-          <div class="mit-point">Double-cylinder deadbolt (keyed both sides) where exterior-accessible glass panels exist near the lock — prevents reachover attacks</div>
-          <div class="mit-point">High-security cylinders (Medeco, Mul-T-Lock, ASSA) resist picking and bumping in addition to shimming</div>
-          <div class="mit-point">Electrified deadbolts for access-controlled doors — credential on exterior, deadbolt engagement on interior</div>
+          <div class="mit-point">Fit an ANSI/BHMA Grade 1 single-cylinder deadbolt on doors that protect anything worth protecting, and require that it be thrown, not just pulled shut on the latch.</div>
+          <div class="mit-point">Pair the deadbolt with a high-security cylinder (Medeco, Mul-T-Lock, ASSA) so an attacker cannot simply fall back to picking or bumping the lock instead.</div>
+          <div class="mit-point">On access-controlled openings, use an electrified deadbolt so the bolt itself releases on a valid credential rather than leaving a shimmable spring latch as the only thing holding the door.</div>
+          <div class="mit-point">Where glass or a sidelite sits within arm's reach of the thumbturn, specify a double-cylinder deadbolt so a reach-through cannot simply turn it open, subject to your egress code.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="tech">
         <div class="mit-card-header">
-          <div class="mit-card-title">Anti-shim latch hardware</div>
+          <div class="mit-card-title">Use a latch that deadlocks itself</div>
           <span class="cat-badge cat-tech">Hardware upgrade</span>
         </div>
-        <p class="mit-card-desc">Modern commercial locksets include an auxiliary deadlocking plunger that automatically deadlocks the latch when the door is closed — preventing shimming without requiring a separate deadbolt.</p>
+        <p class="mit-card-desc">Where a separate deadbolt is not practical, a deadlatch closes the same gap: a small plunger beside the main bolt locks it against retraction once the door is shut.</p>
         <div class="mit-points">
-          <div class="mit-point">ANSI Grade 1 cylindrical and mortise locks include a deadlocking plunger by specification — verify it's engaged when the door closes properly</div>
-          <div class="mit-point">Anti-shim latch guards (surface applied to the door edge) block card insertion at the latch point</div>
-          <div class="mit-point">Security strike plates with a wrap-around lip cover the latch face from the frame side — shim cannot reach the bevel</div>
-          <div class="mit-point">Mortise locks provide a more robust latch mechanism and typically include a deadlocking feature</div>
+          <div class="mit-point">Specify a Grade 1 cylindrical or mortise lock with an auxiliary deadlocking plunger, which resists the shim without a second lock to operate.</div>
+          <div class="mit-point">Confirm the plunger actually lands on the strike, not in the strike hole, when the door closes. A misaligned strike leaves the main bolt free to be shimmed.</div>
+          <div class="mit-point">Prefer a mortise lock where the door sees heavy use. Its latch mechanism is more robust and the deadlocking feature is standard.</div>
+          <div class="mit-point">Verify alignment after any door, closer, or hinge adjustment, since a door that no longer closes fully drops the deadlatch back to an ordinary spring latch.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="phys">
         <div class="mit-card-header">
-          <div class="mit-card-title">Door frame hardening</div>
+          <div class="mit-card-title">Close the gap the shim needs</div>
           <span class="cat-badge cat-phys">Physical</span>
         </div>
-        <p class="mit-card-desc">Reduce or eliminate the gap between door edge and frame where the shim is inserted. Close tolerances make shimming difficult or impossible.</p>
+        <p class="mit-card-desc">No accessible gap at the latch means no way to slide a card in against the bevel. This is the fix for existing hardware you are not ready to replace.</p>
         <div class="mit-points">
-          <div class="mit-point">Rebated (rabbeted) door frames wrap around the door edge — there is no accessible gap at the latch location</div>
-          <div class="mit-point">Door frame armor (Don-Jo, Armor Concepts) plates the gap between door and frame with steel, blocking shim insertion</div>
-          <div class="mit-point">Wrap-around strike plates extend across the frame face and into the gap, eliminating shim access to the latch bevel</div>
-          <div class="mit-point">Latch shields and door edge guards can be added to existing frames without replacing hardware</div>
+          <div class="mit-point">Add a wrap-around latch guard (Don-Jo LP or ULP series) that plates over the door-to-frame gap at the latch and blocks a card from ever reaching the bevel.</div>
+          <div class="mit-point">Reinforce the opening with a frame and strike kit (Armor Concepts, Don-Jo) so the gap stays tight and the door resists the spreading or kick that would open it up.</div>
+          <div class="mit-point">Where the frame is being replaced anyway, specify a rabbeted frame whose lip wraps the door edge, leaving no accessible gap at the latch at all.</div>
+          <div class="mit-point">Fit a security strike with a deep, boxed lip so the latch face is shielded from the frame side and cannot be reached from the gap.</div>
         </div>
       </div>
 
       <div class="mit-card" data-mit-cat="policy">
         <div class="mit-card-header">
-          <div class="mit-card-title">Operational policy</div>
+          <div class="mit-card-title">Keep the good hardware engaged</div>
           <span class="cat-badge cat-policy">Policy</span>
         </div>
-        <p class="mit-card-desc">Where hardware cannot be immediately changed, operational controls reduce risk and increase detection probability.</p>
+        <p class="mit-card-desc">The best lock is defeated by a habit of not throwing it. Operational controls keep the hardware doing its job and surface doors that have quietly gone weak.</p>
         <div class="mit-points">
-          <div class="mit-point">Enforce deadbolt engagement policy — require employees to fully engage deadbolts when leaving secure areas</div>
-          <div class="mit-point">Audit doors without deadbolts and prioritize for hardware upgrade; intermediate risk-acceptance documentation</div>
-          <div class="mit-point">Include spring latch awareness in security training — staff report doors that don't close and latch properly</div>
-          <div class="mit-point">Regular physical security walk-throughs to identify doors with visible latch gaps or misaligned strikes</div>
+          <div class="mit-point">Require staff to throw the deadbolt, not just pull the door shut, when they leave a secured area, and make that the expectation in writing.</div>
+          <div class="mit-point">Audit the estate for doors held by a spring latch alone, prioritize them for a deadbolt or deadlatch, and document any risk you knowingly accept in the interim.</div>
+          <div class="mit-point">Fold spring-latch awareness into security training so staff report doors that do not close and latch fully instead of walking past them.</div>
+          <div class="mit-point">Walk the doors on a set cadence to catch visible latch gaps, misaligned strikes, and closers that no longer pull the door all the way home.</div>
         </div>
       </div>
 
@@ -263,7 +264,7 @@
     <div class="section-header">
       <div class="section-label">Vetted hardware &amp; standards</div>
       <div class="section-title">Reference Technology</div>
-      <p class="section-desc">Products and standards that close this gap. Open any card for the data sheet, a link to the manufacturer, and field notes from people who&rsquo;ve deployed it &mdash; and add your own.</p>
+      <p class="section-desc">Real, current hardware and standards that close this gap, strongest first. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
     </div>
 
     <div class="filter-bar">
@@ -282,7 +283,7 @@
   <footer class="page-wrap">
     <div class="site-footer">
       <span class="footer-brand">Common Physical Security Controls</span>
-      <span>CPSC-003 — Spring latch shimming</span>
+      <span>CPSC-003 · Spring latch shimming</span>
       <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
     </div>
   </footer>
@@ -292,7 +293,7 @@
     const states = [
       {
         label: 'Latch secured', labelStyle: 'background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)',
-        caption: 'The spring latch is extended into the strike plate. The angled bevel face is visible at the gap between door edge and frame — this is the attack surface.',
+        caption: 'The spring latch is extended into the strike plate. The angled bevel face is visible at the gap between door edge and frame, which is the attack surface.',
         setup(svg) {
           svg.getElementById('latch-extended').style.opacity = '1';
           svg.getElementById('latch-retracted').style.opacity = '0';
@@ -354,7 +355,7 @@
         datasheet: 'https://commercial.schlage.com/content/dam/allegion-us-2/web-files/schlage/information-documents/Schlage_B600_Series_Cut_Sheet_113170.pdf',
         productUrl: 'https://commercial.schlage.com/en/products/mechanical-locks/b600-series-grade-1-deadbolts.html',
         blurb: 'Schlage’s flagship Grade 1 commercial deadbolt line (B660 single-cylinder). A deadbolt throws a solid rectangular bolt with no spring bevel.',
-        defeats: 'A deadbolt’s bolt is square-faced and spring-free — there is no angled bevel for a shim to cam inward, so it can only be withdrawn by turning the cylinder or thumbturn, not by a card worked into the gap.',
+        defeats: 'A deadbolt’s bolt is square-faced and spring-free, so there is no angled bevel for a shim to cam inward. It can only be withdrawn by turning the cylinder or thumbturn, not by a card worked into the gap.',
         tags: ['Grade 1', 'Deadbolt', 'Shim-proof'],
         specs: [
           ['Grade', 'ANSI/BHMA Grade 1'],
@@ -385,8 +386,8 @@
         image: '',
         datasheet: 'https://commercial.schlage.com/content/dam/allegion-us-2/web-files/schlage/information-documents/Schlage_ND_Series_Data_Sheet_106486.pdf',
         productUrl: 'https://commercial.schlage.com/en/products/mechanical-locks/nd-series-grade-1-cylindrical-locks.html',
-        blurb: 'A Grade 1 cylindrical lever lock whose latchbolt includes an auxiliary deadlocking plunger — the anti-shim feature built into the latch itself, no separate deadbolt required.',
-        defeats: 'When the door is closed, the strike holds the small plunger depressed, which mechanically deadlocks the main latchbolt against retraction — so a shim pushing on the bevel can’t drive the bolt back.',
+        blurb: 'A Grade 1 cylindrical lever lock whose latchbolt includes an auxiliary deadlocking plunger, the anti-shim feature built into the latch itself, with no separate deadbolt required.',
+        defeats: 'When the door is closed, the strike holds the small plunger depressed, which mechanically deadlocks the main latchbolt against retraction, so a shim pushing on the bevel cannot drive the bolt back.',
         tags: ['Grade 1', 'Deadlatch', 'Anti-shim'],
         specs: [
           ['Grade', 'ANSI/BHMA A156.2 Grade 1'],
@@ -417,7 +418,7 @@
         image: '', datasheet: '',
         productUrl: 'https://www.armorconcepts.com/shop/door-armor-max-single-door-security-kit-4977',
         blurb: 'A 5-piece steel kit that reinforces the jamb, hinge and strike areas of a door, tightening the frame around the strike.',
-        defeats: 'Reinforcing and closing the frame around the strike tightens the door-frame gap at the latch, so a shim can’t be worked in to reach the bevel — and the door resists the spreading or kick that would otherwise open the gap.',
+        defeats: 'Reinforcing and closing the frame around the strike tightens the door-frame gap at the latch, so a shim cannot be worked in to reach the bevel, and the door resists the spreading or kick that would otherwise open the gap.',
         tags: ['Frame kit', 'Strike wrap', 'Retrofit'],
         specs: [
           ['Kit', '5-piece'],
@@ -427,11 +428,11 @@
           ['Material', 'Powder-coated alloy steel']
         ],
         comments: [] },
-      { cat: 'standard', maker: 'ANSI / BHMA', name: 'A156.30 — High Security Cylinders',
+      { cat: 'standard', maker: 'ANSI / BHMA', name: 'A156.30 High Security Cylinders',
         type: 'Lock cylinder performance standard',
         image: '', datasheet: '',
         productUrl: 'https://webstore.ansi.org/standards/bhma/ansibhmaa156302025',
-        blurb: 'The BHMA performance standard for high-security lock cylinders — key control and resistance to picking, drilling and physical attack.',
+        blurb: 'The BHMA performance standard for high-security lock cylinders, covering key control and resistance to picking, drilling and physical attack.',
         defeats: 'Not a shim defense on its own: it is how you require the attack-resistant cylinder that belongs on a serious lock, so the deadbolt or deadlatch that stops the shim isn’t undone by an easily-picked or bumped cylinder.',
         tags: ['Standard', 'BHMA', 'High-security cylinder'],
         specs: [

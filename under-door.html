@@ -166,9 +166,32 @@
     <hr class="divider" style="margin-top: 52px;">
 
     <div class="section-header">
+      <div class="section-label">See the technique</div>
+      <div class="section-title">What the attack looks like</div>
+      <p class="section-desc">To defend a door you have to know how the tool is worked at it. These demonstrations show the under-door tool in use so you can recognize the attempt and judge how your own openings would hold up.</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-item">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/6TmEM5RVMBQ?si=1s02ckeLgM8hQJ6i" title="Under-door gap tool demonstration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="video-cap"><strong>The under-door gap tool.</strong> How a purpose-built tool is fed through the gap at the base of the door and worked up to the interior lever.</p>
+      </div>
+      <div class="video-item">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/xcA7iXSNmZE?si=qmxSJciGAPrkPmgn&amp;start=12" title="Under-door tool demonstration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="video-cap"><strong>The under-door tool in action.</strong> A closer look at how quickly a lever can be caught and depressed once a tool reaches it through the undercut.</p>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-top: 52px;">
+
+    <div class="section-header">
       <div class="section-label">Mitigation framework</div>
       <div class="section-title">How to defend against this</div>
-      <p class="section-desc">Four layers, strongest first. Removing the exposed lever ends the attack, sealing the gap denies the tool its path, and the rest narrows the window and makes an attempt visible.</p>
+      <p class="section-desc">Five layers, strongest first. Removing the exposed lever ends the attack, sealing the gap denies the tool its path, a person watching the door stops an attempt as it happens, and the rest narrows the window and makes an attempt visible.</p>
     </div>
 
     <div class="filter-bar">
@@ -176,6 +199,7 @@
       <button class="filter-btn active" data-mit-filter="all">All</button>
       <button class="filter-btn" data-mit-filter="phys">Physical</button>
       <button class="filter-btn" data-mit-filter="tech">Hardware</button>
+      <button class="filter-btn" data-mit-filter="people">Personnel</button>
       <button class="filter-btn" data-mit-filter="detect">Detection</button>
     </div>
 
@@ -204,6 +228,7 @@
         <div class="mit-points">
           <div class="mit-point">Add an automatic door bottom that drops a continuous seal onto the threshold when the door closes, taking the undercut to near zero.</div>
           <div class="mit-point">For a lighter retrofit, a compression door sweep closes the same clearance against the floor or threshold.</div>
+          <div class="mit-point">Where the opening is being renovated anyway, replacing the door and frame as a set lets you spec a tight undercut and matched threshold from the start, so the gap the tool needs is never built in.</div>
           <div class="mit-point">Combine with a threshold, and on pairs of doors an astragal at the meeting stile, so there is no path in from any edge.</div>
           <div class="mit-point">Verify the finished gap in the field. A sweep set too high leaves exactly the clearance the tool needs.</div>
         </div>
@@ -220,6 +245,20 @@
           <div class="mit-point">Choose hardware where the lever returns nearly flush and offers little edge for a hook to grab.</div>
           <div class="mit-point">Reposition the hardware away from the door edge and the undercut so an angled tool cannot line up on it.</div>
           <div class="mit-point">Fit a floor-level guard plate on the interior across the undercut next to the hardware.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="people">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Put a person on the door</div>
+          <span class="cat-badge cat-policy">Personnel</span>
+        </div>
+        <p class="mit-card-desc">The attack needs a tool worked slowly at the floor in front of the door. Someone watching that spot both prevents the attempt and ends it in the moment, not on later review.</p>
+        <div class="mit-points">
+          <div class="mit-point">Station a guard with a direct line of sight to the door during the hours it is exposed. A person kneeling to feed a tool under the door cannot do so unnoticed, so the attempt is stopped before the latch ever moves.</div>
+          <div class="mit-point">Unlike a camera, an officer on post intervenes in real time: they can challenge the person, hold the door, and call it in while the attempt is still underway rather than after entry.</div>
+          <div class="mit-point">Where a fixed post is not justified, fold the door into a guard tour or reception sightline so it is checked on a known cadence and is never left unwatched for long stretches.</div>
+          <div class="mit-point">Brief officers on exactly what this attempt looks like, a thin tool worked at the base of the door, so it is recognized as an attack and not mistaken for a dropped keycard or maintenance.</div>
         </div>
       </div>
 
@@ -394,6 +433,22 @@
           ['Inserts', 'Neoprene / silicone / brush options']
         ],
         comments: [] },
+      { cat: 'door', maker: 'Zero International / Allegion', name: '361 Automatic Door Bottom',
+        type: 'Surface-applied automatic door bottom',
+        image: 'https://www.trudoor.com/cdn/shop/files/zero-361a.jpg',
+        datasheet: 'https://us.allegion.com/content/dam/allegion-us-2/web-files/zero/information-documents/Zero_361_data_sheet_112628.pdf',
+        productUrl: 'https://us.allegion.com/en/home/products/categories/sealing-solutions/zero-automatic-door-bottoms.html',
+        blurb: 'A heavy-duty drop seal that mounts to the face of the door rather than being mortised in. As the door closes, a spring-loaded neoprene seal drops onto the threshold, then retracts as it opens.',
+        defeats: 'The dropped seal closes the under-door clearance whenever the door is shut, so there is no flat gap for a tool to be slid beneath the door and up to the lever. Being surface-applied, it retrofits onto an existing door without machining the leaf.',
+        tags: ['Auto door bottom', 'Surface mount', 'Fire-rated'],
+        specs: [
+          ['Type', 'Surface-mounted automatic door bottom'],
+          ['Drop', 'Up to 7/8" effective'],
+          ['Seal', 'Closed-cell sponge neoprene'],
+          ['Fire / air', 'UL10C rated, air-infiltration tested'],
+          ['Certification', 'BHMA A156.22 (R3C3341)']
+        ],
+        comments: [] },
       { cat: 'door', maker: 'National Guard Products', name: '200NA Door Sweep',
         type: 'Surface-applied door bottom sweep',
         image: 'https://www.ngp.com/plugins/NGPAdmin/data/products/200NA_crop_website.jpg',
@@ -410,18 +465,52 @@
           ['Lengths', '36" and 48"']
         ],
         comments: [] },
+      { cat: 'door', maker: 'Zero International / Allegion', name: '8198 Door Sweep',
+        type: 'Surface-applied door sweep with drip cap',
+        image: 'https://www.trudoor.com/cdn/shop/files/d774659a32dc307deaaafab3a73cbb6a_2844ac53-5f45-455d-8784-e7b84d74b64a.jpg',
+        datasheet: 'https://us.allegion.com/content/dam/allegion-us-2/web-files/zero/information-documents/Zero_8198_data_sheet_112671.pdf',
+        productUrl: 'https://us.allegion.com/en/products/brands/zero-international/perimeter-seals.html',
+        blurb: 'A surface-mounted aluminum sweep with a nylon brush insert and a rain drip cap, commonly specified on out-swinging exterior openings. A second sweep option alongside the NGP 200NA for closing the door-bottom gap.',
+        defeats: 'The brush insert closes the clearance between the door bottom and the floor, denying an under-door tool the flat gap it needs to slide under the door and reach the lever.',
+        tags: ['Door sweep', 'Retrofit', 'BHMA A156.22'],
+        specs: [
+          ['Type', 'Surface-applied sweep with drip cap'],
+          ['Projection', '0.563"'],
+          ['Brush drop', '0.375"'],
+          ['Seal / body', 'Nylon brush in extruded aluminum'],
+          ['Certification', 'UL10C, BHMA A156.22 (R3A536)']
+        ],
+        comments: [] },
+      { cat: 'door', maker: 'Red Team Tools', name: 'RTT Lever Door Handle Shroud Guard',
+        type: 'Interior lever shroud / handle guard',
+        image: 'https://cdn11.bigcommerce.com/s-szziy5bgph/images/stencil/1280x1280/products/350/1036/PXL_20211017_160011546__85517.1637793487.jpg?c=1',
+        datasheet: '',
+        productUrl: 'https://www.redteamtools.com/rttlever-door-handle-shroud-guard/',
+        blurb: 'A low-cost guard that mounts over an interior lever handle to block an under-door tool from catching and pulling it down. It installs with screws or adhesive and is meant for the common case where the lever itself cannot be replaced.',
+        defeats: 'It sits between the undercut and the lever, so a tool fed under the door has nothing clean to hook. The attacker can reach the area but cannot get purchase on the handle to depress it.',
+        tags: ['Lever guard', 'Retrofit', 'Low cost'],
+        specs: [
+          ['Type', 'Interior lever handle shroud'],
+          ['Mounting', 'Screws or adhesive (tape / Command strips)'],
+          ['Weight', 'About 1 oz'],
+          ['Fit', 'Fits many lever styles; not guaranteed for every handle'],
+          ['Best for', 'Levers that must stay in place for code or budget']
+        ],
+        comments: [] },
       { cat: 'standard', maker: 'ANSI / BHMA', name: 'A156.31 Electric Strikes & Actuators',
         type: 'Hardware performance standard',
-        image: '', datasheet: '',
+        image: 'https://www.trudoor.com/cdn/shop/files/HES-1006-630.jpg',
+        datasheet: '',
         productUrl: 'https://webstore.ansi.org/standards/bhma/ANSIBHMAA156312024',
-        blurb: 'The BHMA performance standard for electric strikes and frame-mounted actuators. It grades operation, endurance and strength.',
+        blurb: 'The BHMA performance standard for electric strikes and frame-mounted actuators. It grades operation, endurance and strength. Pictured is a representative electric strike, the class of hardware this standard covers.',
         defeats: 'Not a device: it is how you specify a Grade 1 electric strike (like the HES 9600) so the credential-side release that removes the exposed lever is held to a tested performance level.',
         tags: ['Standard', 'BHMA', 'Grade 1 to 3'],
         specs: [
           ['Scope', 'Electric strikes & frame-mounted actuators'],
           ['Grades', 'Grade 1 (highest) to Grade 3'],
           ['Edition', 'ANSI/BHMA A156.31-2024'],
-          ['Publisher', 'BHMA (ANSI-approved)']
+          ['Publisher', 'BHMA (ANSI-approved)'],
+          ['Pictured', 'Representative electric strike (HES 1006)']
         ],
         comments: [] }
     ];
