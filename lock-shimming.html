@@ -188,7 +188,7 @@
     <div class="section-header">
       <div class="section-label">Mitigation framework</div>
       <div class="section-title">How to defend against this</div>
-      <p class="section-desc">Four layers, strongest first. A deadbolt or a deadlocking latch removes the bevel the card works against, closing the door-to-frame gap denies the shim its path, and policy keeps that hardware actually engaged instead of latched by spring alone.</p>
+      <p class="section-desc">Five layers. Start by auditing the doors to find which ones are weak, then fix them strongest first: a deadbolt or a deadlocking latch removes the bevel the card works against, closing the door-to-frame gap denies the shim its path, and operational habits keep that hardware actually engaged.</p>
     </div>
 
     <div class="filter-bar">
@@ -196,14 +196,28 @@
       <button class="filter-btn active" data-mit-filter="all">All</button>
       <button class="filter-btn" data-mit-filter="phys">Physical</button>
       <button class="filter-btn" data-mit-filter="tech">Hardware upgrade</button>
-      <button class="filter-btn" data-mit-filter="policy">Policy</button>
+      <button class="filter-btn" data-mit-filter="policy">Operational</button>
     </div>
 
     <div class="card-grid" id="mit-grid">
 
+      <div class="mit-card" data-mit-cat="policy">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Run a door audit</div>
+          <span class="cat-badge cat-policy">Operational</span>
+        </div>
+        <p class="mit-card-desc">Before you can fix a weak door you have to find it. A recurring walk-through surfaces the doors that no longer close, latch, or alarm the way they should, and gets them onto a fix list.</p>
+        <div class="mit-points">
+          <div class="mit-point">Walk every door on a set cadence, every 6 to 12 months, with facilities, your integrator, a locksmith, and security together so each trade catches what it knows best.</div>
+          <div class="mit-point">Let each door close on its own from several distances and watch how it latches. A door that does not close and latch fully is the one that gets shimmed.</div>
+          <div class="mit-point">Check the door-forced and door-held-open alarms (DFO/DHO), the strike plate and its screws, the hinges, the closer, and any catches or holders.</div>
+          <div class="mit-point">Fix the quick items on the spot, ticket the rest so a weak door is tracked to closure, and use the <a href="door-audits.html">door audit guide</a> for the full checklist.</div>
+        </div>
+      </div>
+
       <div class="mit-card" data-mit-cat="tech">
         <div class="mit-card-header">
-          <div class="mit-card-title">Throw a deadbolt the shim cannot cam</div>
+          <div class="mit-card-title">Add a deadbolt</div>
           <span class="cat-badge cat-tech">Hardware upgrade</span>
         </div>
         <p class="mit-card-desc">A deadbolt is the durable fix. Its bolt is square-faced with no spring bevel, so a card in the gap has nothing to push against. Strongest options first.</p>
@@ -217,7 +231,7 @@
 
       <div class="mit-card" data-mit-cat="tech">
         <div class="mit-card-header">
-          <div class="mit-card-title">Use a latch that deadlocks itself</div>
+          <div class="mit-card-title">Use a deadlocking latch</div>
           <span class="cat-badge cat-tech">Hardware upgrade</span>
         </div>
         <p class="mit-card-desc">Where a separate deadbolt is not practical, a deadlatch closes the same gap: a small plunger beside the main bolt locks it against retraction once the door is shut.</p>
@@ -231,7 +245,7 @@
 
       <div class="mit-card" data-mit-cat="phys">
         <div class="mit-card-header">
-          <div class="mit-card-title">Close the gap the shim needs</div>
+          <div class="mit-card-title">Close the gap</div>
           <span class="cat-badge cat-phys">Physical</span>
         </div>
         <p class="mit-card-desc">No accessible gap at the latch means no way to slide a card in against the bevel. This is the fix for existing hardware you are not ready to replace.</p>
@@ -245,7 +259,7 @@
 
       <div class="mit-card" data-mit-cat="policy">
         <div class="mit-card-header">
-          <div class="mit-card-title">Keep the good hardware engaged</div>
+          <div class="mit-card-title">Enforce use of hardware</div>
           <span class="cat-badge cat-policy">Policy</span>
         </div>
         <p class="mit-card-desc">The best lock is defeated by a habit of not throwing it. Operational controls keep the hardware doing its job and surface doors that have quietly gone weak.</p>

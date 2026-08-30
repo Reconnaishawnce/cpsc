@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Door Audits: a field guide | CPSC</title>
+  <meta name="description" content="A practical field guide to running a door audit: which doors to check, who should be in the room, and a categorized walk-through checklist for latches, gaps, strikes, hinges, and alarms.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <span class="logo-mark">CPSC</span>
+      <span class="logo-word">Common Physical Security Controls</span>
+    </a>
+    <nav class="header-nav">
+      <a href="about.html">About</a>
+      <a href="about.html#contribute" class="btn-cta">Contribute</a>
+    </nav>
+  </header>
+
+  <main class="page-wrap">
+
+    <section class="vuln-hero">
+      <div class="breadcrumb">
+        <a href="index.html">CPSC Library</a>
+        <span>/</span>
+        <span>Field guide</span>
+      </div>
+      <div class="vuln-meta-row">
+        <span class="card-number">Field guide</span>
+        <span class="cat-badge cat-policy">Operational</span>
+        <span class="cat-badge cat-phys">Physical hardening</span>
+        <span class="cat-badge cat-detect">Detection</span>
+      </div>
+      <h1>Door audits</h1>
+      <p class="lead">
+        Most of the weaknesses in this library live on doors that were fine the day they were
+        installed and have quietly drifted since. A closer that no longer pulls the door home, a
+        strike screw backed out, a sweep set too high. A door audit is the recurring walk-through
+        that finds those doors before an attacker does, and it is one of the cheapest controls you
+        can run. This guide keeps it simple: which doors, who walks them, and exactly what to check.
+      </p>
+    </section>
+
+    <div class="fast-facts">
+      <div class="fact"><div class="fact-label">Cadence</div><div class="fact-value">Every 6 to 12 months</div></div>
+      <div class="fact"><div class="fact-label">Who</div><div class="fact-value">Facilities · Integrator · Locksmith · Security</div></div>
+      <div class="fact"><div class="fact-label">Time per door</div><div class="fact-value">2 to 5 minutes</div></div>
+      <div class="fact"><div class="fact-label">Output</div><div class="fact-value">A prioritized fix list</div></div>
+      <div class="fact"><div class="fact-label">Cost</div><div class="fact-value">Labor and a clipboard</div></div>
+    </div>
+
+    <div class="explainer">
+      <div class="explainer-prose">
+        <h2>Why a walk-through works</h2>
+        <p>
+          A door is a system: a leaf, a frame, a hinge set, a lock or exit device, a closer, a
+          strike, seals at the perimeter, and often a reader and an alarm point. It only holds when
+          every part is doing its job. Any one of them can loosen, sag, or fall out of adjustment
+          without anyone noticing, because the door still looks shut.
+        </p>
+        <p>
+          Walking the doors on a schedule does three things at once. It <strong>prevents</strong>,
+          because you catch the loose strike or the high sweep and fix it before it matters. It
+          <strong>detects</strong>, because you confirm the door-forced and door-held-open alarms
+          actually fire and report. And it lets you <strong>proactively fix</strong>, turning a
+          vague sense that "some doors are bad" into a specific, ticketed list with owners and dates.
+        </p>
+        <p>
+          The point is not paperwork. It is to physically stand at each door, let it close on its
+          own, and watch what it does. The doors that fail that simple test are the ones that get
+          shimmed, propped, or worked with an under-door tool.
+        </p>
+        <div class="warning-box">
+          <strong>Field note:</strong> The single most useful thing you can do at any door is let
+          it close by itself from a few different starting angles and watch whether it latches every
+          time. A door that latches only when you push it is a door that is not latching.
+        </div>
+      </div>
+
+      <div class="attack-visual">
+        <div class="av-header">
+          <span class="av-title">The audit loop</span>
+          <span class="av-state-label" style="background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)">Repeat 6 to 12 mo</span>
+        </div>
+        <div class="av-stage" style="padding: 26px 20px;">
+          <div class="attack-steps" style="margin-top: 0;">
+            <div class="attack-step"><span class="step-num">01</span><span class="step-text"><strong>Scope.</strong> Pull the door schedule and pick the run: perimeter and secured doors first.</span></div>
+            <div class="attack-step"><span class="step-num">02</span><span class="step-text"><strong>Walk.</strong> Visit each door as a team and work the checklist below, category by category.</span></div>
+            <div class="attack-step"><span class="step-num">03</span><span class="step-text"><strong>Fix now.</strong> Tighten screws, adjust the closer, reset the sweep on the spot where you can.</span></div>
+            <div class="attack-step"><span class="step-num">04</span><span class="step-text"><strong>Ticket.</strong> Log everything else with a photo, a priority, and an owner.</span></div>
+            <div class="attack-step"><span class="step-num">05</span><span class="step-text"><strong>Close out.</strong> Track the tickets to done, then set the date for the next run.</span></div>
+          </div>
+        </div>
+        <div class="av-caption">A door audit is a loop, not a one-time project. The value compounds when it runs on a schedule and every finding is tracked to closure.</div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-top: 52px;">
+
+    <div class="section-header">
+      <div class="section-label">Scope</div>
+      <div class="section-title">Which doors to audit</div>
+      <p class="section-desc">You do not have to do every door in one pass. Work in priority order so the openings that matter most are covered first and often.</p>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Tier 1: perimeter and high-value</div>
+          <span class="cat-badge cat-phys">First</span>
+        </div>
+        <p class="mit-card-desc">The doors an outsider reaches first, and the doors behind which the worst outcome sits. Audit these every time, most often.</p>
+        <div class="mit-points">
+          <div class="mit-point">Exterior and perimeter doors, including after-hours and loading-dock entrances.</div>
+          <div class="mit-point">Server rooms, IDF and MDF closets, and other doors protecting critical systems.</div>
+          <div class="mit-point">Cash handling, evidence, pharmacy, records, and any regulated or high-value room.</div>
+          <div class="mit-point">Doors that separate public areas from staff-only or secured space.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Tier 2: secured interior</div>
+          <span class="cat-badge cat-tech">Next</span>
+        </div>
+        <p class="mit-card-desc">Access-controlled and life-safety doors inside the building. Audit on the standard cadence.</p>
+        <div class="mit-points">
+          <div class="mit-point">Any door on the access-control system, badged or with a REX device.</div>
+          <div class="mit-point">Stairwell and cross-corridor doors, especially fire and smoke doors.</div>
+          <div class="mit-point">Egress doors with panic or exit hardware.</div>
+          <div class="mit-point">Doors shared with tenants, vendors, or contractors.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Tier 3: general interior</div>
+          <span class="cat-badge cat-detect">Sample</span>
+        </div>
+        <p class="mit-card-desc">Lower-risk interior doors. Spot-check a rotating sample rather than every one, every time.</p>
+        <div class="mit-points">
+          <div class="mit-point">Standard office, meeting, and utility doors without special protection.</div>
+          <div class="mit-point">Doors flagged by staff tickets, incident reports, or a prior audit finding.</div>
+          <div class="mit-point">Any door recently rekeyed, rehung, or worked on by a contractor.</div>
+          <div class="mit-point">A random sample each cycle so problems in this tier still surface.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" style="margin-top: 44px;">
+
+    <div class="section-header">
+      <div class="section-label">The team</div>
+      <div class="section-title">Who should be in the room</div>
+      <p class="section-desc">A door audit is better with more than one trade present, because each one sees a different failure. Pull the group together for the walk rather than sending one person with a form.</p>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Facilities</div>
+          <span class="cat-badge cat-phys">Owner</span>
+        </div>
+        <p class="mit-card-desc">Owns the door schedule and the building. Usually runs the audit and holds the fix list.</p>
+        <div class="mit-points">
+          <div class="mit-point">Provides the door schedule, keys, and access to every space.</div>
+          <div class="mit-point">Judges closers, hinges, thresholds, and general condition of the leaf and frame.</div>
+          <div class="mit-point">Owns the tickets and the budget for repairs and replacements.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Integrator</div>
+          <span class="cat-badge cat-tech">Electronics</span>
+        </div>
+        <p class="mit-card-desc">Your access-control and alarm vendor, or the in-house team that runs those systems.</p>
+        <div class="mit-points">
+          <div class="mit-point">Confirms readers, REX devices, strikes, and maglocks work and are wired fail-safe or fail-secure as intended.</div>
+          <div class="mit-point">Tests that door-forced and door-held-open alarms actually fire and reach the monitoring point.</div>
+          <div class="mit-point">Checks that the access system logs match what the door is doing.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Locksmith</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">Reads the mechanical hardware the way an attacker would, and can fix a lot of it on the spot.</p>
+        <div class="mit-points">
+          <div class="mit-point">Judges the lockset, latch, deadbolt, deadlatch plunger, and strike for wear and correct fit.</div>
+          <div class="mit-point">Spots shimmable latches, loose cylinders, and worn or misaligned strikes.</div>
+          <div class="mit-point">Carries the tools to adjust strikes, tighten hardware, and rekey where needed.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Security</div>
+          <span class="cat-badge cat-detect">Operations</span>
+        </div>
+        <p class="mit-card-desc">Knows how the doors are actually used, and what the guard force and cameras can see.</p>
+        <div class="mit-points">
+          <div class="mit-point">Flags doors that get propped, tailgated, or worked around in daily use.</div>
+          <div class="mit-point">Confirms camera coverage and lighting at each opening, and that alarms route somewhere staffed.</div>
+          <div class="mit-point">Sets the priority of each finding against the real threat to that space.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" style="margin-top: 44px;">
+
+    <div class="section-header">
+      <div class="section-label">The walk-through</div>
+      <div class="section-title">The checklist, by category</div>
+      <p class="section-desc">At each door, work these categories in order. Not every item applies to every door, but the headings make sure nothing is skipped. Note what fails, fix what you can, and ticket the rest.</p>
+    </div>
+
+    <div class="card-grid" style="padding-bottom: 20px;">
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">1. Operation and closing</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">Start here. A door that does not close and latch on its own undoes almost everything else.</p>
+        <div class="mit-points">
+          <div class="mit-point">Release the door from several angles and distances and confirm it closes fully every time.</div>
+          <div class="mit-point">Confirm the latch or deadlatch seats in the strike on its own, without a push or a lift.</div>
+          <div class="mit-point">Check the closer speed and force: it should close and latch but not slam or stall partway.</div>
+          <div class="mit-point">Watch for a door that binds, drags on the floor, or springs back off the latch.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">2. Latch and lock</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">The bolt that actually holds the door. Look for anything a card or a pull can defeat. See <a href="lock-shimming.html">CPSC-003</a>.</p>
+        <div class="mit-points">
+          <div class="mit-point">Identify what holds the door: spring latch, deadlatch with a plunger, deadbolt, or exit device.</div>
+          <div class="mit-point">Confirm the auxiliary deadlatch plunger lands on the strike face, not in the strike hole.</div>
+          <div class="mit-point">Where a deadbolt exists, confirm it is actually being thrown, not just the latch.</div>
+          <div class="mit-point">Check the cylinder is tight and the lever or handle returns fully to position.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">3. Gaps and seals</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">The clearances an under-door or through-gap tool needs. See <a href="under-door.html">CPSC-002</a>.</p>
+        <div class="mit-points">
+          <div class="mit-point">Check the undercut at the door bottom. A wide, flat gap is the path for an under-door tool.</div>
+          <div class="mit-point">Confirm sweeps and automatic door bottoms actually contact the threshold and are not set too high.</div>
+          <div class="mit-point">Check the gap at the latch edge and, on pairs, the astragal at the meeting stile.</div>
+          <div class="mit-point">Look for daylight around the perimeter and for weatherstripping that has worn away.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">4. Strike and frame</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">What the bolt lands in. A loose or worn strike quietly turns a good lock into a weak one.</p>
+        <div class="mit-points">
+          <div class="mit-point">Confirm the strike is aligned so the bolt and any deadlatch plunger seat correctly.</div>
+          <div class="mit-point">Tighten strike screws and, on important doors, use long screws that reach the framing.</div>
+          <div class="mit-point">Check the frame for spread, dents, or prying near the strike and hinge sides.</div>
+          <div class="mit-point">Consider a latch guard or reinforced strike where the door-to-frame gap is exposed.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">5. Hinges and pins</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">The other edge of the door. On out-swing doors the hinges are exposed and worth a look.</p>
+        <div class="mit-points">
+          <div class="mit-point">Check hinge screws are tight and the door does not sag, which throws off the latch.</div>
+          <div class="mit-point">On out-swing doors, confirm non-removable pins or a hinge stud so the door cannot be lifted.</div>
+          <div class="mit-point">Look for worn or squeaking hinges that signal a door dropping out of alignment.</div>
+          <div class="mit-point">Confirm continuous or heavy-duty hinges on high-traffic and high-value doors.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">6. Alarms and monitoring</div>
+          <span class="cat-badge cat-detect">Detection</span>
+        </div>
+        <p class="mit-card-desc">Prove the door reports. Test the alarms rather than assuming they still work.</p>
+        <div class="mit-points">
+          <div class="mit-point">Test the door-forced-open (DFO) alarm: open against the lock and confirm it fires and reports.</div>
+          <div class="mit-point">Test the door-held-open (DHO) alarm: prop the door past the shunt and confirm it trips.</div>
+          <div class="mit-point">Confirm the door-position switch and any REX device are working and correctly mapped.</div>
+          <div class="mit-point">Check that alarms route to a place that is actually staffed and that the shunt time is sane.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">7. Readers and credentials</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">The electronic side of an access-controlled door. Confirm it fails the way you intend.</p>
+        <div class="mit-points">
+          <div class="mit-point">Confirm the reader reads a valid credential and rejects an invalid one.</div>
+          <div class="mit-point">Verify the lock fails secure or fails safe on power loss as the life-safety design requires.</div>
+          <div class="mit-point">Check the reader and wiring are not loose, exposed, or reachable from the unsecured side.</div>
+          <div class="mit-point">Confirm access logs match reality and that stale credentials are being pruned.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">8. Camera and lighting</div>
+          <span class="cat-badge cat-detect">Detection</span>
+        </div>
+        <p class="mit-card-desc">Whether an attempt at this door can be seen and reviewed. Stand where the camera stands.</p>
+        <div class="mit-points">
+          <div class="mit-point">Confirm a camera covers the door and that the door and floor gap are actually in frame.</div>
+          <div class="mit-point">Check the opening is lit well enough for that camera at the hours it matters.</div>
+          <div class="mit-point">Look for blind spots an attacker could use to work the door unseen.</div>
+          <div class="mit-point">Confirm footage is retained long enough to be useful after the fact.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" style="margin-top: 24px;">
+
+    <div class="section-header">
+      <div class="section-label">Close the loop</div>
+      <div class="section-title">After the walk-through</div>
+      <p class="section-desc">An audit only pays off if the findings turn into fixes. Keep the follow-through as simple as the walk.</p>
+    </div>
+
+    <div class="card-grid" style="padding-bottom: 80px;">
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Fix, ticket, track</div>
+          <span class="cat-badge cat-policy">Operational</span>
+        </div>
+        <div class="mit-points">
+          <div class="mit-point">Fix the quick wins during the walk: tighten screws, adjust the closer, reset a sweep, throw a deadbolt back into use.</div>
+          <div class="mit-point">Ticket everything else with a photo, the door ID, the category, and a priority tied to the space it protects.</div>
+          <div class="mit-point">Give every ticket an owner and a due date, and track it to closure instead of to a report that gets filed.</div>
+          <div class="mit-point">Re-test the fix at the next visit so a repair that did not hold is caught.</div>
+        </div>
+      </div>
+
+      <div class="mit-card">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Make it a program</div>
+          <span class="cat-badge cat-policy">Operational</span>
+        </div>
+        <div class="mit-points">
+          <div class="mit-point">Set the next date before you leave: every 6 months for Tier 1, up to 12 for the rest.</div>
+          <div class="mit-point">Trigger an off-cycle check when a door is rehung, rekeyed, or worked on by a contractor.</div>
+          <div class="mit-point">Give staff an easy way to report a door that does not close or latch, and feed it into the list.</div>
+          <div class="mit-point">Trend the findings over time so recurring problems point you at a design or product fix.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="page-wrap">
+    <div class="site-footer">
+      <span class="footer-brand">Common Physical Security Controls</span>
+      <span>Field guide · Door audits</span>
+      <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
+    </div>
+  </footer>
+
+</body>
+</html>
