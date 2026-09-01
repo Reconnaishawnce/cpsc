@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPSC-008: Maglock Force Bypass | CPSC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <span class="logo-mark">CPSC</span>
+      <span class="logo-word">Common Physical Security Controls</span>
+    </a>
+    <nav class="header-nav">
+      <a href="about.html">About</a>
+      <a href="about.html#contribute" class="btn-cta">Contribute</a>
+    </nav>
+  </header>
+
+  <main class="page-wrap">
+
+    <section class="vuln-hero">
+      <div class="breadcrumb">
+        <a href="index.html">CPSC Library</a>
+        <span>/</span>
+        <span>CPSC-008</span>
+      </div>
+      <div class="vuln-meta-row">
+        <span class="card-number">CPSC-008</span>
+        <span class="severity-badge sev-high">High</span>
+        <span class="cat-badge cat-tech">Hardware upgrade</span>
+        <span class="cat-badge cat-phys">Physical hardening</span>
+      </div>
+      <h1>Maglock force bypass</h1>
+      <p class="lead">
+        An electromagnetic lock holds a door with nothing but magnetic force. There is no bolt and
+        no keeper, so whether the door holds comes down to how much force the magnet, its mounting,
+        and the frame can resist. Underspecified or poorly mounted maglocks are pulled, shoved, shocked,
+        or levered open, often at the top corner where a little leverage goes a long way, with no power
+        cut and no credential presented.
+      </p>
+    </section>
+
+    <div class="fast-facts">
+      <div class="fact"><div class="fact-label">Attack tool</div><div class="fact-value">Hands, a strap, or a pry bar</div></div>
+      <div class="fact"><div class="fact-label">Time to execute</div><div class="fact-value">Seconds</div></div>
+      <div class="fact"><div class="fact-label">Skill required</div><div class="fact-value">Low</div></div>
+      <div class="fact"><div class="fact-label">Detection risk</div><div class="fact-value">Low unless bond is monitored</div></div>
+      <div class="fact"><div class="fact-label">Alert generated</div><div class="fact-value">Door-forced alarm only, if armed</div></div>
+    </div>
+
+    <div class="explainer">
+      <div class="explainer-prose">
+        <h2>How the weakness works</h2>
+        <p>
+          An <strong>electromagnetic lock</strong> is an electromagnet on the frame and a steel
+          armature plate on the door. Energize the magnet and it clamps the plate, holding the door
+          shut. Its rating is a <strong>holding force</strong> in pounds, commonly 600, 1200, or
+          1650 lb. Unlike a latch or a deadbolt, it has <strong>no mechanical bolt</strong>. Nothing
+          physically catches the door. The only thing resisting an opening pull is the magnet.
+        </p>
+        <p>
+          That is the weakness. Holding force is measured as a straight, dead pull on a perfectly
+          seated plate. In the real world an attacker does not pull straight. They <strong>lever the
+          door at a corner</strong>, where distance from the hinge multiplies their force, or they
+          <strong>shock it</strong> with a sharp shove that the rated static number never accounts
+          for. A 600 lb unit on a main door, or a 1200 lb unit on a flexing hollow-metal frame, can
+          come free with surprisingly little effort.
+        </p>
+        <p>
+          <strong>Mounting decides as much as the rating.</strong> If the bracket flexes, the
+          armature is bolted with short screws into thin metal, or the frame itself bends, the plate
+          peels away from the magnet well below the rated force. The door opens, <strong>no power was
+          cut</strong>, and unless a bond sensor is watching, nothing alarms until the door is already
+          swinging.
+        </p>
+        <div class="attack-steps">
+          <div class="attack-step"><span class="step-num">01</span><span class="step-text">Attacker identifies a door held by a maglock, often visible as a bar across the top of the frame with an armature plate on the door.</span></div>
+          <div class="attack-step"><span class="step-num">02</span><span class="step-text">Force is applied where it counts: a <strong>pull or pry at the top latch-side corner</strong>, or a sharp shock, rather than an even pull across the plate.</span></div>
+          <div class="attack-step"><span class="step-num">03</span><span class="step-text">The armature <strong>peels or pops off the magnet</strong>, or a flexing bracket or frame lets the plate separate, well below the rated holding force.</span></div>
+          <div class="attack-step"><span class="step-num">04</span><span class="step-text">The door opens. <strong>No power was interrupted and no credential was read</strong>. Only a door-position or bond alarm can catch it, and only if one is armed and monitored.</span></div>
+        </div>
+        <div class="warning-box">
+          <strong>Field note:</strong> A holding-force number on a spec sheet is a best-case dead pull.
+          Treat it as a ceiling, not a guarantee. On a door worth protecting, the durable answer is a
+          lock that throws a real bolt; where a maglock stays, the rating, the brackets, the frame,
+          and a bond monitor all have to be right together.
+        </div>
+      </div>
+
+      <div class="attack-visual">
+        <div class="av-header">
+          <span class="av-title">How it happens</span>
+          <span class="av-state-label" id="state-label" style="background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)">Door bonded</span>
+        </div>
+        <div class="av-stage">
+          <svg id="diagram" viewBox="0 0 360 280" class="diagram-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid8" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d6dde7" stroke-width="0.5"/>
+              </pattern>
+              <marker id="arrow-amber8" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+                <path d="M0,0 L0,7 L7,3.5 z" fill="#c9821c"/>
+              </marker>
+            </defs>
+            <rect width="360" height="280" fill="url(#grid8)"/>
+
+            <!-- Floor -->
+            <rect x="0" y="248" width="360" height="32" fill="#eef2f7" stroke="#d6dde7" stroke-width="0.5"/>
+            <text x="180" y="266" font-family="IBM Plex Mono, monospace" font-size="8" fill="#7a869b" text-anchor="middle">FLOOR</text>
+
+            <!-- Frame header -->
+            <rect x="46" y="30" width="250" height="20" rx="2" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
+            <text x="90" y="44" font-family="IBM Plex Mono, monospace" font-size="8" fill="#7a869b" text-anchor="middle">FRAME HEADER</text>
+
+            <!-- Maglock magnet body (mounted under header, latch side) -->
+            <rect x="196" y="50" width="80" height="18" rx="2" fill="#dbe3ee" stroke="#9aa6b8" stroke-width="1.5"/>
+            <text x="236" y="63" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7a869b" text-anchor="middle">electromagnet</text>
+            <!-- bond LED -->
+            <circle id="bond-led" cx="204" cy="59" r="3" fill="#0d9488"/>
+
+            <!-- Armature plate on door (state dependent y via transform) -->
+            <g id="armature-group">
+              <rect id="armature" x="200" y="68" width="72" height="10" rx="1" fill="#c4ccd8" stroke="#9aa6b8" stroke-width="1.5"/>
+              <text x="236" y="76" font-family="IBM Plex Mono, monospace" font-size="6.5" fill="#7a869b" text-anchor="middle">armature</text>
+            </g>
+
+            <!-- Door leaf (hinged left at x=70) -->
+            <g id="door-group">
+              <rect id="door-panel" x="70" y="78" width="212" height="170" rx="2" fill="#eef2f7" stroke="#9aa6b8" stroke-width="1.5"/>
+              <rect x="86" y="96" width="180" height="60" rx="2" fill="none" stroke="#d6dde7" stroke-width="1"/>
+            </g>
+            <!-- Hinge markers -->
+            <circle cx="72" cy="110" r="2.5" fill="#9aa6b8"/>
+            <circle cx="72" cy="216" r="2.5" fill="#9aa6b8"/>
+            <text x="60" y="165" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7a869b" text-anchor="middle" transform="rotate(-90 60 165)">HINGE</text>
+
+            <!-- Force arrow (state 2/3) -->
+            <g id="force-group" opacity="0">
+              <line x1="300" y1="120" x2="300" y2="70" stroke="#c9821c" stroke-width="3" marker-end="url(#arrow-amber8)"/>
+              <text x="316" y="100" font-family="IBM Plex Mono, monospace" font-size="8" fill="#c9821c" text-anchor="middle" transform="rotate(90 316 100)">pull / pry</text>
+            </g>
+
+            <!-- Success overlay -->
+            <g id="success-group" opacity="0">
+              <rect x="96" y="150" width="150" height="38" rx="4" fill="rgba(220,50,47,0.15)" stroke="rgba(220,50,47,0.4)" stroke-width="1"/>
+              <text x="171" y="171" font-family="IBM Plex Mono, monospace" font-size="9" fill="#cf3f31" text-anchor="middle" font-weight="500">PULLED FREE</text>
+              <text x="171" y="183" font-family="IBM Plex Mono, monospace" font-size="7" fill="#cf3f31" text-anchor="middle" opacity="0.75">no power cut · no credential</text>
+            </g>
+          </svg>
+        </div>
+        <div class="av-caption" id="av-caption">The door is held by the maglock: the energized magnet clamps the armature plate. There is no bolt, only magnetic force.</div>
+        <div class="av-controls">
+          <button class="av-btn" id="btn-prev" disabled onclick="changeState(-1)">← Prev</button>
+          <div class="av-dots">
+            <button class="av-dot active" onclick="goState(0)"></button>
+            <button class="av-dot" onclick="goState(1)"></button>
+            <button class="av-dot" onclick="goState(2)"></button>
+          </div>
+          <button class="av-btn" id="btn-next" onclick="changeState(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-top: 52px;">
+
+    <div class="section-header">
+      <div class="section-label">Mitigation framework</div>
+      <div class="section-title">How to defend against this</div>
+      <p class="section-desc">Four layers, strongest first. A lock that throws a real bolt takes force off the table, right-sizing and rigidly mounting the maglock raises the bar where one stays, and a bond monitor turns a pried door into an alarm. All of it must preserve free egress.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Category:</span>
+      <button class="filter-btn active" data-mit-filter="all">All</button>
+      <button class="filter-btn" data-mit-filter="tech">Hardware</button>
+      <button class="filter-btn" data-mit-filter="phys">Physical</button>
+      <button class="filter-btn" data-mit-filter="detect">Detection</button>
+    </div>
+
+    <div class="card-grid" id="mit-grid">
+
+      <div class="mit-card" data-mit-cat="tech">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Latch it, do not just hold it</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">The durable fix is a lock with a real bolt. Force then meets steel in a strike, not a magnet on a bracket. Keep egress free.</p>
+        <div class="mit-points">
+          <div class="mit-point">Where you can, use an electrified mortise lock, an electric strike, or electric latch retraction on an exit device, so a thrown bolt holds the door rather than magnetism alone.</div>
+          <div class="mit-point">On egress doors, pair the latching lock with code-compliant free egress (a lever, push bar, or listed release), so people inside always leave in a single motion.</div>
+          <div class="mit-point">Reserve pure maglocks for doors where a bolt is not practical, and treat holding force as a ceiling, not a guarantee.</div>
+          <div class="mit-point">Confirm the choice against your egress and fire code first; a maglock is fail-safe and must release on power loss and on fire alarm.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="tech">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Right-size the holding force</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">Where a maglock stays, match its rating to the door and the threat, and buy the listing, not the sticker number.</p>
+        <div class="mit-points">
+          <div class="mit-point">Specify a high holding force (1200 to 1650 lb) on perimeter and secured doors, not a 600 lb unit meant for an interior office door.</div>
+          <div class="mit-point">Prefer a UL 294 listed lock from a known maker, and read the rating as a best-case straight pull, not a real-world pry.</div>
+          <div class="mit-point">On pairs of doors and wide leaves, use a unit per leaf and account for the leverage a tall door gives an attacker at the far corner.</div>
+          <div class="mit-point">Choose a lock with a built-in bond and door-position monitor so the rating is backed by a way to know it is actually holding.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="phys">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Mount it so it cannot be pried loose</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">A strong magnet on a weak bracket is a weak lock. Most real-world failures are the mounting, not the magnet.</p>
+        <div class="mit-points">
+          <div class="mit-point">Through-bolt or sex-bolt the magnet and the armature rather than relying on short screws into thin metal.</div>
+          <div class="mit-point">Use rigid factory brackets (L, Z, or header) and reinforce hollow-metal frames so the header cannot flex under a pull.</div>
+          <div class="mit-point">Mount the armature with its intended slight play and anti-rotation so it seats flat and reaches full bond, not a partial one.</div>
+          <div class="mit-point">Place and shield the hardware so it cannot be reached or unbolted from the insecure side, and monitor its tamper output.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="detect">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Monitor the bond and alarm on force</div>
+          <span class="cat-badge cat-detect">Detection</span>
+        </div>
+        <p class="mit-card-desc">A maglock that cannot tell you it has been pried is a silent one. Make a forced opening loud in real time.</p>
+        <div class="mit-points">
+          <div class="mit-point">Use the magnetic bond sensor (MBS) and door-position contact, and alarm the instant bond is lost without a valid release.</div>
+          <div class="mit-point">Keep the door-forced shunt short, since an attacker is through the moment the plate separates.</div>
+          <div class="mit-point">Alarm on a door-open with no matching badge or request-to-exit, so a forced opening never clears as a normal exit.</div>
+          <div class="mit-point">Cover the door with a camera and route any unexpected after-hours opening to the monitoring center to investigate.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" style="margin-top: 44px;">
+
+    <div class="section-header">
+      <div class="section-label">Vetted hardware &amp; standards</div>
+      <div class="section-title">Reference Technology</div>
+      <p class="section-desc">Real, current hardware and standards that close this attack, strongest first. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Type:</span>
+      <button class="filter-btn active" data-prod-filter="all">All</button>
+      <button class="filter-btn" data-prod-filter="lock">Latching locks</button>
+      <button class="filter-btn" data-prod-filter="maglock">Maglocks</button>
+      <button class="filter-btn" data-prod-filter="mount">Mounting</button>
+      <button class="filter-btn" data-prod-filter="standard">Standards</button>
+    </div>
+
+    <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
+      </div>
+
+  </main>
+
+  <footer class="page-wrap">
+    <div class="site-footer">
+      <span class="footer-brand">Common Physical Security Controls</span>
+      <span>CPSC-008 · Maglock force bypass</span>
+      <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const states = [
+      {
+        label: 'Door bonded', labelStyle: 'background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)',
+        caption: 'The door is held by the maglock: the energized magnet clamps the armature plate. There is no bolt, only magnetic force.',
+        setup(svg) {
+          svg.getElementById('force-group').style.opacity = '0';
+          svg.getElementById('success-group').style.opacity = '0';
+          svg.getElementById('armature-group').setAttribute('transform','translate(0,0)');
+          svg.getElementById('door-group').setAttribute('transform','translate(0,0)');
+          svg.getElementById('bond-led').setAttribute('fill','#0d9488');
+          svg.getElementById('door-panel').setAttribute('stroke','#9aa6b8');
+        }
+      },
+      {
+        label: 'Force applied', labelStyle: 'background:var(--high-bg);color:var(--high-text);border:1px solid var(--high-border)',
+        caption: 'The attacker pulls or pries at the top latch-side corner. Leverage far from the hinge multiplies the force, and a sharp shock adds to it. The rated holding force is a straight dead pull, not this.',
+        setup(svg) {
+          svg.getElementById('force-group').style.opacity = '1';
+          svg.getElementById('success-group').style.opacity = '0';
+          svg.getElementById('armature-group').setAttribute('transform','translate(0,0)');
+          svg.getElementById('door-group').setAttribute('transform','translate(0,0)');
+          svg.getElementById('bond-led').setAttribute('fill','#c9821c');
+          svg.getElementById('door-panel').setAttribute('stroke','#c9821c');
+        }
+      },
+      {
+        label: 'Pulled free', labelStyle: 'background:var(--critical-bg);color:var(--critical-text);border:1px solid var(--critical-border)',
+        caption: 'The armature peels off the magnet, or a flexing bracket or frame lets it separate, well below the rated force. The door opens with no power cut and no credential. Only a bond or door-position alarm can catch it.',
+        setup(svg) {
+          svg.getElementById('force-group').style.opacity = '0.35';
+          svg.getElementById('success-group').style.opacity = '1';
+          svg.getElementById('armature-group').setAttribute('transform','translate(6,10)');
+          svg.getElementById('door-group').setAttribute('transform','translate(6,12)');
+          svg.getElementById('bond-led').setAttribute('fill','#cf3f31');
+          svg.getElementById('door-panel').setAttribute('stroke','#cf3f31');
+        }
+      }
+    ];
+
+    let currentState = 0;
+    const svg = document.getElementById('diagram');
+    function renderState(i) {
+      states[i].setup(svg);
+      document.getElementById('av-caption').textContent = states[i].caption;
+      document.getElementById('state-label').textContent = states[i].label;
+      document.getElementById('state-label').style.cssText = states[i].labelStyle;
+      document.getElementById('btn-prev').disabled = i === 0;
+      document.getElementById('btn-next').disabled = i === states.length - 1;
+      document.querySelectorAll('.av-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+    }
+    function changeState(dir) { currentState = Math.max(0, Math.min(states.length - 1, currentState + dir)); renderState(currentState); }
+    function goState(i) { currentState = i; renderState(i); }
+
+    document.querySelectorAll('[data-mit-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-mit-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.mitFilter;
+        document.querySelectorAll('#mit-grid .mit-card').forEach(c => { c.style.display = f === 'all' || c.dataset.mitCat === f ? '' : 'none'; });
+      });
+    });
+
+    // ---- Reference technology (initial pass; products pending research) ----
+    const PRODUCTS = [
+    ];
+    CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
+  </script>
+
+</body>
+</html>
