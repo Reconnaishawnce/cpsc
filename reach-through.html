@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPSC-006: Reach-Through Thumb-Turn Bypass | CPSC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <span class="logo-mark">CPSC</span>
+      <span class="logo-word">Common Physical Security Controls</span>
+    </a>
+    <nav class="header-nav">
+      <a href="about.html">About</a>
+      <a href="about.html#contribute" class="btn-cta">Contribute</a>
+    </nav>
+  </header>
+
+  <main class="page-wrap">
+
+    <section class="vuln-hero">
+      <div class="breadcrumb">
+        <a href="index.html">CPSC Library</a>
+        <span>/</span>
+        <span>CPSC-006</span>
+      </div>
+      <div class="vuln-meta-row">
+        <span class="card-number">CPSC-006</span>
+        <span class="severity-badge sev-critical">Critical</span>
+        <span class="cat-badge cat-phys">Physical hardening</span>
+        <span class="cat-badge cat-tech">Hardware upgrade</span>
+      </div>
+      <h1>Reach-through thumb-turn bypass</h1>
+      <p class="lead">
+        A door can be locked with a solid deadbolt and still open in seconds if an attacker can
+        reach the inside of it. A hooked tool slipped through a mail slot, a gap at the door edge,
+        or a pane of broken or unsecured glass reaches in and simply turns the interior thumb-turn,
+        works the lever, or presses the egress release. The bolt was never the weak part. The
+        reach to it was.
+      </p>
+    </section>
+
+    <div class="fast-facts">
+      <div class="fact"><div class="fact-label">Attack tool</div><div class="fact-value">J-tool / wire / reach rod (~$0–40)</div></div>
+      <div class="fact"><div class="fact-label">Time to execute</div><div class="fact-value">5–30 seconds</div></div>
+      <div class="fact"><div class="fact-label">Skill required</div><div class="fact-value">Minimal</div></div>
+      <div class="fact"><div class="fact-label">Detection risk</div><div class="fact-value">Low (no forced entry)</div></div>
+      <div class="fact"><div class="fact-label">Alert generated</div><div class="fact-value">Door-forced alarm only, if armed</div></div>
+    </div>
+
+    <div class="explainer">
+      <div class="explainer-prose">
+        <h2>How the weakness works</h2>
+        <p>
+          Many doors are secured on the outside by a lock with <strong>no key on the inside</strong>,
+          just a thumb-turn, a lever, or a push pad, so that anyone inside can always get out. That
+          is correct for life safety. The problem appears when the inside of the door is
+          <strong>reachable from the outside</strong> through some opening near the hardware.
+        </p>
+        <p>
+          The usual openings are a <strong>mail slot or letter plate</strong> in the door, a wide
+          gap at the door edge or between a pair of doors, a <strong>glass pane or sidelite</strong>
+          next to the lock, or a transom or louver. A stiff wire, a bent rod, or a purpose-built
+          reach tool goes through the opening, bends toward the hardware, and does exactly what a
+          hand on the inside would do: rotate the thumb-turn to withdraw the deadbolt, pull the
+          lever, or press the paddle of an exit device.
+        </p>
+        <p>
+          <strong>No credential is presented and nothing is forced</strong>, so the access control
+          system logs nothing and, unless a door-position contact is armed and monitored, no alarm
+          fires until the door is already open. The lock did its job. The opening beside it undid it.
+        </p>
+        <div class="attack-steps">
+          <div class="attack-step"><span class="step-num">01</span><span class="step-text">Attacker finds a locked door with a reachable opening near the hardware: a mail slot, a wide edge or center gap, a glass pane, a louver, or a transom.</span></div>
+          <div class="attack-step"><span class="step-num">02</span><span class="step-text">A <strong>hooked tool or stiff wire</strong> is fed through the opening and bent toward the interior thumb-turn, lever, or exit-device paddle.</span></div>
+          <div class="attack-step"><span class="step-num">03</span><span class="step-text">The tool <strong>rotates the thumb-turn or works the release</strong>, withdrawing the deadbolt or retracting the latch exactly as a person inside would.</span></div>
+          <div class="attack-step"><span class="step-num">04</span><span class="step-text">The door opens from the outside. <strong>No badge event, no forced entry</strong>. Only a door-position alarm can catch it, and only if one is armed and monitored.</span></div>
+        </div>
+        <div class="warning-box">
+          <strong>Field note:</strong> The presence of a good deadbolt on a door with a mail slot or
+          a glass pane beside the lock is a false comfort. Assume that any hardware within reach of
+          an opening can be operated from the outside, and either move the hardware, close the
+          opening, or take the free interior turn out of the lock.
+        </div>
+      </div>
+
+      <div class="attack-visual">
+        <div class="av-header">
+          <span class="av-title">How it happens</span>
+          <span class="av-state-label" id="state-label" style="background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)">Door locked</span>
+        </div>
+        <div class="av-stage">
+          <svg id="diagram" viewBox="0 0 360 280" class="diagram-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid6" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d6dde7" stroke-width="0.5"/>
+              </pattern>
+              <marker id="arrow-amber6" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="#c9821c"/>
+              </marker>
+            </defs>
+            <rect width="360" height="280" fill="url(#grid6)"/>
+
+            <!-- Floor -->
+            <rect x="0" y="248" width="360" height="32" fill="#eef2f7" stroke="#d6dde7" stroke-width="0.5"/>
+            <text x="180" y="266" font-family="IBM Plex Mono, monospace" font-size="8" fill="#7a869b" text-anchor="middle">FLOOR (interior view of door)</text>
+
+            <!-- Frame -->
+            <rect x="70" y="20" width="12" height="228" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
+            <rect x="70" y="20" width="220" height="12" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
+            <!-- Strike side frame (right) -->
+            <rect x="278" y="20" width="12" height="228" fill="#e3e9f1" stroke="#d6dde7" stroke-width="1"/>
+
+            <!-- Door panel -->
+            <rect id="door-panel" x="82" y="32" width="196" height="216" rx="2" fill="#eef2f7" stroke="#9aa6b8" stroke-width="1.5"/>
+            <!-- Door detail panels -->
+            <rect x="96" y="46" width="168" height="70" rx="2" fill="none" stroke="#d6dde7" stroke-width="1"/>
+
+            <!-- Mail slot (the reachable opening) -->
+            <rect x="150" y="150" width="60" height="12" rx="2" fill="#d6dde7" stroke="#b8382c" stroke-width="1"/>
+            <text x="180" y="176" font-family="IBM Plex Mono, monospace" font-size="7" fill="#b8382c" text-anchor="middle">mail slot / opening</text>
+
+            <!-- Deadbolt hardware on lock stile (right) -->
+            <!-- Escutcheon -->
+            <circle cx="258" cy="120" r="14" fill="#e3e9f1" stroke="#9aa6b8" stroke-width="1.5"/>
+            <!-- Thumb-turn (rotates between states) -->
+            <rect id="thumbturn" x="255" y="106" width="6" height="28" rx="3" fill="#8f9cb0" stroke="#7a869b" stroke-width="1" transform-origin="258 120"/>
+            <text x="258" y="150" font-family="IBM Plex Mono, monospace" font-size="7" fill="#7a869b" text-anchor="middle">thumb-turn</text>
+
+            <!-- Deadbolt bolt into strike -->
+            <rect id="bolt" x="272" y="115" width="16" height="10" rx="1" fill="#9aa6b8" stroke="#7a869b" stroke-width="1"/>
+
+            <!-- OUTSIDE / INSIDE hints -->
+            <text x="46" y="130" font-family="IBM Plex Mono, monospace" font-size="8" fill="#7a869b" text-anchor="middle" transform="rotate(-90 46 130)">SECURED SIDE</text>
+
+            <!-- Tool: reaches through slot up to the thumb-turn -->
+            <g id="tool-group" opacity="0">
+              <!-- rod from slot bending up to thumbturn -->
+              <path d="M 120 156 L 180 156 Q 250 156 250 130 Q 250 120 254 118" fill="none" stroke="rgba(234,148,45,0.9)" stroke-width="3" stroke-linecap="round"/>
+              <!-- hand hint outside -->
+              <circle cx="112" cy="156" r="8" fill="rgba(234,148,45,0.15)" stroke="rgba(234,148,45,0.35)" stroke-width="1"/>
+              <text x="112" y="159" font-family="IBM Plex Mono, monospace" font-size="6" fill="#c9821c" text-anchor="middle">hand</text>
+              <text x="150" y="146" font-family="IBM Plex Mono, monospace" font-size="7" fill="#c9821c" text-anchor="middle">reach tool</text>
+              <!-- rotation arrow at thumbturn -->
+              <path id="turn-arrow" d="M 270 108 A 14 14 0 0 1 272 128" fill="none" stroke="#c9821c" stroke-width="1.5" marker-end="url(#arrow-amber6)" opacity="0"/>
+            </g>
+
+            <!-- Success overlay -->
+            <g id="success-group" opacity="0">
+              <rect x="120" y="200" width="120" height="36" rx="4" fill="rgba(220,50,47,0.15)" stroke="rgba(220,50,47,0.4)" stroke-width="1"/>
+              <text x="180" y="220" font-family="IBM Plex Mono, monospace" font-size="9" fill="#cf3f31" text-anchor="middle" font-weight="500">DEADBOLT WITHDRAWN</text>
+              <text x="180" y="232" font-family="IBM Plex Mono, monospace" font-size="7" fill="#cf3f31" text-anchor="middle" opacity="0.75">no credential · no forced entry</text>
+            </g>
+          </svg>
+        </div>
+        <div class="av-caption" id="av-caption">The door is locked by a deadbolt with a free-turning thumb-turn on the inside. A mail slot sits within reach of that hardware.</div>
+        <div class="av-controls">
+          <button class="av-btn" id="btn-prev" disabled onclick="changeState(-1)">← Prev</button>
+          <div class="av-dots">
+            <button class="av-dot active" onclick="goState(0)"></button>
+            <button class="av-dot" onclick="goState(1)"></button>
+            <button class="av-dot" onclick="goState(2)"></button>
+          </div>
+          <button class="av-btn" id="btn-next" onclick="changeState(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-top: 52px;">
+
+    <div class="section-header">
+      <div class="section-label">See the technique</div>
+      <div class="section-title">What the attack looks like</div>
+      <p class="section-desc">Seeing the reach makes the fix obvious. This demonstration shows a tool worked through an opening to operate the interior hardware, so you can spot the doors on your site where the lock sits within reach of a slot, a gap, or a pane of glass.</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-item">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/UALruU5Pvqk?si=EsWnsMISbWjGF7ds" title="Reach-through thumb-turn bypass demonstration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="video-cap"><strong>Reaching the interior thumb-turn.</strong> How a tool is worked through an opening to turn the interior hardware and withdraw the bolt, with no key and no forced entry.</p>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-top: 52px;">
+
+    <div class="section-header">
+      <div class="section-label">Mitigation framework</div>
+      <div class="section-title">How to defend against this</div>
+      <p class="section-desc">Four layers, strongest first. Taking the free interior turn out of the lock ends the attack, closing the opening denies the tool its reach, guarding the hardware makes it hard to grab, and detection catches what is left. Any one door usually needs two of these together.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Category:</span>
+      <button class="filter-btn active" data-mit-filter="all">All</button>
+      <button class="filter-btn" data-mit-filter="tech">Hardware</button>
+      <button class="filter-btn" data-mit-filter="phys">Physical</button>
+      <button class="filter-btn" data-mit-filter="detect">Detection</button>
+    </div>
+
+    <div class="card-grid" id="mit-grid">
+
+      <div class="mit-card" data-mit-cat="tech">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Remove the thumb-turn from the attack</div>
+          <span class="cat-badge cat-tech">Hardware</span>
+        </div>
+        <p class="mit-card-desc">If there is no free interior turn to grab, a tool that reaches the hardware has nothing to operate. This is the durable fix. Watch egress, since people inside must still get out.</p>
+        <div class="mit-points">
+          <div class="mit-point">Where the occupancy allows it, fit a double-cylinder deadbolt that is keyed on both sides, so there is no thumb-turn to rotate from outside.</div>
+          <div class="mit-point">Use a captive or lockable thumb-turn that can be keyed out of service, so it cannot be turned by a reached tool when the space is unoccupied.</div>
+          <div class="mit-point">On access-controlled doors, release the bolt on a valid credential rather than an interior turn, so there is no manual piece to reach.</div>
+          <div class="mit-point">Confirm the choice against your egress and fire code first. A double cylinder must not trap occupants; many occupancies require free egress and a captive emergency key instead.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="phys">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Close the opening the tool reaches through</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">No reachable opening near the hardware means no path to the interior turn. Close every route: the slot, the edge gap, the center gap, and the glass.</p>
+        <div class="mit-points">
+          <div class="mit-point">Remove a mail slot from a secured door, or fit an interior letter-plate cowl or blocker so a tool cannot be angled from the slot toward the lock.</div>
+          <div class="mit-point">On a pair of doors, add an overlapping astragal or a removable center mullion so there is no gap at the meeting stile to reach through.</div>
+          <div class="mit-point">Close wide edge and undercut gaps with gasketing and sweeps, so a wire cannot be worked in beside the hardware (see CPSC-002).</div>
+          <div class="mit-point">Replace reachable glazing near the lock with laminated or security glass, or add a glazing guard, so a broken pane does not become the opening.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="phys">
+        <div class="mit-card-header">
+          <div class="mit-card-title">Guard and reposition the hardware</div>
+          <span class="cat-badge cat-phys">Physical</span>
+        </div>
+        <p class="mit-card-desc">Where the turn and the opening both have to stay, make the hardware hard to grab and hard to line up on.</p>
+        <div class="mit-points">
+          <div class="mit-point">Fit a thumb-turn guard or shield that covers the turn so a hook cannot catch it.</div>
+          <div class="mit-point">Move the deadbolt and lever away from any slot, glass, or edge gap so a reached tool cannot line up on them.</div>
+          <div class="mit-point">Choose hardware that sits close to the door face and offers little for a hook to grab or lever against.</div>
+          <div class="mit-point">On exit devices, specify a design that resists being paddled or dogged from outside through a gap.</div>
+        </div>
+      </div>
+
+      <div class="mit-card" data-mit-cat="detect">
+        <div class="mit-card-header">
+          <div class="mit-card-title">See it and alarm</div>
+          <span class="cat-badge cat-detect">Detection</span>
+        </div>
+        <p class="mit-card-desc">Where prevention is not yet in place, make an attempt visible and loud in real time.</p>
+        <div class="mit-points">
+          <div class="mit-point">Arm the door-position contact and alarm on any opening with no matching badge or request-to-exit, so a credential-free open never clears silently.</div>
+          <div class="mit-point">Cover the door and its openings with a camera framed to catch a tool at the slot, gap, or glass, and alert on motion there after hours.</div>
+          <div class="mit-point">Keep the door-forced shunt short, since the attacker is inside the moment the bolt withdraws.</div>
+          <div class="mit-point">Route any unexpected after-hours opening at this door to the monitoring center as an event to investigate.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" style="margin-top: 44px;">
+
+    <div class="section-header">
+      <div class="section-label">Vetted hardware &amp; standards</div>
+      <div class="section-title">Reference Technology</div>
+      <p class="section-desc">Real, current hardware and standards that close this attack, strongest first. Open any card for the data sheet, a link to the manufacturer, and field notes from people who have deployed it. Add your own.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Type:</span>
+      <button class="filter-btn active" data-prod-filter="all">All</button>
+      <button class="filter-btn" data-prod-filter="lock">Lock hardware</button>
+      <button class="filter-btn" data-prod-filter="guard">Guards &amp; blockers</button>
+      <button class="filter-btn" data-prod-filter="door">Door hardware</button>
+      <button class="filter-btn" data-prod-filter="standard">Standards</button>
+    </div>
+
+    <div class="card-grid" id="prod-grid" style="padding-bottom: 80px;">
+      </div>
+
+  </main>
+
+  <footer class="page-wrap">
+    <div class="site-footer">
+      <span class="footer-brand">Common Physical Security Controls</span>
+      <span>CPSC-006 · Reach-through thumb-turn bypass</span>
+      <a href="https://pinerisk.com" class="footer-link">pinerisk.com →</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const states = [
+      {
+        label: 'Door locked', labelStyle: 'background:var(--medium-bg);color:var(--medium-text);border:1px solid var(--medium-border)',
+        caption: 'The door is locked by a deadbolt with a free-turning thumb-turn on the inside. A mail slot sits within reach of that hardware.',
+        setup(svg) {
+          svg.getElementById('tool-group').style.opacity = '0';
+          svg.getElementById('turn-arrow').style.opacity = '0';
+          svg.getElementById('success-group').style.opacity = '0';
+          svg.getElementById('thumbturn').setAttribute('transform','rotate(0)');
+          svg.getElementById('bolt').setAttribute('x','272');
+          svg.getElementById('bolt').setAttribute('fill','#9aa6b8');
+          svg.getElementById('door-panel').setAttribute('stroke','#9aa6b8');
+        }
+      },
+      {
+        label: 'Tool reaches in', labelStyle: 'background:var(--high-bg);color:var(--high-text);border:1px solid var(--high-border)',
+        caption: 'A hooked tool is fed through the mail slot and bent up to the thumb-turn. The reach, not the lock, is the weakness being worked.',
+        setup(svg) {
+          svg.getElementById('tool-group').style.opacity = '1';
+          svg.getElementById('turn-arrow').style.opacity = '1';
+          svg.getElementById('success-group').style.opacity = '0';
+          svg.getElementById('thumbturn').setAttribute('transform','rotate(0)');
+          svg.getElementById('bolt').setAttribute('x','272');
+          svg.getElementById('bolt').setAttribute('fill','#c9821c');
+          svg.getElementById('door-panel').setAttribute('stroke','#c9821c');
+        }
+      },
+      {
+        label: 'Bolt withdrawn', labelStyle: 'background:var(--critical-bg);color:var(--critical-text);border:1px solid var(--critical-border)',
+        caption: 'The tool rotates the thumb-turn and the deadbolt withdraws, exactly as a hand on the inside would. The door opens from outside with no credential and no forced entry.',
+        setup(svg) {
+          svg.getElementById('tool-group').style.opacity = '0.35';
+          svg.getElementById('turn-arrow').style.opacity = '0';
+          svg.getElementById('success-group').style.opacity = '1';
+          svg.getElementById('thumbturn').setAttribute('transform','rotate(90)');
+          svg.getElementById('bolt').setAttribute('x','262');
+          svg.getElementById('bolt').setAttribute('fill','#cf3f31');
+          svg.getElementById('door-panel').setAttribute('stroke','#cf3f31');
+        }
+      }
+    ];
+
+    let currentState = 0;
+    const svg = document.getElementById('diagram');
+    function renderState(i) {
+      states[i].setup(svg);
+      document.getElementById('av-caption').textContent = states[i].caption;
+      document.getElementById('state-label').textContent = states[i].label;
+      document.getElementById('state-label').style.cssText = states[i].labelStyle;
+      document.getElementById('btn-prev').disabled = i === 0;
+      document.getElementById('btn-next').disabled = i === states.length - 1;
+      document.querySelectorAll('.av-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+    }
+    function changeState(dir) { currentState = Math.max(0, Math.min(states.length - 1, currentState + dir)); renderState(currentState); }
+    function goState(i) { currentState = i; renderState(i); }
+
+    document.querySelectorAll('[data-mit-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-mit-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.mitFilter;
+        document.querySelectorAll('#mit-grid .mit-card').forEach(c => { c.style.display = f === 'all' || c.dataset.mitCat === f ? '' : 'none'; });
+      });
+    });
+
+    // ---- Reference technology ----
+    const PRODUCTS = [
+    ];
+    CPSC.initProducts({ gridId: 'prod-grid', products: PRODUCTS });
+  </script>
+
+</body>
+</html>
